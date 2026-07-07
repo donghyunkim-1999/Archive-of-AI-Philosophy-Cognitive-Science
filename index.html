@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Donghyun Kim — Archive</title>
+<title>인공지능철학 &amp; 인지과학 아카이브 — AI Philosophy &amp; Cognitive Science</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -13,22 +13,37 @@
   body{background:var(--ink);color:var(--mind);font-family:'IBM Plex Sans KR',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word}
   ::selection{background:var(--machine);color:var(--ink)}
   a{color:inherit;text-decoration:none}
+  #field{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
   .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")}
-  nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.4rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;color:var(--machine);background:linear-gradient(var(--ink),rgba(10,12,16,0))}
+  nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.4rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;color:var(--machine);background:linear-gradient(var(--ink),rgba(10,12,16,0));mix-blend-mode:screen}
   .wrap{max-width:1080px;margin:0 auto;padding:0 2.4rem;position:relative;z-index:2}
-  header{padding:34vh 0 12vh}
-  header .name{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2.6rem,8vw,6rem);line-height:1;letter-spacing:-.02em;color:var(--mind)}
-  header .meta{margin-top:1.8rem;font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.08em;color:var(--machine);line-height:1.9}
-  header .meta .dot{color:var(--fog);margin:0 .6em}
-  header .tagline{margin-top:2.4rem;max-width:34rem;font-size:1rem;line-height:2;color:var(--paper-dim)}
-  header .tagline b{color:var(--mind);font-weight:500}
+  header{padding:30vh 0 12vh}
+  header .kicker{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.24em;color:var(--machine);margin-bottom:2.2rem;display:flex;align-items:center;gap:1rem}
+  header .kicker::before{content:'';display:block;width:2.6rem;height:1px;background:currentColor}
+  header .title{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2.3rem,6.4vw,4.8rem);line-height:1.16;letter-spacing:-.02em;color:var(--mind)}
+  header .title .en{display:block;margin-top:1.2rem;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:clamp(.72rem,1.4vw,.92rem);letter-spacing:.16em;color:var(--machine)}
+  header .intro{margin-top:2.8rem;max-width:38rem;font-size:clamp(1rem,1.5vw,1.12rem);line-height:2.05;color:var(--paper-dim)}
+  header .intro strong{color:var(--mind);font-weight:500}
+  header .intro em{font-style:normal;color:var(--machine)}
   .scrolltip{margin-top:3.4rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.3em;color:var(--fog);animation:pulse 2.6s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.35}50%{opacity:.9}}
 
-  .index-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:1.2rem;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--machine)}
+  .about{padding:6vh 0 4vh}
+  .about .lead{font-family:'Noto Serif KR',serif;font-weight:700;font-size:clamp(1.3rem,3vw,2rem);line-height:1.5;color:var(--mind);max-width:26ch}
+  .about .lead em{font-style:normal;color:var(--machine)}
+  .doubts{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+  @media(max-width:720px){.doubts{grid-template-columns:1fr}}
+  .doubtcard{border:1px solid var(--line);padding:1.8rem 1.7rem}
+  .doubtcard.d1{border-top:2px solid var(--machine)}
+  .doubtcard.d2{border-top:2px solid var(--mind)}
+  .doubtcard .dk{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;margin-bottom:.9rem}
+  .doubtcard.d1 .dk{color:var(--machine)}.doubtcard.d2 .dk{color:var(--mind)}
+  .doubtcard .dt{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.15rem;line-height:1.5;color:var(--mind);margin-bottom:.8rem}
+  .doubtcard .dd{font-size:.9rem;line-height:1.85;color:var(--paper-dim)}
+
+  .index-head{margin-top:3rem;display:flex;justify-content:space-between;align-items:baseline;padding-bottom:1.2rem;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--machine)}
   .index-head .ko{color:var(--paper-dim)}
 
-  /* OT 배너 */
   .ot{display:block;margin-top:2rem;border:1px solid var(--line);padding:2rem 2rem;transition:border-color .4s,transform .4s;position:relative}
   .ot:hover{border-color:var(--machine);transform:translateY(-2px)}
   .ot .otk{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--machine)}
@@ -36,7 +51,6 @@
   .ot .otd{margin-top:.9rem;font-size:.92rem;line-height:1.85;color:var(--paper-dim);max-width:44ch}
   .ot .go{position:absolute;right:2rem;bottom:1.8rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--machine)}
 
-  /* 의심 구분 라벨 */
   .doubt-band{margin-top:3.2rem;display:flex;align-items:center;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em}
   .doubt-band.d1{color:var(--machine)}.doubt-band.d2{color:var(--mind)}
   .doubt-band .ln{flex:1;height:1px;background:currentColor;opacity:.35}
@@ -53,8 +67,6 @@
   .entry .status .dotled{width:6px;height:6px;border-radius:50%;background:var(--mind)}
   .entry .arrow{display:inline-block;margin-left:.3rem;transition:transform .4s}
   .entry:hover .arrow{transform:translateX(5px)}
-  .entry.d2 .status{color:var(--mind)}
-  .entry.d2:hover .title{color:#fff}
 
   footer{padding:9vh 0 8vh;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--fog);line-height:2.4}
   footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-top:1.4rem;border-top:1px solid var(--line)}
@@ -64,44 +76,65 @@
   @media (max-width:680px){
     .entry{grid-template-columns:2rem 1fr;gap:1rem}
     .entry .status{grid-column:2;justify-self:start;margin-top:1.1rem;padding-top:0}
-    header{padding:26vh 0 10vh}
+    header{padding:24vh 0 10vh}
   }
   @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scrolltip{animation:none}}
 </style>
 </head>
 <body>
+<canvas id="field"></canvas>
 <div class="grain"></div>
 
 <nav>
-  <span>DONGHYUN KIM</span>
-  <span>ARCHIVE — 思考の視覚化</span>
+  <span>AI PHILOSOPHY &amp; COGNITIVE SCIENCE</span>
+  <span>ARCHIVE</span>
 </nav>
 
 <div class="wrap">
 
   <header>
-    <h1 class="name reveal">Donghyun&nbsp;Kim</h1>
-    <p class="meta reveal">b. 1999 <span class="dot">·</span> B.A. in Philosophy, Chung-Ang University</p>
-    <p class="tagline reveal">공부하고 생각한 것을 시각화해 연재합니다. 첫 연재는 <b>인공지능철학 &amp; 인지과학</b> —
-      "AI는 똑똑한가"라는 물음이 어떻게 "인간 마음은 무엇인가"로 되돌아오는지, 두 개의 의심을 따라 내려갑니다.</p>
+    <p class="kicker reveal">인공지능철학 &amp; 인지과학 아카이브</p>
+    <h1 class="title reveal">
+      그래서, 지능이 뭔데?
+      <span class="en">AN ARCHIVE ON THE PHILOSOPHY OF AI &amp; COGNITIVE SCIENCE</span>
+    </h1>
+    <p class="intro reveal">
+      이곳은 <strong>인공지능철학과 인지과학</strong>을 주제로 공부하고 생각한 것을 시각화해 연재하는 아카이브입니다.
+      "AI는 똑똑한가"라는 익숙한 물음에서 출발해, 그 물음이 어떻게 <strong>"인간의 마음이란 무엇인가"</strong>로 되돌아오는지 —
+      <em>두 개의 의심</em>을 따라 한 챕터씩 내려갑니다.
+    </p>
     <p class="scrolltip reveal">SCROLL ↓</p>
   </header>
 
+  <section class="about">
+    <p class="lead reveal">이 아카이브는 답을 내리지 않습니다.<br>대신 <em>당연하게 여겨온 두 전제</em>를 의심합니다.</p>
+    <div class="doubts">
+      <div class="doubtcard d1 reveal">
+        <p class="dk">DOUBT 01</p>
+        <p class="dt">의미는 고정되어 있는가</p>
+        <p class="dd">지능은 규칙으로 남김없이 적을 수 있다는 전제. 기호주의에서 패턴으로, 표상을 둘러싼 논쟁으로 — '고정된 지능'이라는 그림이 먼저 흔들립니다.</p>
+      </div>
+      <div class="doubtcard d2 reveal">
+        <p class="dk">DOUBT 02</p>
+        <p class="dt">인간은 그 중심에 있는가</p>
+        <p class="dd">인간은 의식 있는 주체, AI는 의식 없는 도구라는 전제. 사이버네틱스·체계이론·서사적 자아로 — 중심에 있다고 믿었던 인간이 흩어집니다.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="archive">
     <div class="index-head reveal">
-      <span>ARCHIVE 01 — XPHI &amp; CE</span>
-      <span class="ko">그래서 지능이 뭔데?</span>
+      <span>CONTENTS — AI PHILOSOPHY &amp; COGNITIVE SCIENCE</span>
+      <span class="ko">두 개의 의심, 네 개의 방</span>
     </div>
 
-    <!-- OT -->
     <a class="ot reveal" href="00-orientation.html">
       <p class="otk">00 · ORIENTATION</p>
       <p class="ott">그래서 지능이 뭔데?</p>
-      <p class="otd">낙관론도 비관론도 공유하는 하나의 전제 — '보편적 인간 지능이 있고 AI는 그 복제'라는 믿음. 이 아카이브는 답 대신, 그 전제를 두 번 의심한다.</p>
+      <p class="otd">낙관론도 비관론도 공유하는 하나의 전제 — '보편적 인간 지능이 있고 AI는 그 복제'라는 믿음. 아카이브의 입구에서 그 전제를 두 번 의심하기 시작합니다.</p>
       <span class="go">들어가기 →</span>
     </a>
 
-    <!-- DOUBT 1 -->
     <div class="doubt-band d1 reveal"><span>DOUBT 01 — 의미는 고정되어 있는가</span><span class="ln"></span></div>
 
     <a class="entry d1 reveal" href="01-rules-to-patterns.html">
@@ -110,7 +143,7 @@
         <h2 class="title">규칙에서 패턴으로</h2>
         <p class="en">FROM RULES TO PATTERNS</p>
         <p class="theme">지능은 규칙으로 적을 수 있는가. 기호주의·전문가 시스템의 꿈이 암묵지의 벽에 부딪히고, 데이터에서 패턴이 자라나는 머신러닝으로 넘어간다.</p>
-        <p class="tags">POLANYI · DOMINGOS · CONNECTIONISM — 2·4강</p>
+        <p class="tags">POLANYI · DOMINGOS · CONNECTIONISM</p>
       </div>
       <span class="status"><span class="dotled"></span>READ<span class="arrow">→</span></span>
     </a>
@@ -121,12 +154,11 @@
         <h2 class="title">표상을 둘러싼 싸움</h2>
         <p class="en">THE WAR OVER REPRESENTATION</p>
         <p class="theme">생각하려면 세계의 그림(표상)이 필요한가. 표상 최대주의(뉴얼·사이먼) · 다원주의(민스키) · 제거주의(브룩스)가 한 물음을 놓고 갈라선다.</p>
-        <p class="tags">NEWELL &amp; SIMON · MINSKY · BROOKS — 인지혁명·민스키 강독</p>
+        <p class="tags">NEWELL &amp; SIMON · MINSKY · BROOKS</p>
       </div>
       <span class="status"><span class="dotled"></span>READ<span class="arrow">→</span></span>
     </a>
 
-    <!-- DOUBT 2 -->
     <div class="doubt-band d2 reveal"><span>DOUBT 02 — 인간은 그 중심에 있는가</span><span class="ln"></span></div>
 
     <a class="entry d2 reveal" href="03-decentering.html">
@@ -135,7 +167,7 @@
         <h2 class="title">인간이라는 중심을 지우기</h2>
         <p class="en">DECENTERING THE HUMAN</p>
         <p class="theme">의미를 만드는 건 꼭 인간이어야 하는가. 사이버네틱스에서 루만의 체계이론·오토포이에시스, 라투르의 비인간 행위자로 인간중심주의를 흔든다.</p>
-        <p class="tags">WIENER · LUHMANN · LATOUR · ZÖNNCHEN — 3·5강</p>
+        <p class="tags">WIENER · LUHMANN · LATOUR · ZÖNNCHEN</p>
       </div>
       <span class="status"><span class="dotled"></span>READ<span class="arrow">→</span></span>
     </a>
@@ -146,7 +178,7 @@
         <h2 class="title">자아, 그리고 남는 질문</h2>
         <p class="en">THE SELF &amp; WHAT REMAINS</p>
         <p class="theme">자아가 허구라면 무엇이 남는가. 데넷의 서사적 자아로 중심을 마저 해체하고, 타가드·창의성의 계보로 "AI는 똑똑한가"를 "인간 마음은 무엇인가"로 되돌린다.</p>
-        <p class="tags">DENNETT · THAGARD · FRANKLIN · HUME — 종합</p>
+        <p class="tags">DENNETT · THAGARD · FRANKLIN · HUME</p>
       </div>
       <span class="status"><span class="dotled"></span>READ<span class="arrow">→</span></span>
     </a>
@@ -155,16 +187,40 @@
 
   <footer class="reveal">
     <div class="row">
-      <span>© 2026 DONGHYUN KIM</span>
-      <span>XPHI &amp; CE · NO PHOTOGRAPHS</span>
+      <span>© 2026 ARCHIVE</span>
+      <span>AI PHILOSOPHY &amp; COGNITIVE SCIENCE</span>
     </div>
   </footer>
 
 </div>
 
 <script>
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+(function(){
+  const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,DPR;const mouse={x:-1,y:-1,active:false};
+  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';}
+  const N=150,pts=[];
+  for(let i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),ph:Math.random()*6.28,sp:.3+Math.random()*.5});
+  let t=0;
+  function frame(){
+    t+=.006;ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=Math.cos(t*p.sp+p.ph)*.0006;p.y+=Math.sin(t*p.sp*1.2+p.ph)*.0006;
+      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=130*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.4;p.x+=(dx/d)*f*(26*DPR)/W;p.y+=(dy/d)*f*(26*DPR)/H;}}
+      if(p.x<0)p.x=1;if(p.x>1)p.x=0;if(p.y<0)p.y=1;if(p.y>1)p.y=0;
+    });
+    ctx.lineWidth=1*DPR;
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.006){ctx.strokeStyle='rgba(126,142,163,'+(.14*(1-d2/.006)).toFixed(3)+')';ctx.beginPath();ctx.moveTo(pts[i].x*W,pts[i].y*H);ctx.lineTo(pts[j].x*W,pts[j].y*H);ctx.stroke();}}
+    pts.forEach((p,i)=>{ctx.fillStyle=i%4===0?'rgba(217,205,184,.4)':'rgba(126,142,163,.42)';ctx.beginPath();ctx.arc(p.x*W,p.y*H,1.5*DPR,0,6.28);ctx.fill();});
+    requestAnimationFrame(frame);
+  }
+  addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;mouse.active=true});
+  addEventListener('mouseleave',()=>mouse.active=false);
+  addEventListener('resize',resize);resize();frame();
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
 </script>
 </body>
 </html>
