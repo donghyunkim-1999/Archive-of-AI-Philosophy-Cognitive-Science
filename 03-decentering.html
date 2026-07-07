@@ -18,45 +18,52 @@
   main{position:relative;z-index:2}
   nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--mind);mix-blend-mode:screen}
   nav a.home{transition:color .3s}nav a.home:hover{color:#fff}
+  nav .crumb{color:var(--fog)}nav .crumb b{color:var(--mind);font-weight:500}
   nav .prog{display:flex;align-items:center;gap:.7rem}
   nav .prog .bar{width:70px;height:2px;background:var(--line);position:relative;overflow:hidden}
   nav .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--mind);transition:width .25s}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .55s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   .rail{position:fixed;top:50%;right:1.7rem;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:1.1rem;align-items:flex-end}
   .rail button{all:unset;cursor:pointer;display:flex;align-items:center;gap:.7rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--fog);transition:color .35s}
   .rail button .lbl{opacity:0;transform:translateX(6px);transition:opacity .35s,transform .35s}
   .rail button:hover .lbl,.rail button.on .lbl{opacity:1;transform:none}
   .rail button .tick{width:22px;height:1px;background:var(--fog);transition:width .35s,background .35s}
   .rail button.on{color:var(--mind)}.rail button.on .tick{width:34px;background:var(--mind)}
-  @media (max-width:820px){.rail{display:none}}
+  @media (max-width:900px){.rail{display:none}}
   section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:15vh 8vw;position:relative}
   .chap-mark{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.26em;color:var(--mind);margin-bottom:1.6rem;display:flex;align-items:center;gap:1rem}
   .chap-mark::before{content:'';display:block;width:2.4rem;height:1px;background:currentColor}
-  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:22ch}
-  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.8vw,1.25rem);line-height:1.7;color:var(--mind)}
+  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:24ch}
+  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--mind)}
   .qword{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5.6vw,4rem);line-height:1.25;color:var(--mind)}
   .qword .en{display:block;margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.8rem;letter-spacing:.14em;color:var(--mind);opacity:.7}
-  .lede{margin-top:2.4rem;max-width:39rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.05;color:var(--paper-dim)}
+  .lede{margin-top:2.4rem;max-width:40rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.1;color:var(--paper-dim)}
   .lede strong{font-weight:500;color:var(--mind)}.lede em{font-style:normal;color:var(--machine)}
   .scroll-hint{position:absolute;bottom:4vh;left:8vw;font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--fog);animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
   .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--mind);margin-bottom:1.4rem}
-  .body-t{margin-top:1.4rem;max-width:41rem;font-size:1rem;line-height:2.05;color:var(--paper-dim)}
+  .body-t{margin-top:1.4rem;max-width:42rem;font-size:1rem;line-height:2.1;color:var(--paper-dim)}
   .body-t b{color:var(--mind);font-weight:500}.body-t .term{color:var(--machine)}
-  .step{margin-top:2.6rem;display:grid;grid-template-columns:auto 1fr;gap:1.6rem 1.8rem;max-width:52rem}
-  .step .num{font-family:'IBM Plex Mono',monospace;font-size:.9rem;color:var(--mind);opacity:.5;padding-top:.3rem}
-  .step .st{border-top:1px solid var(--line);padding-top:1.2rem}
-  .step .st .tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--mind);margin-bottom:.7rem;opacity:.8}
-  .step .st p{margin-top:.5rem;font-size:.93rem;line-height:1.95;color:var(--paper-dim)}
-  .step .st p .term{color:var(--machine)}
-  .hinge{margin-top:3.2rem;max-width:45rem;border-left:2px solid var(--mind);padding:1.1rem 0 1.1rem 1.8rem}
+  .pull{margin-top:2.4rem;max-width:42rem;border-left:2px solid var(--mind);padding:.4rem 0 .4rem 1.7rem}
+  .pull .pq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.7;color:var(--mind)}
+  .pull .ps{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
+  .tri{margin-top:2.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:74rem}
+  @media(max-width:900px){.tri{grid-template-columns:1fr}}
+  .pos{border:1px solid var(--line);padding:1.8rem 1.6rem;position:relative;transition:border-color .35s,transform .35s;cursor:pointer;background:rgba(217,205,184,.02)}
+  .pos:hover{border-color:var(--mind);transform:translateY(-3px)}
+  .pos .pn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--mind);margin-bottom:.9rem}
+  .pos .ph{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.08rem;line-height:1.5;color:var(--mind);margin-bottom:.9rem}
+  .pos .who{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--fog);margin-bottom:1rem}
+  .pos .pd{font-size:.9rem;line-height:1.9;color:var(--paper-dim)}.pos .pd .term{color:var(--machine)}
+  .pos .enter{margin-top:1.3rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--mind);display:flex;align-items:center;gap:.4rem}
+  .pos .enter .ar{transition:transform .35s}.pos:hover .enter .ar{transform:translateX(4px)}
+  .pos.n1{border-top:2px solid var(--mind)}.pos.n2{border-top:2px solid var(--machine)}.pos.n3{border-top:2px solid var(--paper-dim)}
+  .hinge{margin-top:3.2rem;max-width:46rem;border-left:2px solid var(--mind);padding:1.1rem 0 1.1rem 1.8rem}
   .hinge .hl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--fog);margin-bottom:.8rem}
   .hinge p{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.2rem);line-height:1.9;color:var(--mind)}
   .hinge p b{color:var(--mind);border-bottom:1px solid var(--mind)}
-  .quote{margin-top:2.4rem;max-width:40rem;cursor:pointer;border:1px solid var(--line);padding:1.5rem 1.6rem;transition:border-color .35s,transform .35s;position:relative;background:rgba(217,205,184,.02)}
-  .quote:hover{border-color:var(--mind);transform:translateY(-2px)}
-  .quote .qmark{font-family:'Noto Serif KR',serif;font-size:1.02rem;line-height:1.8;color:var(--mind)}
-  .quote .qsrc{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
-  .quote .more{position:absolute;top:1.1rem;right:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--mind);opacity:.7}
   .names{margin-top:2.6rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--fog);line-height:2.3}
   .chnav{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:52rem;margin-top:2rem}
   .chnav a{border:1px solid var(--line);padding:1.6rem 1.7rem;transition:border-color .35s;display:block}
@@ -65,136 +72,87 @@
   .chnav .dir{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--fog)}
   .chnav .ct{margin-top:.7rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.05rem;color:var(--mind);line-height:1.4}
   .backhub{margin-top:2.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.16em;color:var(--mind)}
-  .backhub a{border-bottom:1px solid var(--mind);padding-bottom:2px}
-  @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}.step{grid-template-columns:1fr;gap:.4rem 0}.step .num{display:none}}
+  .backhub a{border-bottom:1px solid var(--mind);padding-bottom:2px;cursor:pointer}
+  @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}}
+  .room{max-width:52rem;margin:0 auto;padding:16vh 8vw 14vh}
+  .room .rtop{display:flex;align-items:center;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--fog);margin-bottom:2.4rem;flex-wrap:wrap}
+  .room .rtop a{color:var(--mind);cursor:pointer;transition:color .3s}.room .rtop a:hover{color:#fff}
+  .room .rtop .sep{opacity:.5}
+  .room .rkicker{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--mind);margin-bottom:1.3rem}
+  .room h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5vw,3.4rem);line-height:1.22;letter-spacing:-.015em;color:var(--mind);margin-bottom:.5rem}
+  .room .rsub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--fog);margin-bottom:2.6rem}
+  .room .rq{margin:2.6rem 0;border-left:2px solid var(--mind);padding:.5rem 0 .5rem 1.7rem}
+  .room .rq .q{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.65;color:var(--mind)}
+  .room .rq .s{margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.05em;color:var(--fog)}
+  .room p.rp{font-size:1.02rem;line-height:2.15;color:var(--paper-dim);margin-bottom:1.5rem}
+  .room p.rp b{color:var(--mind);font-weight:500}.room p.rp .term{color:var(--machine);font-style:normal}
+  .room .rsub-h{margin-top:2.8rem;margin-bottom:.4rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.2rem;color:var(--mind)}
+  .room .rlabel{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--mind);margin:2.8rem 0 1rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+  .related{margin-top:3.4rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+  .related .rh{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;color:var(--mind);margin-bottom:1.4rem}
+  .xcards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.xcards{grid-template-columns:1fr}}
+  .xcard{border:1px solid var(--line);padding:1.3rem 1.4rem;cursor:pointer;transition:border-color .35s,transform .35s;display:block}
+  .xcard:hover{border-color:var(--mind);transform:translateY(-2px)}
+  .xcard .xloc{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--fog);margin-bottom:.6rem}
+  .xcard .xt{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.02rem;color:var(--mind);line-height:1.4;margin-bottom:.5rem}
+  .xcard .xd{font-size:.84rem;line-height:1.75;color:var(--paper-dim)}
+  .xcard .xarrow{margin-top:.8rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--mind)}
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
   .reveal.in{opacity:1;transform:none}
-  .overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:6vh 6vw;background:rgba(6,8,11,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s}
-  .overlay.open{opacity:1;pointer-events:auto}
-  .overlay .panel{max-width:44rem;width:100%;max-height:82vh;overflow-y:auto;background:#0d1016;border:1px solid var(--line);padding:3rem 2.8rem;transform:translateY(20px) scale(.98);transition:transform .4s;position:relative}
-  .overlay.open .panel{transform:none}
-  .overlay .oeye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--mind);margin-bottom:1.4rem}
-  .overlay .oq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.28rem;line-height:1.75;color:var(--mind);margin-bottom:1rem}
-  .overlay .osrc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--fog);padding-bottom:1.6rem;margin-bottom:1.6rem;border-bottom:1px solid var(--line)}
-  .overlay .obody{font-size:.98rem;line-height:2;color:var(--paper-dim)}
-  .overlay .obody b{color:var(--mind);font-weight:500}.overlay .obody .term{color:var(--machine)}
-  .overlay .close{position:absolute;top:2rem;right:2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--mind);cursor:pointer;background:none;border:none;transition:color .3s}
-  .overlay .close:hover{color:#fff}
-  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.overlay .panel{padding:2.2rem 1.6rem}}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.room{padding:14vh 7vw 12vh}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}.view.active{animation:none}}
 </style>
 </head>
 <body>
 <canvas id="field"></canvas>
 <div class="grain"></div>
-
 <nav>
   <a class="home" href="index.html">← ARCHIVE</a>
+  <div class="crumb" id="crumb"><b>CH 03</b> · 인간이라는 중심을 지우기</div>
   <div class="prog"><span id="secLabel">CH 03</span><span class="bar"><i id="progBar"></i></span></div>
 </nav>
-
 <div class="rail" id="rail">
   <button data-go="open"><span class="lbl">여는 질문</span><span class="tick"></span></button>
-  <button data-go="cyber"><span class="lbl">사이버네틱스</span><span class="tick"></span></button>
-  <button data-go="luhmann"><span class="lbl">체계/환경</span><span class="tick"></span></button>
-  <button data-go="latour"><span class="lbl">비인간 행위자</span><span class="tick"></span></button>
+  <button data-go="ground"><span class="lbl">중심의 전제</span><span class="tick"></span></button>
+  <button data-go="triangle"><span class="lbl">세 갈래</span><span class="tick"></span></button>
   <button data-go="hinge"><span class="lbl">경첩</span><span class="tick"></span></button>
   <button data-go="end"><span class="lbl">다음</span><span class="tick"></span></button>
 </div>
-
 <main>
 
-  <!-- 여는 질문 -->
+<div class="view active" id="view-chapter">
   <section id="open" data-mode="orbit" data-label="CH 03 · 여는 질문">
     <p class="chap-mark reveal">CHAPTER 03 · DOUBT 02 — 인간은 그 중심에 있는가</p>
-    <p class="qword reveal">의미를 만드는 건 꼭<br>인간이어야 하는가.
-      <span class="en">MUST MEANING BE MADE BY HUMANS?</span>
-    </p>
-    <p class="lede reveal">
-      앞의 두 챕터는 표상을 어떻게 볼지를 다퉜지만, 언제나 <strong>인간이 세계의 중심</strong>에 서 있었다.
-      이번엔 그 중심 자체를 흔든다. 인간을 <em>주체</em>의 자리에서 끌어내리면, AI는 전혀 다른 것으로 보이기 시작한다.
-    </p>
+    <p class="qword reveal">의미를 만드는 건 꼭<br>인간이어야 하는가.<span class="en">MUST MEANING BE MADE BY HUMANS?</span></p>
+    <p class="lede reveal">앞의 두 챕터는 표상을 어떻게 볼지를 다퉜지만, 언제나 <strong>인간이 세계의 중심</strong>에 서 있었다. 이번엔 그 중심 자체를 흔든다. 인간을 <em>주체</em>의 자리에서 끌어내리면, AI는 전혀 다른 것으로 보이기 시작한다 — 세 개의 방에서 그 해체를 따라간다.</p>
     <span class="scroll-hint">SCROLL ↓</span>
   </section>
-
-  <!-- 사이버네틱스 -->
-  <section id="cyber" data-mode="orbit" data-label="사이버네틱스">
-    <p class="eyebrow reveal">01 — 출발</p>
-    <h2 class="reveal">인간·동물·기계를 하나의 회로로 보다.</h2>
-    <p class="body-t reveal">
-      사이버네틱스<span class="term">(cybernetics)</span>는 위너<span class="term">(Norbert Wiener)</span>에게서 출발했다.
-      제어와 소통<span class="term">(control and communication)</span>, 메시지<span class="term">(message)</span>,
-      피드백<span class="term">(feedback)</span>, 정보<span class="term">(information)</span>·엔트로피<span class="term">(entropy)</span> —
-      이 언어로 그는 인간·동물·기계·사회를 <b>같은 원리로</b> 설명했다.
-    </p>
-    <p class="body-t reveal">
-      여기서 인간은 세계를 내려다보는 특권적 주체가 아니라, 환경과 신호를 주고받으며 스스로를 조절하는
-      <b>피드백 회로의 한 마디</b>다. 처음부터 개체와 환경은 <b>함께</b> 놓였다. 중심을 지우는 첫 걸음이 여기서 시작된다.
-    </p>
-    <p class="names reveal">WIENER, CYBERNETICS · CONTROL &amp; COMMUNICATION · FEEDBACK · INFORMATION / ENTROPY</p>
+  <section id="ground" data-mode="orbit" data-label="중심의 전제">
+    <p class="eyebrow reveal">배경 — 흔들 전제</p>
+    <h2 class="reveal">인간은 주체, AI는 도구라는 구도.</h2>
+    <p class="body-t reveal">근대 철학은 세계를 <b>주체(인간)</b>와 <b>객체(사물)</b>로 나눴다. 의미와 의식은 주체 쪽에, 도구와 기계는 객체 쪽에. 이 구도에서 AI는 자동으로 '의식 없는 객체', 인간이 쓰는 도구가 된다.</p>
+    <p class="body-t reveal">그런데 20세기의 여러 사유가 이 구도 자체를 의심했다. 개체를 환경과의 <b>회로</b>로 보는 사이버네틱스, 주체/객체를 <b>체계/환경</b>으로 바꾼 루만, 사물을 행위자로 끌어올린 라투르. 이들은 서로 다른 언어를 쓰지만, 하나의 방향을 공유한다 — <b>인간을 중심에서 끌어내리기</b>.</p>
+    <div class="pull reveal"><p class="pq">중심에 인간을 두는 한, AI는 늘 '덜 된 인간'으로만 보인다.</p><p class="ps">세미나 논의 — 인간중심주의(anthropocentrism) 비판의 문제의식</p></div>
+    <p class="names reveal">SUBJECT / OBJECT · ANTHROPOCENTRISM · SYSTEM / ENVIRONMENT</p>
   </section>
-
-  <!-- 루만 -->
-  <section id="luhmann" data-mode="boundary" data-label="체계/환경">
-    <p class="eyebrow reveal">02 — 전환</p>
-    <h2 class="reveal">주체/객체가 아니라, 체계/환경으로.</h2>
-    <p class="body-t reveal">
-      루만<span class="term">(Niklas Luhmann)</span>은 근대 철학의 주체/객체<span class="term">(subject/object)</span> 구도를
-      체계/환경<span class="term">(system/environment)</span>으로 갈아 끼운다. 세계의 중심에 '생각하는 인간'을 두는 대신,
-      스스로 경계를 만들고 유지하는 <b>체계</b>를 둔다.
-    </p>
-    <div class="step reveal">
-      <div class="num">i</div>
-      <div class="st"><p class="tag">오토포이에시스 · AUTOPOIESIS</p><p>체계는 자기 요소를 <b>자기 작동으로 스스로 생산</b>한다. 사회는 인간의 합이 아니라, 커뮤니케이션이 커뮤니케이션을 낳으며 이어지는 자기생산 체계다.</p></div>
-      <div class="num">ii</div>
-      <div class="st"><p class="tag">작동적 폐쇄 · OPERATIONAL CLOSURE</p><p>체계는 자기 방식으로만 작동한다. 바깥과 이어지되, 그 작동은 안에서 닫혀 있다.</p></div>
-      <div class="num">iii</div>
-      <div class="st"><p class="tag">2차 관찰 · SECOND-ORDER OBSERVATION</p><p>관찰자 역시 체계 바깥의 신이 아니다. 우리는 늘 <b>관찰을 관찰하는</b> 자리에 있다 — 인간의 특권적 시점은 없다.</p></div>
+  <section id="triangle" data-mode="orbit" data-label="세 갈래">
+    <p class="eyebrow reveal">전개 — 중심을 지우는 세 길</p>
+    <h2 class="reveal">세 개의 방, 하나의 방향.</h2>
+    <p class="body-t reveal">아래 세 카드를 누르면 각 사유만 다루는 <b>독립된 방</b>으로 들어간다. 각 방은 원문 인용과 함께, 다른 챕터의 겹치는 논의로도 이어진다.</p>
+    <div class="tri">
+      <div class="pos n1 reveal" data-room="cybernetics"><p class="pn">① 출발</p><p class="ph">인간·동물·기계를 하나의 회로로.</p><p class="who">WIENER, CYBERNETICS</p><p class="pd">제어와 소통<span class="term">(control &amp; communication)</span>·피드백으로 개체와 환경을 함께 놓는다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n2 reveal" data-room="luhmann"><p class="pn">② 전환</p><p class="ph">주체/객체가 아니라, 체계/환경으로.</p><p class="who">LUHMANN · AUTOPOIESIS</p><p class="pd">오토포이에시스<span class="term">(autopoiesis)</span>·작동적 폐쇄로 '생각하는 인간'을 중심에서 치운다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n3 reveal" data-room="latour"><p class="pn">③ 확장</p><p class="ph">AI는 도구가 아니라 네트워크 속 행위자.</p><p class="who">LATOUR · ANT</p><p class="pd">비인간 행위자<span class="term">(nonhuman actor)</span> — 변화를 만들면 모두 행위자다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
     </div>
-    <p class="body-t reveal">
-      이 틀에서 질문이 바뀐다. "AI는 지능적인가"가 아니라, <b>"AI는 커뮤니케이션 안에서 어떤 작동을 만드는가"</b>다.
-      최근 연구는 언어 모델<span class="term">(LLM)</span>을 완전한 오토포이에시스 체계는 아니되,
-      사회적 커뮤니케이션에 개입하는 혼성적 계산 체계로 다시 자리매김한다.
-    </p>
-    <div class="quote reveal" data-ov="zonnchen">
-      <p class="qmark">지능/비지능이 아니라, 체계/환경으로 물음을 옮긴다.</p>
-      <p class="qsrc">Zönnchen et al., From Intelligence to Autopoiesis (2025)</p>
-      <span class="more">+ 자세히</span>
-    </div>
+    <p class="names reveal">CYBERNETICS · FEEDBACK · AUTOPOIESIS · OPERATIONAL CLOSURE · ACTOR-NETWORK THEORY</p>
   </section>
-
-  <!-- 라투르 -->
-  <section id="latour" data-mode="network" data-label="비인간 행위자">
-    <p class="eyebrow reveal">03 — 확장</p>
-    <h2 class="reveal">AI는 도구가 아니라, 네트워크 속 행위자다.</h2>
-    <p class="body-t reveal">
-      라투르<span class="term">(Bruno Latour)</span>의 행위자-네트워크 이론<span class="term">(ANT, actor-network theory)</span>은
-      한 걸음 더 나아간다. 네트워크 안에서 <b>변화를 만들어내는 것은 모두 행위자<span class="term">(actor)</span></b>다 —
-      인간이든 사물이든. 그렇다면 AI는 수동적 도구이기 이전에, 인간 네트워크에 개입하는 <b>비인간 행위자<span class="term">(nonhuman actor)</span></b>다.
-    </p>
-    <p class="body-t reveal">
-      의식이 있느냐를 따지기 전에, AI는 이미 우리가 쓰고·묻고·일하는 방식을 바꾸고 있다.
-      의식 없이도 사회적 작동을 만든다면, "의식 있는 인간 / 의식 없는 도구"라는 낡은 이분법은 무엇을 붙잡고 있는가.
-    </p>
-    <p class="names reveal">LATOUR, ANT · NONHUMAN ACTOR · SERRES · 강/약 AI STRONG / WEAK AI</p>
-  </section>
-
-  <!-- 경첩 -->
   <section id="hinge" data-mode="dissolve" data-label="경첩">
-    <p class="eyebrow reveal">04 — 경첩</p>
+    <p class="eyebrow reveal">경첩 — 질문의 전복</p>
     <h2 class="reveal">그 구분은 발견인가, 우리가 유지하는 배치인가.</h2>
-    <div class="hinge reveal">
-      <p class="hl">경첩 — 질문의 전복</p>
-      <p>"인간은 의식 있는 주체, AI는 의식 없는 도구." 이 구분은 세계에서 <b>발견된 사실</b>인가,
-      아니면 우리가 계속 <b>유지하고 있는 배치</b>인가 — 같은 동물이 반려와 축산으로 갈리듯이.</p>
-    </div>
-    <p class="body-t reveal">
-      인간을 중심에서 끌어내리자, 마지막 물음이 남는다. 중심에 있던 그 '인간의 자아'는,
-      과연 처음부터 하나의 단단한 실체였을까. 다음 챕터가 그 마지막 매듭을 푼다.
-    </p>
+    <div class="hinge reveal"><p class="hl">경첩</p><p>"인간은 의식 있는 주체, AI는 의식 없는 도구." 이 구분은 세계에서 <b>발견된 사실</b>인가, 아니면 우리가 계속 <b>유지하고 있는 배치</b>인가 — 같은 동물이 반려와 축산으로 갈리듯이.</p></div>
+    <p class="body-t reveal">인간을 중심에서 끌어내리자, 마지막 물음이 남는다. 중심에 있던 그 '인간의 자아'는, 과연 처음부터 하나의 단단한 실체였을까. 다음 챕터가 그 마지막 매듭을 푼다.</p>
   </section>
-
-  <!-- 다음 -->
   <section id="end" data-mode="dissolve" data-label="다음으로">
     <p class="eyebrow reveal">END OF CHAPTER 03</p>
     <h2 class="reveal">중심을 지웠다. 이제 자아 자체를 묻는다.</h2>
@@ -204,94 +162,153 @@
     </div>
     <p class="backhub reveal"><a href="index.html">← 아카이브로 돌아가기</a></p>
   </section>
+</div>
 
-</main>
-
-<div class="overlay" id="overlay">
-  <div class="panel">
-    <button class="close" id="ovClose">CLOSE ✕</button>
-    <p class="oeye" id="ovEye"></p>
-    <p class="oq" id="ovQ"></p>
-    <p class="osrc" id="ovSrc"></p>
-    <p class="obody" id="ovBody"></p>
+<!-- 방: 사이버네틱스 -->
+<div class="view" id="view-cybernetics">
+  <div class="room" data-mode="orbit">
+    <div class="rtop"><a data-back>← 인간이라는 중심을 지우기</a><span class="sep">/</span><span>① 사이버네틱스</span></div>
+    <p class="rkicker">CYBERNETICS · CONTROL AND COMMUNICATION</p>
+    <h1>인간·동물·기계를 하나의 회로로 보다</h1>
+    <p class="rsub">Norbert Wiener</p>
+    <div class="rq"><p class="q">"동물과 기계에서의 제어와 소통" — 위너는 그 경계를 지웠다.</p><p class="s">Norbert Wiener, Cybernetics: or Control and Communication in the Animal and the Machine (1948)</p></div>
+    <p class="rp">사이버네틱스<span class="term">(cybernetics)</span>는 하나의 급진적 전제에서 출발한다. 인간·동물·기계·사회를 <b>서로 다른 종류의 것</b>으로 보지 말고, 모두 <b>정보를 주고받으며 스스로를 조절하는 시스템</b>으로 보자는 것. 위너는 제어와 소통<span class="term">(control and communication)</span>, 메시지<span class="term">(message)</span>, 피드백<span class="term">(feedback)</span>, 정보<span class="term">(information)</span>와 엔트로피<span class="term">(entropy)</span>라는 공통 언어로 이 모두를 한자리에서 설명했다.</p>
+    <p class="rsub-h">피드백 — 중심이 아니라 회로</p>
+    <p class="rp">온도조절기를 생각해보라. 방이 추워지면 신호를 받아 난방을 켜고, 목표에 이르면 끈다. 여기엔 '난방을 지휘하는 주체'가 따로 없다 — <b>환경과 장치가 신호로 얽힌 회로</b>가 스스로를 조절할 뿐이다. 위너는 인간의 목적 지향 행동도 이와 같은 <b>피드백 회로</b>로 볼 수 있다고 봤다. 손을 뻗어 컵을 잡을 때, 눈은 손과 컵의 거리를 계속 되먹여 교정한다.</p>
+    <p class="rlabel">왜 이것이 중심을 지우는가</p>
+    <p class="rp">이 관점에서 인간은 세계를 내려다보는 특권적 주체가 아니라, <b>환경과 신호를 주고받는 회로의 한 마디</b>다. 처음부터 개체와 환경은 분리된 채 마주 선 것이 아니라 <b>함께</b> 놓인다. 주체가 객체를 지배하는 그림이 아니라, 서로를 되먹이는 순환의 그림. 인간중심주의를 지우는 첫 걸음이 여기서 시작된다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" data-room="luhmann"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">체계/환경 — 루만</p><p class="xd">위너의 '회로'를 사회 이론으로 밀어붙여, 체계/환경 구분으로 발전시킨다.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#brooks"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 제거주의 — 브룩스</p><p class="xd">"세계를 그 자체의 모델로" — 내부 표상 없이 환경과 직접 결합하는 같은 계보.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" href="01-rules-to-patterns.html"><p class="xloc">CH 01 · 다른 챕터</p><p class="xt">규칙에서 패턴으로</p><p class="xd">정보이론은 사이버네틱스의 이웃 — 통계적 학습의 먼 뿌리이기도 하다.</p><p class="xarrow">챕터 01로 →</p></a>
+      <a class="xcard" data-room="latour"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">비인간 행위자 — 라투르</p><p class="xd">회로 속 장치도 능동적이라는 발상은, 사물을 행위자로 보는 길로 이어진다.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
   </div>
 </div>
 
-<script>
-const OV={
-  zonnchen:{
-    eye:"체계이론으로 본 AI · AUTOPOIESIS",
-    q:"지능/비지능이 아니라, 체계/환경으로 물음을 옮긴다.",
-    src:"Zönnchen et al., From Intelligence to Autopoiesis: Rethinking AI through Systems Theory (2025)",
-    body:"이 논문은 AI 논쟁의 낡은 축 — 지능적인가/아닌가, 의식이 있는가/없는가 — 을 버리고, 루만의 체계이론<span class='term'>(systems theory)</span>으로 질문을 다시 짠다. 핵심 기준은 오토포이에시스<span class='term'>(autopoiesis)</span>, 즉 <b>자기 자신을 스스로 생산·유지하는가</b>이다. 저자들의 진단은 신중하다. 언어 모델<span class='term'>(LLM)</span>은 자기만의 체계/환경 구분<span class='term'>(system/environment distinction)</span>을 스스로 만들어내지 못하므로 완전한 오토포이에시스 체계는 아니다. 그 출력은 반성적 의미 부여가 아니라 <b>확률 분포에 따른 패턴 선택</b>에서 나온다. 그럼에도 이들은 단순한 도구도 아니다 — 사회적 커뮤니케이션에 참여하는 파트너로서, 인간과 사회 체계가 해석하고 의미를 부여하는 텍스트를 만들어낸다. '마음은 생각하고, 사회는 소통하며, 언어 모델은 계산한다.' AI는 도구와 자율적 체계 사이의 <b>모호한 자리</b>에 놓인다."
-  }
-};
-const overlay=document.getElementById('overlay');
-function openOv(k){const d=OV[k];if(!d)return;ovEye.textContent=d.eye;ovQ.textContent=d.q;ovSrc.textContent=d.src;ovBody.innerHTML=d.body;overlay.classList.add('open')}
-function closeOv(){overlay.classList.remove('open')}
-document.querySelectorAll('[data-ov]').forEach(q=>q.addEventListener('click',()=>openOv(q.dataset.ov)));
-document.getElementById('ovClose').addEventListener('click',closeOv);
-overlay.addEventListener('click',e=>{if(e.target===overlay)closeOv()});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
+<!-- 방: 루만 -->
+<div class="view" id="view-luhmann">
+  <div class="room" data-mode="boundary">
+    <div class="rtop"><a data-back>← 인간이라는 중심을 지우기</a><span class="sep">/</span><span>② 루만</span></div>
+    <p class="rkicker">SYSTEMS THEORY · AUTOPOIESIS</p>
+    <h1>주체/객체가 아니라, 체계/환경으로</h1>
+    <p class="rsub">Niklas Luhmann · Zönnchen et al.</p>
+    <div class="rq"><p class="q">지능/비지능이 아니라, 체계/환경으로 물음을 옮긴다.</p><p class="s">Zönnchen et al., From Intelligence to Autopoiesis: Rethinking AI through Systems Theory (2025)</p></div>
+    <p class="rp">루만<span class="term">(Niklas Luhmann)</span>은 근대 철학의 주체/객체<span class="term">(subject/object)</span> 구도를 통째로 갈아 끼운다. 세계의 중심에 '생각하는 인간'을 두는 대신, 스스로 경계를 만들고 유지하는 <b>체계<span class="term">(system)</span></b>를 둔다. 모든 체계는 자기 <b>환경<span class="term">(environment)</span></b>과의 차이로 정의된다.</p>
+    <p class="rsub-h">오토포이에시스 (autopoiesis)</p>
+    <p class="rp">체계는 자기 요소를 <b>자기 작동으로 스스로 생산</b>한다. 사회는 인간의 합이 아니라, 하나의 커뮤니케이션이 다음 커뮤니케이션을 낳으며 이어지는 <b>자기생산<span class="term">(autopoiesis)</span> 체계</b>다. 인간(의식)조차 사회 체계의 '환경'에 놓인다 — 인간이 사회를 만드는 게 아니라, 커뮤니케이션이 커뮤니케이션을 만든다.</p>
+    <p class="rsub-h">작동적 폐쇄 · 2차 관찰</p>
+    <p class="rp">체계는 자기 방식으로만 작동한다<span class="term">(operational closure)</span>. 바깥과 이어지되, 그 작동은 안에서 닫혀 있다. 그리고 관찰자 역시 체계 바깥의 신이 아니다 — 우리는 늘 <b>관찰을 관찰하는<span class="term">(second-order observation)</span></b> 자리에 있다. 세계를 있는 그대로 내려다보는 특권적 시점은 없다.</p>
+    <p class="rlabel">AI를 다시 묻기</p>
+    <p class="rp">이 틀에서 질문이 바뀐다. "AI는 지능적인가"가 아니라, <b>"AI는 커뮤니케이션 안에서 어떤 작동을 만드는가"</b>다. 최근 연구는 언어 모델<span class="term">(LLM)</span>을 완전한 오토포이에시스 체계는 아니되 — 스스로 체계/환경 구분을 만들지 못하고, 그 출력이 반성이 아니라 <b>확률 분포에 따른 패턴 선택</b>에서 나오므로 — 사회적 커뮤니케이션에 개입하는 <b>혼성적 계산 체계</b>로 자리매김한다. "마음은 생각하고, 사회는 소통하며, 언어 모델은 계산한다."</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="02-representation.html#newell"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">물리적 기호 체계 — 뉴얼·사이먼</p><p class="xd">'기호 계산=지능'과, '계산은 소통이 아니다'라는 루만식 구분이 부딪힌다.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" data-room="latour"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">비인간 행위자 — 라투르</p><p class="xd">둘 다 인간중심주의를 지우지만, 체계이론과 네트워크라는 다른 길을 간다.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="04-self-and-remainder.html#dennett"><p class="xloc">CH 04 · 다른 챕터</p><p class="xt">서사적 자아 — 데넷</p><p class="xd">의식을 중심에서 치우는 루만과, 자아를 허구로 보는 데넷이 공명한다.</p><p class="xarrow">챕터 04의 방으로 →</p></a>
+      <a class="xcard" data-room="cybernetics"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">사이버네틱스 — 위너</p><p class="xd">루만의 체계 개념이 자라난 뿌리. 피드백에서 자기생산으로.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
 
+<!-- 방: 라투르 -->
+<div class="view" id="view-latour">
+  <div class="room" data-mode="network">
+    <div class="rtop"><a data-back>← 인간이라는 중심을 지우기</a><span class="sep">/</span><span>③ 라투르</span></div>
+    <p class="rkicker">ACTOR-NETWORK THEORY · NONHUMAN ACTOR</p>
+    <h1>AI는 도구가 아니라, 네트워크 속 행위자다</h1>
+    <p class="rsub">Bruno Latour</p>
+    <div class="rq"><p class="q">네트워크 안에서 변화를 만드는 것은, 인간이든 사물이든 모두 행위자다.</p><p class="s">Bruno Latour, 행위자-네트워크 이론(Actor-Network Theory) 재구성</p></div>
+    <p class="rp">라투르<span class="term">(Bruno Latour)</span>의 행위자-네트워크 이론<span class="term">(ANT, actor-network theory)</span>은 한 걸음 더 나아간다. 네트워크 안에서 <b>다른 것의 상태를 바꾸는 것은 모두 행위자<span class="term">(actor)</span></b>다 — 인간만이 아니라 사물·기술·문서도. 과속방지턱은 운전자의 행동을 바꾸고, 문 닫힘 장치는 사람 대신 문을 닫는다. 이들은 수동적 '객체'가 아니라 네트워크에 작용하는 <b>비인간 행위자<span class="term">(nonhuman actor)</span></b>다.</p>
+    <p class="rlabel">AI를 다시 보기</p>
+    <p class="rp">그렇다면 AI는 수동적 도구이기 이전에, 인간 네트워크에 개입하는 비인간 행위자다. 의식이 있느냐를 따지기 전에, AI는 이미 우리가 쓰고·묻고·일하고·판단하는 방식을 바꾸고 있다. <b>의식 없이도 사회적 작동을 만든다면</b>, "의식 있는 인간 / 의식 없는 도구"라는 낡은 이분법은 대체 무엇을 붙잡고 있는가.</p>
+    <p class="rlabel">그래서 — 발견인가 배치인가</p>
+    <p class="rp">ANT의 요점은 'AI에게 의식이 있다'는 주장이 아니다. 오히려 <b>주체/객체라는 경계선 자체가 처음부터 자연에 그어져 있던 게 아니라, 우리가 그때그때 그어온 배치</b>라는 것이다. 같은 동물이 어떤 자리에선 반려가, 어떤 자리에선 축산이 되듯이. 그 경계를 다시 묻는 순간, 인간이라는 중심은 흔들린다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="02-representation.html#minsky"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">통계적 학습으로 성공한 AI를, '의식 없이 작동하는 행위자'로 다시 본다.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" data-room="luhmann"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">체계/환경 — 루만</p><p class="xd">인간중심주의를 지우는 두 갈래. 네트워크와 체계이론의 대조.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="04-self-and-remainder.html#dennett"><p class="xloc">CH 04 · 다른 챕터</p><p class="xt">지향적 태도 — 데넷</p><p class="xd">"의도는 해석하는 자의 태도"와, 행위자성을 관계로 보는 ANT가 공명한다.</p><p class="xarrow">챕터 04의 방으로 →</p></a>
+      <a class="xcard" data-room="cybernetics"><p class="xloc">CH 03 · 같은 챕터</p><p class="xt">사이버네틱스 — 위너</p><p class="xd">회로 속 장치의 능동성에서, 사물을 행위자로 보는 길이 열린다.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
+
+</main>
+<script>
+const rooms=['cybernetics','luhmann','latour'];
+const crumbBase='<b>CH 03</b> · 인간이라는 중심을 지우기';
+const roomTitles={cybernetics:'사이버네틱스',luhmann:'루만',latour:'라투르'};
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  const crumb=document.getElementById('crumb'),rail=document.getElementById('rail');
+  if(id==='view-chapter'){crumb.innerHTML=crumbBase;rail.style.display='';}
+  else{const rk=id.replace('view-','');crumb.innerHTML=crumbBase+' <span style="opacity:.5">/</span> '+(roomTitles[rk]||'');rail.style.display='none';}
+  el&&el.querySelectorAll('.reveal').forEach(r=>{r.classList.remove('in');requestAnimationFrame(()=>io.observe(r));});
+  window.scrollTo(0,0);
+}
+function goRoom(rk){location.hash=rk;}
+function goChapter(){history.pushState('','',location.pathname);route();window.scrollTo(0,0);}
+function route(){
+  const h=location.hash.replace('#','');
+  if(rooms.includes(h)){showView('view-'+h);const el=document.getElementById('view-'+h);const m=el.querySelector('[data-mode]');if(m&&window.assign)window.assign(m.dataset.mode,false);}
+  else{showView('view-chapter');if(window.assign)window.assign('orbit',false);}
+}
+addEventListener('hashchange',route);
+document.querySelectorAll('[data-room]').forEach(c=>c.addEventListener('click',e=>{if(e.target.closest('a[href]'))return;goRoom(c.dataset.room);}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',goChapter));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+window.currentMode='orbit';
 (function(){
   const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,DPR;const mouse={x:-1,y:-1,active:false};
-  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';assign(currentMode,true)}
+  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';doAssign(window.currentMode,true)}
   const N=230,pts=[];
   for(let i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),tx:Math.random(),ty:Math.random(),ph:Math.random()*6.28,sp:.4+Math.random()*.6,orbit:null});
-  let currentMode='orbit';
-  function assign(mode,hard){
-    currentMode=mode;
-    pts.forEach((p,i)=>{
-      let tx,ty;p.orbit=null;
+  function doAssign(mode,hard){
+    window.currentMode=mode;
+    pts.forEach((p,i)=>{let tx,ty;p.orbit=null;
       if(mode==='orbit'){const a=(i/N)*6.28*3,rr=.1+((i%6)/6)*.28;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;p.orbit={a,r:rr,drift:.0016+.001*((i%5)/5)};}
       else if(mode==='boundary'){if(i<N*.42){const a=(i/(N*.42))*6.28,rr=.12+(i%3)*.03;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;p.orbit={a,r:rr,drift:.0022};}else{const a=Math.random()*6.28,rr=.3+Math.random()*.3;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;}}
       else if(mode==='network'){const k=i%6,cx=[.24,.44,.64,.36,.56,.76][k],cy=[.32,.6,.34,.74,.7,.5][k],a=Math.random()*6.28,rr=Math.pow(Math.random(),.6)*.12;tx=cx+Math.cos(a)*rr;ty=cy+Math.sin(a)*rr;}
       else{tx=Math.random();ty=Math.random();}
-      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}
-    });
+      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}});
   }
+  window.assign=doAssign;
   let t=0;
   function frame(){
-    t+=.008;ctx.clearRect(0,0,W,H);
-    const isO=currentMode==='orbit',isB=currentMode==='boundary',isN=currentMode==='network',isD=currentMode==='dissolve';
-    pts.forEach(p=>{
-      let jx=0,jy=0;
+    t+=.008;ctx.clearRect(0,0,W,H);const cm=window.currentMode;
+    const isO=cm==='orbit',isB=cm==='boundary',isN=cm==='network',isD=cm==='dissolve';
+    pts.forEach(p=>{let jx=0,jy=0;
       if((isO||isB)&&p.orbit){p.orbit.a+=p.orbit.drift;p.tx=.5+Math.cos(p.orbit.a)*p.orbit.r;p.ty=.5+Math.sin(p.orbit.a)*p.orbit.r;}
       else if(isN){jx=Math.cos(t*p.sp+p.ph)*.012;jy=Math.sin(t*p.sp*1.2+p.ph)*.012;}
       else if(isD){jx=Math.cos(t*p.sp+p.ph)*.04;jy=Math.sin(t*p.sp*1.3+p.ph)*.04;}
       else{jx=Math.cos(t*p.sp+p.ph)*.018;jy=Math.sin(t*p.sp+p.ph)*.018;}
       const ease=reduced?1:.035;p.x+=(p.tx+jx-p.x)*ease;p.y+=(p.ty+jy-p.y)*ease;
-      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}
-    });
+      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}});
     ctx.lineWidth=1*DPR;
     if(isB){ctx.strokeStyle='rgba(217,205,184,.22)';ctx.beginPath();ctx.ellipse(.5*W,.5*H,.16*Math.min(W,H),.16*Math.min(W,H),0,0,6.28);ctx.stroke();}
     else if(isO){ctx.strokeStyle='rgba(217,205,184,.1)';ctx.beginPath();ctx.arc(.5*W,.5*H,.12*Math.min(W,H),0,6.28);ctx.stroke();}
     else if(isN){for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.004){ctx.strokeStyle='rgba(217,205,184,'+(.2*(1-d2/.004)).toFixed(3)+')';seg(pts[i],pts[j]);}}}
-    pts.forEach((p,i)=>{
-      let col;
-      if(isB)col=p.orbit?'rgba(217,205,184,.9)':'rgba(126,142,163,.42)';
-      else if(isO)col='rgba(217,205,184,.78)';
-      else if(isN)col=i%3===0?'rgba(126,142,163,.6)':'rgba(217,205,184,.62)';
-      else col='rgba(217,205,184,.5)';
-      ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,1.8*DPR,0,6.28);ctx.fill();
-    });
+    pts.forEach((p,i)=>{let col;if(isB)col=p.orbit?'rgba(217,205,184,.9)':'rgba(126,142,163,.42)';else if(isO)col='rgba(217,205,184,.78)';else if(isN)col=i%3===0?'rgba(126,142,163,.6)':'rgba(217,205,184,.62)';else col='rgba(217,205,184,.5)';ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,1.8*DPR,0,6.28);ctx.fill();});
     requestAnimationFrame(frame);
   }
   function seg(a,b){ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke();}
   addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;mouse.active=true});
   addEventListener('mouseleave',()=>mouse.active=false);
+  addEventListener('resize',resize);resize();doAssign('orbit',true);frame();
   const secLabel=document.getElementById('secLabel'),progBar=document.getElementById('progBar');
-  const railBtns=[...document.querySelectorAll('.rail button')],sections=[...document.querySelectorAll('section')];
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const m=e.target.dataset.mode;if(m&&m!==currentMode)assign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=sections.indexOf(e.target);progBar.style.width=(idx/(sections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
-  sections.forEach(s=>io.observe(s));
-  const ior=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.18});
-  document.querySelectorAll('.reveal').forEach(el=>ior.observe(el));
-  railBtns.forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})}));
-  addEventListener('resize',resize);resize();assign('orbit',true);frame();
+  const railBtns=[...document.querySelectorAll('.rail button')];
+  const chSections=[...document.querySelectorAll('#view-chapter section')];
+  const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&document.getElementById('view-chapter').classList.contains('active')){const m=e.target.dataset.mode;if(m&&m!==window.currentMode)doAssign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=chSections.indexOf(e.target);progBar.style.width=(idx/(chSections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
+  chSections.forEach(s=>sio.observe(s));
+  railBtns.forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'})}));
 })();
+route();
 </script>
 </body>
 </html>

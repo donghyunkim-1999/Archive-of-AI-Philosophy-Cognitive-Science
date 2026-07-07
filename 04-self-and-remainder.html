@@ -18,47 +18,50 @@
   main{position:relative;z-index:2}
   nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--mind);mix-blend-mode:screen}
   nav a.home{transition:color .3s}nav a.home:hover{color:#fff}
+  nav .crumb{color:var(--fog)}nav .crumb b{color:var(--mind);font-weight:500}
   nav .prog{display:flex;align-items:center;gap:.7rem}
   nav .prog .bar{width:70px;height:2px;background:var(--line);position:relative;overflow:hidden}
   nav .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--mind);transition:width .25s}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .55s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   .rail{position:fixed;top:50%;right:1.7rem;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:1.1rem;align-items:flex-end}
   .rail button{all:unset;cursor:pointer;display:flex;align-items:center;gap:.7rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--fog);transition:color .35s}
   .rail button .lbl{opacity:0;transform:translateX(6px);transition:opacity .35s,transform .35s}
   .rail button:hover .lbl,.rail button.on .lbl{opacity:1;transform:none}
   .rail button .tick{width:22px;height:1px;background:var(--fog);transition:width .35s,background .35s}
   .rail button.on{color:var(--mind)}.rail button.on .tick{width:34px;background:var(--mind)}
-  @media (max-width:820px){.rail{display:none}}
+  @media (max-width:900px){.rail{display:none}}
   section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:15vh 8vw;position:relative}
   .chap-mark{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.26em;color:var(--mind);margin-bottom:1.6rem;display:flex;align-items:center;gap:1rem}
   .chap-mark::before{content:'';display:block;width:2.4rem;height:1px;background:currentColor}
-  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:22ch}
-  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.8vw,1.25rem);line-height:1.7;color:var(--mind)}
+  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:24ch}
+  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--mind)}
   .qword{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5.6vw,4rem);line-height:1.25;color:var(--mind)}
   .qword .en{display:block;margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.8rem;letter-spacing:.14em;color:var(--mind);opacity:.7}
-  .lede{margin-top:2.4rem;max-width:39rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.05;color:var(--paper-dim)}
+  .lede{margin-top:2.4rem;max-width:40rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.1;color:var(--paper-dim)}
   .lede strong{font-weight:500;color:var(--mind)}.lede em{font-style:normal;color:var(--machine)}
   .scroll-hint{position:absolute;bottom:4vh;left:8vw;font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--fog);animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
   .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--mind);margin-bottom:1.4rem}
-  .body-t{margin-top:1.4rem;max-width:41rem;font-size:1rem;line-height:2.05;color:var(--paper-dim)}
+  .body-t{margin-top:1.4rem;max-width:42rem;font-size:1rem;line-height:2.1;color:var(--paper-dim)}
   .body-t b{color:var(--mind);font-weight:500}.body-t .term{color:var(--machine)}
-  .step{margin-top:2.6rem;display:grid;grid-template-columns:auto 1fr;gap:1.6rem 1.8rem;max-width:52rem}
-  .step .num{font-family:'IBM Plex Mono',monospace;font-size:.9rem;color:var(--mind);opacity:.5;padding-top:.3rem}
-  .step .st{border-top:1px solid var(--line);padding-top:1.2rem}
-  .step .st .tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--mind);margin-bottom:.7rem;opacity:.8}
-  .step .st p{margin-top:.5rem;font-size:.93rem;line-height:1.95;color:var(--paper-dim)}
-  .step .st p .term{color:var(--machine)}
-  .hinge{margin-top:3.2rem;max-width:45rem;border-left:2px solid var(--mind);padding:1.1rem 0 1.1rem 1.8rem}
-  .hinge .hl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--fog);margin-bottom:.8rem}
-  .hinge p{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.2rem);line-height:1.9;color:var(--mind)}
-  .hinge p b{color:var(--mind);border-bottom:1px solid var(--mind)}
-  .quote{margin-top:2.4rem;max-width:40rem;cursor:pointer;border:1px solid var(--line);padding:1.5rem 1.6rem;transition:border-color .35s,transform .35s;position:relative;background:rgba(217,205,184,.02)}
-  .quote:hover{border-color:var(--mind);transform:translateY(-2px)}
-  .quote .qmark{font-family:'Noto Serif KR',serif;font-size:1.02rem;line-height:1.8;color:var(--mind)}
-  .quote .qsrc{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
-  .quote .more{position:absolute;top:1.1rem;right:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--mind);opacity:.7}
+  .pull{margin-top:2.4rem;max-width:42rem;border-left:2px solid var(--mind);padding:.4rem 0 .4rem 1.7rem}
+  .pull .pq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.7;color:var(--mind)}
+  .pull .ps{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
+  .tri{margin-top:2.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:74rem}
+  @media(max-width:900px){.tri{grid-template-columns:1fr}}
+  .pos{border:1px solid var(--line);padding:1.8rem 1.6rem;position:relative;transition:border-color .35s,transform .35s;cursor:pointer;background:rgba(217,205,184,.02)}
+  .pos:hover{border-color:var(--mind);transform:translateY(-3px)}
+  .pos .pn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--mind);margin-bottom:.9rem}
+  .pos .ph{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.08rem;line-height:1.5;color:var(--mind);margin-bottom:.9rem}
+  .pos .who{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--fog);margin-bottom:1rem}
+  .pos .pd{font-size:.9rem;line-height:1.9;color:var(--paper-dim)}.pos .pd .term{color:var(--machine)}
+  .pos .enter{margin-top:1.3rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--mind);display:flex;align-items:center;gap:.4rem}
+  .pos .enter .ar{transition:transform .35s}.pos:hover .enter .ar{transform:translateX(4px)}
+  .pos.n1{border-top:2px solid var(--mind)}.pos.n2{border-top:2px solid var(--machine)}.pos.n3{border-top:2px solid var(--paper-dim)}
   .names{margin-top:2.6rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--fog);line-height:2.3}
-  /* 마무리 거울 */
+  /* 거울 마무리 */
   .mirror-close{max-width:44rem}
   .mirror-close .in-q{font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.14em;color:var(--fog);margin-bottom:1.6rem}
   .mirror-close .in-q s{text-decoration-color:var(--machine)}
@@ -74,138 +77,79 @@
   .chnav .ct{margin-top:.7rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.05rem;color:var(--mind);line-height:1.4}
   .chnav a.disabled{opacity:.35;pointer-events:none}
   .backhub{margin-top:1.6rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.16em;color:var(--mind)}
-  .backhub a{border-bottom:1px solid var(--mind);padding-bottom:2px}
-  @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}.step{grid-template-columns:1fr;gap:.4rem 0}.step .num{display:none}}
+  .backhub a{border-bottom:1px solid var(--mind);padding-bottom:2px;cursor:pointer}
+  @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}}
+  .room{max-width:52rem;margin:0 auto;padding:16vh 8vw 14vh}
+  .room .rtop{display:flex;align-items:center;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--fog);margin-bottom:2.4rem;flex-wrap:wrap}
+  .room .rtop a{color:var(--mind);cursor:pointer;transition:color .3s}.room .rtop a:hover{color:#fff}
+  .room .rtop .sep{opacity:.5}
+  .room .rkicker{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--mind);margin-bottom:1.3rem}
+  .room h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5vw,3.4rem);line-height:1.22;letter-spacing:-.015em;color:var(--mind);margin-bottom:.5rem}
+  .room .rsub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--fog);margin-bottom:2.6rem}
+  .room .rq{margin:2.6rem 0;border-left:2px solid var(--mind);padding:.5rem 0 .5rem 1.7rem}
+  .room .rq .q{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.65;color:var(--mind)}
+  .room .rq .s{margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.05em;color:var(--fog)}
+  .room p.rp{font-size:1.02rem;line-height:2.15;color:var(--paper-dim);margin-bottom:1.5rem}
+  .room p.rp b{color:var(--mind);font-weight:500}.room p.rp .term{color:var(--machine);font-style:normal}
+  .room .rsub-h{margin-top:2.8rem;margin-bottom:.4rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.2rem;color:var(--mind)}
+  .room .rlabel{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--mind);margin:2.8rem 0 1rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+  .related{margin-top:3.4rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+  .related .rh{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;color:var(--mind);margin-bottom:1.4rem}
+  .xcards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.xcards{grid-template-columns:1fr}}
+  .xcard{border:1px solid var(--line);padding:1.3rem 1.4rem;cursor:pointer;transition:border-color .35s,transform .35s;display:block}
+  .xcard:hover{border-color:var(--mind);transform:translateY(-2px)}
+  .xcard .xloc{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--fog);margin-bottom:.6rem}
+  .xcard .xt{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.02rem;color:var(--mind);line-height:1.4;margin-bottom:.5rem}
+  .xcard .xd{font-size:.84rem;line-height:1.75;color:var(--paper-dim)}
+  .xcard .xarrow{margin-top:.8rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--mind)}
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
   .reveal.in{opacity:1;transform:none}
-  .overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:6vh 6vw;background:rgba(6,8,11,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s}
-  .overlay.open{opacity:1;pointer-events:auto}
-  .overlay .panel{max-width:44rem;width:100%;max-height:82vh;overflow-y:auto;background:#0d1016;border:1px solid var(--line);padding:3rem 2.8rem;transform:translateY(20px) scale(.98);transition:transform .4s;position:relative}
-  .overlay.open .panel{transform:none}
-  .overlay .oeye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--mind);margin-bottom:1.4rem}
-  .overlay .oq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.28rem;line-height:1.75;color:var(--mind);margin-bottom:1rem}
-  .overlay .osrc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--fog);padding-bottom:1.6rem;margin-bottom:1.6rem;border-bottom:1px solid var(--line)}
-  .overlay .obody{font-size:.98rem;line-height:2;color:var(--paper-dim)}
-  .overlay .obody b{color:var(--mind);font-weight:500}.overlay .obody .term{color:var(--machine)}
-  .overlay .close{position:absolute;top:2rem;right:2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--mind);cursor:pointer;background:none;border:none;transition:color .3s}
-  .overlay .close:hover{color:#fff}
-  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.overlay .panel{padding:2.2rem 1.6rem}}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.room{padding:14vh 7vw 12vh}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}.view.active{animation:none}}
 </style>
 </head>
 <body>
 <canvas id="field"></canvas>
 <div class="grain"></div>
-
 <nav>
   <a class="home" href="index.html">← ARCHIVE</a>
+  <div class="crumb" id="crumb"><b>CH 04</b> · 자아, 그리고 남는 질문</div>
   <div class="prog"><span id="secLabel">CH 04</span><span class="bar"><i id="progBar"></i></span></div>
 </nav>
-
 <div class="rail" id="rail">
   <button data-go="open"><span class="lbl">여는 질문</span><span class="tick"></span></button>
-  <button data-go="dennett"><span class="lbl">서사적 자아</span><span class="tick"></span></button>
-  <button data-go="remain"><span class="lbl">남는 질문</span><span class="tick"></span></button>
-  <button data-go="creativity"><span class="lbl">창의성의 계보</span><span class="tick"></span></button>
+  <button data-go="triangle"><span class="lbl">세 갈래</span><span class="tick"></span></button>
   <button data-go="mirror"><span class="lbl">거울</span><span class="tick"></span></button>
 </div>
-
 <main>
 
-  <!-- 여는 질문 -->
+<div class="view active" id="view-chapter">
   <section id="open" data-mode="scatter" data-label="CH 04 · 여는 질문">
     <p class="chap-mark reveal">CHAPTER 04 · DOUBT 02 — 인간은 그 중심에 있는가</p>
-    <p class="qword reveal">자아가 허구라면,<br>무엇이 남는가.
-      <span class="en">IF THE SELF IS A FICTION, WHAT REMAINS?</span>
-    </p>
-    <p class="lede reveal">
-      중심에서 인간을 끌어내렸다. 이제 마지막 매듭 — 그 중심에 있던 <strong>'나'라는 자아</strong>는
-      처음부터 하나의 단단한 실체였는가. 그리고 그것마저 흩어진다면, 이 여정 끝에 <em>무엇이 남는가.</em>
-    </p>
+    <p class="qword reveal">자아가 허구라면,<br>무엇이 남는가.<span class="en">IF THE SELF IS A FICTION, WHAT REMAINS?</span></p>
+    <p class="lede reveal">중심에서 인간을 끌어내렸다. 이제 마지막 매듭 — 그 중심에 있던 <strong>'나'라는 자아</strong>는 처음부터 하나의 단단한 실체였는가. 그리고 그것마저 흩어진다면, 이 여정 끝에 <em>무엇이 남는가.</em> 세 개의 방을 지나 거울 앞에 선다.</p>
     <span class="scroll-hint">SCROLL ↓</span>
   </section>
-
-  <!-- 데넷 -->
-  <section id="dennett" data-mode="gravity" data-label="서사적 자아">
-    <p class="eyebrow reveal">01 — 자아의 해체</p>
-    <h2 class="reveal">자아는 실체가 아니라, 이야기의 중심점이다.</h2>
-    <p class="body-t reveal">
-      데넷<span class="term">(Daniel Dennett)</span>은 자아를 <b>무게중심<span class="term">(center of gravity)</span></b>에 빗댄다.
-      무게중심은 실재하는 물체가 아니라, 물체의 움직임을 예측하려 물리학이 도입한 편리한 <b>가상의 점</b>이다 —
-      질량도 색도 없지만, 상정하면 예측이 잘 된다.
-    </p>
-    <p class="body-t reveal">
-      자아도 그렇다. 뇌라는 느슨하게 묶인 여러 과정들이 스스로에 대해 끊임없이 지어내는 이야기 —
-      그 이야기가 수렴하는 <b>서사적 무게중심<span class="term">(center of narrative gravity)</span></b>이 곧 '나'다.
-      흄<span class="term">(Hume)</span>이 이미 말했듯, 우리는 '나 자신'을 들여다볼 때 이런저런 지각에 걸려 넘어질 뿐
-      '자아'라는 것을 따로 붙잡은 적이 없다.
-    </p>
-    <div class="quote reveal" data-ov="dennett">
-      <p class="qmark">자아는 실체가 아니라, 뇌가 자기 자신에 대해 지어내는 이야기의 중심점이다.</p>
-      <p class="qsrc">Daniel Dennett, "The Self as a Center of Narrative Gravity" (1992)</p>
-      <span class="more">+ 자세히</span>
+  <section id="triangle" data-mode="gravity" data-label="세 갈래">
+    <p class="eyebrow reveal">전개 — 해체와, 그래도 남는 것</p>
+    <h2 class="reveal">세 개의 방.</h2>
+    <p class="body-t reveal">자아를 해체하고, 그럼에도 과학이 닫지 못하는 물음을 짚고, 마지막으로 '창의성'이라는 잣대 자체를 의심한다. 각 카드를 누르면 방으로 들어간다.</p>
+    <div class="tri">
+      <div class="pos n1 reveal" data-room="dennett"><p class="pn">① 자아의 해체</p><p class="ph">자아는 실체가 아니라 이야기의 중심점.</p><p class="who">DENNETT (1992)</p><p class="pd">서사적 무게중심<span class="term">(center of narrative gravity)</span>·지향적 태도<span class="term">(intentional stance)</span>·흄의 자아 부정.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n2 reveal" data-room="thagard"><p class="pn">② 남는 질문</p><p class="ph">과학이 마음을 다뤄도 철학은 사라지지 않는다.</p><p class="who">THAGARD (2009)</p><p class="pd">일반성<span class="term">(generality)</span>·규범성<span class="term">(normativity)</span> — 인지과학이 피할 수 없는 철학.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n3 reveal" data-room="franklin"><p class="pn">③ 잣대를 의심하다</p><p class="ph">"AI가 창의적인가"를 묻기 전에.</p><p class="who">FRANKLIN · THE CULT OF CREATIVITY</p><p class="pd">'창의성<span class="term">(creativity)</span>'조차 놀랍도록 최근에 발명된 역사적 구성물이다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
     </div>
-    <p class="body-t reveal">
-      한 가지 더. 데넷의 지향적 태도<span class="term">(intentional stance)</span>는 이 논의를 AI로 잇는다.
-      체스 AI가 정말 '이기고 싶어' 하는지는 알 수 없다. 그러나 "킹을 노린다"고 <b>해석하면</b> 행동이 예측된다 —
-      진짜 의식의 유무보다, 의도를 가진 것처럼 해석하는 일의 유용함. 우리는 이미 AI를 그렇게 대하고 있다.
-    </p>
+    <p class="names reveal">CENTER OF NARRATIVE GRAVITY · INTENTIONAL STANCE · GENERALITY / NORMATIVITY · CULT OF CREATIVITY</p>
   </section>
-
-  <!-- 남는 질문: 타가드 -->
-  <section id="remain" data-mode="orbit2" data-label="남는 질문">
-    <p class="eyebrow reveal">02 — 그래도 남는 것</p>
-    <h2 class="reveal">마음을 과학이 다뤄도, 철학은 사라지지 않는다.</h2>
-    <p class="body-t reveal">
-      자아가 이야기라면, 마음은 이제 온전히 과학의 대상인가? 타가드<span class="term">(Paul Thagard)</span>는
-      아니라고 답한다. 인지과학<span class="term">(cognitive science)</span>이 마음을 실험대에 올려도,
-      실험만으로는 닫히지 않는 물음이 분과 한가운데 남는다.
-    </p>
-    <div class="step reveal">
-      <div class="num">i</div>
-      <div class="st"><p class="tag">일반성 · GENERALITY</p><p>표상이란 무엇인가, 설명이란 무엇인가, 여러 분과(심리학·신경과학·AI)는 어떻게 하나로 묶이는가 — 개별 실험을 넘어서는 <b>가장 일반적인 물음</b>은 철학의 몫이다.</p></div>
-      <div class="num">ii</div>
-      <div class="st"><p class="tag">규범성 · NORMATIVITY</p><p>인간이 <b>어떻게 사고하는가</b>(기술)를 넘어, <b>어떻게 사고해야 하는가</b>(규범)를 묻는 순간, 인지과학은 이미 철학을 하고 있다. 무시하면, 낡은 철학을 자기도 모르게 답습할 뿐이다.</p></div>
-    </div>
-    <div class="quote reveal" data-ov="thagard">
-      <p class="qmark">철학을 무시하는 자는, 그것을 반복하도록 저주받는다.</p>
-      <p class="qsrc">Paul Thagard, "Why Cognitive Science Needs Philosophy and Vice Versa" (2009)</p>
-      <span class="more">+ 자세히</span>
-    </div>
-  </section>
-
-  <!-- 창의성의 계보 -->
-  <section id="creativity" data-mode="orbit2" data-label="창의성의 계보">
-    <p class="eyebrow reveal">03 — 잣대를 의심하다</p>
-    <h2 class="reveal">"AI가 창의적인가"를 묻기 전에.</h2>
-    <p class="body-t reveal">
-      우리는 흔히 묻는다 — AI가 <b>창의적</b>일 수 있는가? 그런데 프랭클린<span class="term">(Samuel Weil Franklin)</span>은
-      되묻는다. '창의성<span class="term">(creativity)</span>'이라는 개념 자체가 <b>놀랍도록 최근에 발명된</b> 역사적 구성물이라면?
-    </p>
-    <p class="body-t reveal">
-      그 잣대가 특정 시대·특정 목적에서 만들어진 것이라면, "AI가 창의적인가"라는 물음은
-      답하기 전에 <b>잣대의 출처</b>부터 물어야 한다. 민스키가 천재성을 '흔한 재료들의 특이한 조합'으로 해체했듯,
-      창의성이라는 신비도 역사를 가진 개념일 뿐이다. 질문은 다시 인간에게 돌아온다.
-    </p>
-    <p class="names reveal">FRANKLIN, THE CULT OF CREATIVITY · 창의성=역사적 구성물 · 민스키: 천재=흔한 재료의 조합</p>
-  </section>
-
-  <!-- 거울 -->
   <section id="mirror" data-mode="converge" data-label="거울">
     <div class="mirror-close">
       <p class="in-q reveal">들어올 때 당신은 물었다 — <s>AI는 똑똑한가? 그래서 지능이 뭔데?</s></p>
       <p class="out-q reveal">그래서, 인간의 마음은 무엇인가.</p>
-      <p class="closing reveal">
-        규칙에서 패턴으로, 표상을 둘러싼 세 갈래의 싸움으로, 인간이라는 중심의 해체로, 그리고 이야기로서의 자아로 —
-        <b>AI를 들여다보던 모든 질문은 끝내 인간을 향해 되돌아왔다.</b>
-        이 아카이브가 내놓는 것은 답이 아니라 거울이다. 두 개의 의심을 지나온 지금,
-        "AI는 인간을 넘어서는가"라는 처음의 물음은 이렇게 바뀌어 있다 —
-        <b>애초에 우리가 '인간 지능'이라 불러온 그 중심은, 정말 거기에 있었는가.</b>
-      </p>
+      <p class="closing reveal">규칙에서 패턴으로, 표상을 둘러싼 세 갈래의 싸움으로, 인간이라는 중심의 해체로, 그리고 이야기로서의 자아로 — <b>AI를 들여다보던 모든 질문은 끝내 인간을 향해 되돌아왔다.</b> 이 아카이브가 내놓는 것은 답이 아니라 거울이다. 두 개의 의심을 지나온 지금, "AI는 인간을 넘어서는가"라는 처음의 물음은 이렇게 바뀌어 있다 — <b>애초에 우리가 '인간 지능'이라 불러온 그 중심은, 정말 거기에 있었는가.</b></p>
       <div class="colophon reveal">
-        XPHI &amp; CE MINI PROJECT — 인공지능철학 &amp; 인지과학<br>
-        DENNETT 1992 · THAGARD 2009 · FRANKLIN, THE CULT OF CREATIVITY · HUME<br>
-        REFERENCE: IGLOO.INC — NO PHOTOGRAPHS WERE USED.
+        ARCHIVE — AI PHILOSOPHY &amp; COGNITIVE SCIENCE<br>
+        DENNETT 1992 · THAGARD 2009 · FRANKLIN, THE CULT OF CREATIVITY · HUME
       </div>
     </div>
     <div class="chnav reveal">
@@ -214,107 +158,155 @@
     </div>
     <p class="backhub reveal"><a href="index.html">← 아카이브로 돌아가기</a></p>
   </section>
+</div>
 
-</main>
-
-<div class="overlay" id="overlay">
-  <div class="panel">
-    <button class="close" id="ovClose">CLOSE ✕</button>
-    <p class="oeye" id="ovEye"></p>
-    <p class="oq" id="ovQ"></p>
-    <p class="osrc" id="ovSrc"></p>
-    <p class="obody" id="ovBody"></p>
+<!-- 방: 데넷 -->
+<div class="view" id="view-dennett">
+  <div class="room" data-mode="gravity">
+    <div class="rtop"><a data-back>← 자아, 그리고 남는 질문</a><span class="sep">/</span><span>① 자아의 해체</span></div>
+    <p class="rkicker">THE SELF AS A CENTER OF NARRATIVE GRAVITY</p>
+    <h1>자아는 실체가 아니라, 이야기의 중심점이다</h1>
+    <p class="rsub">Daniel Dennett</p>
+    <div class="rq"><p class="q">자아는 실체가 아니라, 뇌가 자기 자신에 대해 지어내는 이야기의 중심점이다.</p><p class="s">Daniel Dennett, "The Self as a Center of Narrative Gravity" (1992)</p></div>
+    <p class="rp">데넷은 <b>무게중심<span class="term">(center of gravity)</span></b>에 빗대 자아를 설명한다. 무게중심은 실재하는 물체가 아니라, 물체의 움직임을 예측하기 위해 물리학이 도입한 편리한 <b>가상의 점</b>이다 — 질량도 색도 없지만, 그것을 상정하면 예측이 잘 된다.</p>
+    <p class="rp">데넷은 '자아'도 이와 같다고 본다. 뇌라는 느슨하게 묶인 여러 과정들이 스스로에 대해 끊임없이 지어내는 이야기, 그 이야기가 수렴하는 <b>가상의 중심점</b>이 곧 자아<span class="term">(the self)</span>라는 것이다. 어딘가에 '진짜 나'라는 알맹이가 따로 있는 게 아니다.</p>
+    <p class="rsub-h">흄의 자아 부정</p>
+    <p class="rp">데넷의 논지는 흄<span class="term">(David Hume)</span>까지 거슬러 올라간다. 흄은 '나 자신'을 아무리 들여다봐도 늘 <b>이런저런 지각에 걸려 넘어질 뿐, '자아'라는 것을 따로 붙잡은 적이 없다</b>고 했다. 자아는 지각들의 다발일 뿐, 그것을 꿰는 단단한 실체가 아니라는 것. 분리 뇌<span class="term">(split-brain)</span> 환자나 다중 인격 사례는, 하나의 몸에 <b>둘 이상의 중심점</b>이 생길 수 있음을 보여준다.</p>
+    <p class="rsub-h">지향적 태도 (intentional stance)</p>
+    <p class="rp">이 논의는 곧장 AI로 이어진다. 데넷의 지향적 태도<span class="term">(intentional stance)</span>란, 어떤 대상을 <b>믿음과 욕구를 가진 것처럼 해석</b>해 그 행동을 예측하는 전략이다. 체스 AI가 정말 '이기고 싶어' 하는지는 알 수 없다. 그러나 "킹을 노린다"고 <b>해석하면</b> 그 수가 잘 예측된다. 진짜 의식의 유무보다, 의도를 가진 것처럼 <b>대하는 일의 유용함</b> — 우리는 이미 AI를 그렇게 대하고 있다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="02-representation.html#minsky"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">민스키가 위계 꼭대기에 올린 '이야기'와, 데넷의 '이야기로서의 자아'가 정면으로 만난다.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" href="03-decentering.html#luhmann"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">체계/환경 — 루만</p><p class="xd">의식을 중심에서 치우는 루만과, 자아를 허구로 보는 데넷의 공명.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#brooks"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">지향적 태도 ↔ 브룩스</p><p class="xd">"의도는 해석하는 자의 태도"와 "표상은 관찰자의 눈에만 있다"가 공명한다.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" data-room="thagard"><p class="xloc">CH 04 · 같은 챕터</p><p class="xt">남는 질문 — 타가드</p><p class="xd">자아가 이야기라면, 마음은 온전히 과학의 것인가? 그 물음으로 이어진다.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
   </div>
 </div>
 
-<script>
-const OV={
-  dennett:{
-    eye:"서사적 자아 · CENTER OF NARRATIVE GRAVITY",
-    q:"자아는 실체가 아니라, 뇌가 자기 자신에 대해 지어내는 이야기의 중심점이다.",
-    src:"Daniel Dennett, \"The Self as a Center of Narrative Gravity\" (1992)",
-    body:"데넷은 <b>무게중심(center of gravity)</b>에 빗대 자아를 설명한다. 무게중심은 실재하는 물체가 아니라, 물체의 움직임을 예측하기 위해 물리학이 도입한 편리한 가상의 점이다 — 질량도 색도 없지만, 그것을 상정하면 예측이 잘 된다. 데넷은 '자아'도 이와 같다고 본다. 뇌라는 느슨하게 묶인 여러 과정들이 스스로에 대해 지어내는 이야기, 그 이야기가 수렴하는 <b>가상의 중심점</b>이 곧 자아라는 것이다. 분리 뇌<span class='term'>(split-brain)</span> 환자나 다중 인격 사례는, 하나의 몸에 <b>둘 이상의 중심점</b>이 생길 수 있음을 보여준다. 흄이 이미 말했듯, 우리는 '나 자신'을 들여다볼 때 이런저런 지각에 걸려 넘어질 뿐 '자아'라는 것을 따로 붙잡은 적이 없다. 중심이 이렇게 지어낸 것이라면, 인간을 세계의 중심에 두는 구도 자체가 흔들린다."
-  },
-  thagard:{
-    eye:"철학은 사라지지 않는다 · GENERALITY & NORMATIVITY",
-    q:"철학을 무시하는 자는, 그것을 반복하도록 저주받는다.",
-    src:"Paul Thagard, \"Why Cognitive Science Needs Philosophy and Vice Versa\" (2009)",
-    body:"타가드는 철학이 인지과학에 <b>토대</b>를 놓아주는 상위 학문이라는 오래된 주장을 거부한다. 대신 철학은 두 가지 일에서 인지과학에 반드시 필요하다. 첫째, <b>일반성<span class='term'>(generality)</span></b> — 이론이란 무엇인지, 설명이란 무엇인지, 심리학·신경과학·AI가 어떻게 하나로 묶이는지 같은 물음은 개별 실험을 넘어선다. 둘째, <b>규범성<span class='term'>(normativity)</span></b> — 사람이 실제로 어떻게 사고하는지(기술)를 넘어 어떻게 사고<b>해야</b> 하는지(규범)를 물을 때, 인지과학은 이미 철학의 영역에 들어와 있다. 타가드가 옹호하는 것은 과학과 긴밀히 얽히는 <b>자연주의 철학<span class='term'>(naturalistic philosophy)</span></b>이다. 데카르트식 토대(건축가의 반석)가 아니라, 여러 가닥이 서로를 지탱하는 케이블, 항해 중에 스스로를 고쳐 짓는 배처럼. 철학을 무시한다고 벗어나는 게 아니다 — 무시하면 그저 낡은 철학을 <b>자기도 모르게 답습</b>하게 될 뿐이다."
-  }
-};
-const overlay=document.getElementById('overlay');
-function openOv(k){const d=OV[k];if(!d)return;ovEye.textContent=d.eye;ovQ.textContent=d.q;ovSrc.textContent=d.src;ovBody.innerHTML=d.body;overlay.classList.add('open')}
-function closeOv(){overlay.classList.remove('open')}
-document.querySelectorAll('[data-ov]').forEach(q=>q.addEventListener('click',()=>openOv(q.dataset.ov)));
-document.getElementById('ovClose').addEventListener('click',closeOv);
-overlay.addEventListener('click',e=>{if(e.target===overlay)closeOv()});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
+<!-- 방: 타가드 -->
+<div class="view" id="view-thagard">
+  <div class="room" data-mode="orbit2">
+    <div class="rtop"><a data-back>← 자아, 그리고 남는 질문</a><span class="sep">/</span><span>② 남는 질문</span></div>
+    <p class="rkicker">GENERALITY &amp; NORMATIVITY</p>
+    <h1>과학이 마음을 다뤄도, 철학은 사라지지 않는다</h1>
+    <p class="rsub">Paul Thagard</p>
+    <div class="rq"><p class="q">철학을 무시하는 자는, 그것을 반복하도록 저주받는다.</p><p class="s">Paul Thagard, "Why Cognitive Science Needs Philosophy and Vice Versa" (2009)</p></div>
+    <p class="rp">자아가 이야기라면, 마음은 이제 온전히 과학의 대상인가? 타가드<span class="term">(Paul Thagard)</span>는 아니라고 답한다. 인지과학<span class="term">(cognitive science)</span>이 마음을 실험대에 올려도, 실험만으로는 닫히지 않는 물음이 분과 한가운데 남는다. 그가 철학이 <b>토대</b>를 놓아주는 상위 학문이라는 낡은 주장은 거부하되, 두 가지에서 철학이 반드시 필요하다고 본다.</p>
+    <p class="rsub-h">일반성 (generality)</p>
+    <p class="rp">이론이란 무엇인지, 설명이란 무엇인지, 심리학·신경과학·AI가 어떻게 하나로 묶이는지 — 이런 물음은 <b>개별 실험을 넘어선다</b>. 여러 탐구를 가로지르는 가장 일반적인 물음은, 학제적 분야인 인지과학에 특히 중요하다.</p>
+    <p class="rsub-h">규범성 (normativity)</p>
+    <p class="rp">사람이 실제로 <b>어떻게 사고하는가</b>(기술)를 넘어, <b>어떻게 사고해야 하는가</b>(규범)를 묻는 순간, 인지과학은 이미 철학의 영역에 들어와 있다. 추론은 베이즈적이어야 하는가, 결정은 기대효용을 극대화해야 하는가 — 이런 규범을 인지과학은 <b>당연시할 수 없다</b>.</p>
+    <p class="rlabel">자연주의 — 케이블과 배</p>
+    <p class="rp">타가드가 옹호하는 것은 과학과 긴밀히 얽히는 <b>자연주의 철학<span class="term">(naturalistic philosophy)</span></b>이다. 데카르트식 토대(단단한 반석)가 아니라, 여러 가닥이 서로를 지탱하는 <b>케이블</b>, 항해 중에 스스로를 고쳐 짓는 <b>배</b>처럼. 철학을 무시한다고 벗어나는 게 아니다 — 무시하면 그저 낡은 철학을 <b>자기도 모르게 답습</b>하게 될 뿐이다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" data-room="dennett"><p class="xloc">CH 04 · 같은 챕터</p><p class="xt">서사적 자아 — 데넷</p><p class="xd">자아 해체 다음에 오는 물음 — 그래도 과학이 닫지 못하는 것은 무엇인가.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#newell"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상+계산 가설 — 뉴얼·사이먼</p><p class="xd">'이론이란 무엇인가'라는 일반성의 물음이 정면으로 겨누는 지점.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" href="01-rules-to-patterns.html"><p class="xloc">CH 01 · 다른 챕터</p><p class="xt">규칙에서 패턴으로</p><p class="xd">통계·베이즈가 '규범'일 수 있는가 — 규범성 물음의 구체적 무대.</p><p class="xarrow">챕터 01로 →</p></a>
+      <a class="xcard" data-room="franklin"><p class="xloc">CH 04 · 같은 챕터</p><p class="xt">창의성의 계보 — 프랭클린</p><p class="xd">우리가 쓰는 개념(창의성)조차 역사를 가진다는, 자연주의적 의심의 확장.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
 
+<!-- 방: 프랭클린 -->
+<div class="view" id="view-franklin">
+  <div class="room" data-mode="orbit2">
+    <div class="rtop"><a data-back>← 자아, 그리고 남는 질문</a><span class="sep">/</span><span>③ 잣대를 의심하다</span></div>
+    <p class="rkicker">THE CULT OF CREATIVITY</p>
+    <h1>"AI가 창의적인가"를 묻기 전에</h1>
+    <p class="rsub">Samuel W. Franklin</p>
+    <div class="rq"><p class="q">'창의성'은 놀랍도록 최근에 발명된, 역사를 가진 개념이다.</p><p class="s">Samuel W. Franklin, The Cult of Creativity: A Surprisingly Recent History (2023) 재구성</p></div>
+    <p class="rp">우리는 흔히 묻는다 — AI가 <b>창의적</b>일 수 있는가? 그런데 프랭클린<span class="term">(Samuel Franklin)</span>은 되묻는다. '창의성<span class="term">(creativity)</span>'이라는 개념 자체가, 우리가 생각하는 것보다 <b>훨씬 최근에</b> — 특정 시대·특정 목적 속에서 — 만들어진 역사적 구성물이라면?</p>
+    <p class="rlabel">잣대의 출처를 묻기</p>
+    <p class="rp">그 잣대가 특정 맥락에서 만들어진 것이라면, "AI가 창의적인가"라는 물음은 답하기 전에 <b>잣대 자체의 출처</b>부터 물어야 한다. 우리가 '창의성'이라 부르며 인간 고유의 신비로 떠받드는 그것이, 사실은 역사적으로 형성된 <b>하나의 이상(理想)</b>일 뿐이라면 — 그 잣대로 AI를 재는 일은 무엇을 측정하고 있는 걸까.</p>
+    <p class="rlabel">민스키와 겹치기</p>
+    <p class="rp">이는 민스키가 천재성을 '흔한 재료들의 특이한 조합'으로 해체한 것과 겹친다. 창의성이라는 신비도 뜯어보면 역사와 요소를 가진 개념일 뿐이다. 질문은 다시 인간에게 돌아온다 — <b>우리가 인간에게서조차 제대로 이해하지 못한 것을, AI에게 있는지 없는지 어떻게 묻는가.</b></p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="02-representation.html#minsky"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">천재를 '흔한 재료의 조합'으로 해체한 민스키와 같은 반(反)신비주의.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" data-room="thagard"><p class="xloc">CH 04 · 같은 챕터</p><p class="xt">남는 질문 — 타가드</p><p class="xd">개념은 이론과 함께 변한다는 자연주의 — 창의성 개념의 역사성과 이어진다.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" data-room="dennett"><p class="xloc">CH 04 · 같은 챕터</p><p class="xt">서사적 자아 — 데넷</p><p class="xd">'자아'도 '창의성'도, 실체가 아니라 우리가 구성한 것이라는 공통의 의심.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="01-rules-to-patterns.html"><p class="xloc">CH 01 · 다른 챕터</p><p class="xt">규칙에서 패턴으로</p><p class="xd">'지능'이라는 잣대의 출처를 묻는 아카이브 전체의 문제의식으로 되돌아간다.</p><p class="xarrow">챕터 01로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
+
+</main>
+<script>
+const rooms=['dennett','thagard','franklin'];
+const crumbBase='<b>CH 04</b> · 자아, 그리고 남는 질문';
+const roomTitles={dennett:'데넷',thagard:'타가드',franklin:'프랭클린'};
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  const crumb=document.getElementById('crumb'),rail=document.getElementById('rail');
+  if(id==='view-chapter'){crumb.innerHTML=crumbBase;rail.style.display='';}
+  else{const rk=id.replace('view-','');crumb.innerHTML=crumbBase+' <span style="opacity:.5">/</span> '+(roomTitles[rk]||'');rail.style.display='none';}
+  el&&el.querySelectorAll('.reveal').forEach(r=>{r.classList.remove('in');requestAnimationFrame(()=>io.observe(r));});
+  window.scrollTo(0,0);
+}
+function goRoom(rk){location.hash=rk;}
+function goChapter(){history.pushState('','',location.pathname);route();window.scrollTo(0,0);}
+function route(){
+  const h=location.hash.replace('#','');
+  if(rooms.includes(h)){showView('view-'+h);const el=document.getElementById('view-'+h);const m=el.querySelector('[data-mode]');if(m&&window.assign)window.assign(m.dataset.mode,false);}
+  else{showView('view-chapter');if(window.assign)window.assign('scatter',false);}
+}
+addEventListener('hashchange',route);
+document.querySelectorAll('[data-room]').forEach(c=>c.addEventListener('click',e=>{if(e.target.closest('a[href]'))return;goRoom(c.dataset.room);}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',goChapter));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+window.currentMode='scatter';
 (function(){
   const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,DPR;const mouse={x:-1,y:-1,active:false};
-  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';assign(currentMode,true)}
+  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';doAssign(window.currentMode,true)}
   const N=230,pts=[];
   for(let i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),tx:Math.random(),ty:Math.random(),ph:Math.random()*6.28,sp:.4+Math.random()*.6,orbit:null});
-  let currentMode='scatter';
-  function assign(mode,hard){
-    currentMode=mode;
-    pts.forEach((p,i)=>{
-      let tx,ty;p.orbit=null;
+  function doAssign(mode,hard){
+    window.currentMode=mode;
+    pts.forEach((p,i)=>{let tx,ty;p.orbit=null;
       if(mode==='scatter'){tx=Math.random();ty=Math.random();}
-      else if(mode==='gravity'){
-        // 여러 점이 하나의 무게중심으로 이야기처럼 수렴
-        const a=Math.random()*6.28,rr=Math.pow(Math.random(),.7)*.34;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;
-      }
+      else if(mode==='gravity'){const a=Math.random()*6.28,rr=Math.pow(Math.random(),.7)*.34;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;}
       else if(mode==='orbit2'){const a=(i/N)*6.28*2,rr=.14+((i%5)/5)*.24;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;p.orbit={a,r:rr,drift:.0014+.0008*((i%4)/4)};}
       else{const a=Math.random()*6.28,rr=Math.pow(Math.random(),.8)*.05;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr;}
-      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}
-    });
+      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}});
   }
+  window.assign=doAssign;
   let t=0;
   function frame(){
-    t+=.008;ctx.clearRect(0,0,W,H);
-    const isG=currentMode==='gravity',isO=currentMode==='orbit2',isC=currentMode==='converge',isS=currentMode==='scatter';
-    pts.forEach(p=>{
-      let jx=0,jy=0;
+    t+=.008;ctx.clearRect(0,0,W,H);const cm=window.currentMode;
+    const isG=cm==='gravity',isO=cm==='orbit2',isC=cm==='converge',isS=cm==='scatter';
+    pts.forEach(p=>{let jx=0,jy=0;
       if(isS){jx=Math.cos(t*p.sp+p.ph)*.04;jy=Math.sin(t*p.sp*1.3+p.ph)*.04;}
       else if(isG){const dx=.5-p.x,dy=.5-p.y;jx=dx*.02+Math.cos(t*p.sp+p.ph)*.01;jy=dy*.02+Math.sin(t*p.sp+p.ph)*.01;}
       else if(isO&&p.orbit){p.orbit.a+=p.orbit.drift;p.tx=.5+Math.cos(p.orbit.a)*p.orbit.r;p.ty=.5+Math.sin(p.orbit.a)*p.orbit.r;}
       else{jx=Math.cos(t*p.sp+p.ph)*.006;jy=Math.sin(t*p.sp+p.ph)*.006;}
       const ease=reduced?1:.035;p.x+=(p.tx+jx-p.x)*ease;p.y+=(p.ty+jy-p.y)*ease;
-      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}
-    });
+      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}});
     ctx.lineWidth=1*DPR;
-    if(isG){
-      // 모든 점에서 중심으로 향하는 희미한 선 — 서사의 수렴
-      ctx.strokeStyle='rgba(217,205,184,.06)';
-      pts.forEach((p,i)=>{if(i%3===0){ctx.beginPath();ctx.moveTo(p.x*W,p.y*H);ctx.lineTo(.5*W,.5*H);ctx.stroke();}});
-    }else if(isO){ctx.strokeStyle='rgba(217,205,184,.1)';ctx.beginPath();ctx.arc(.5*W,.5*H,.14*Math.min(W,H),0,6.28);ctx.stroke();}
+    if(isG){ctx.strokeStyle='rgba(217,205,184,.06)';pts.forEach((p,i)=>{if(i%3===0){ctx.beginPath();ctx.moveTo(p.x*W,p.y*H);ctx.lineTo(.5*W,.5*H);ctx.stroke();}});}
+    else if(isO){ctx.strokeStyle='rgba(217,205,184,.1)';ctx.beginPath();ctx.arc(.5*W,.5*H,.14*Math.min(W,H),0,6.28);ctx.stroke();}
     else if(isC){for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.003){ctx.strokeStyle='rgba(217,205,184,'+(.22*(1-d2/.003)).toFixed(3)+')';seg(pts[i],pts[j]);}}}
-    pts.forEach((p,i)=>{
-      let col;
-      if(isG){const dc=Math.hypot(p.x-.5,p.y-.5);col='rgba(217,205,184,'+(.9-dc*1.2).toFixed(2)+')';}
-      else if(isC)col='rgba(217,205,184,.75)';
-      else col=i%3===0?'rgba(126,142,163,.5)':'rgba(217,205,184,.6)';
-      ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,(isC?2:1.8)*DPR,0,6.28);ctx.fill();
-    });
-    // 중심점 강조 (gravity/converge)
+    pts.forEach((p,i)=>{let col;if(isG){const dc=Math.hypot(p.x-.5,p.y-.5);col='rgba(217,205,184,'+(.9-dc*1.2).toFixed(2)+')';}else if(isC)col='rgba(217,205,184,.75)';else col=i%3===0?'rgba(126,142,163,.5)':'rgba(217,205,184,.6)';ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,(isC?2:1.8)*DPR,0,6.28);ctx.fill();});
     if(isG||isC){ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.arc(.5*W,.5*H,3*DPR,0,6.28);ctx.fill();}
     requestAnimationFrame(frame);
   }
   function seg(a,b){ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke();}
   addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;mouse.active=true});
   addEventListener('mouseleave',()=>mouse.active=false);
+  addEventListener('resize',resize);resize();doAssign('scatter',true);frame();
   const secLabel=document.getElementById('secLabel'),progBar=document.getElementById('progBar');
-  const railBtns=[...document.querySelectorAll('.rail button')],sections=[...document.querySelectorAll('section')];
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const m=e.target.dataset.mode;if(m&&m!==currentMode)assign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=sections.indexOf(e.target);progBar.style.width=(idx/(sections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
-  sections.forEach(s=>io.observe(s));
-  const ior=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.18});
-  document.querySelectorAll('.reveal').forEach(el=>ior.observe(el));
-  railBtns.forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})}));
-  addEventListener('resize',resize);resize();assign('scatter',true);frame();
+  const railBtns=[...document.querySelectorAll('.rail button')];
+  const chSections=[...document.querySelectorAll('#view-chapter section')];
+  const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&document.getElementById('view-chapter').classList.contains('active')){const m=e.target.dataset.mode;if(m&&m!==window.currentMode)doAssign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=chSections.indexOf(e.target);progBar.style.width=(idx/(chSections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
+  chSections.forEach(s=>sio.observe(s));
+  railBtns.forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'})}));
 })();
+route();
 </script>
 </body>
 </html>

@@ -7,10 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;900&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#0a0c10;--machine:#7e8ea3;--mind:#d9cdb8;--fog:#3a4150;
-    --line:rgba(126,142,163,.18);--paper-dim:rgba(217,205,184,.55);
-  }
+  :root{--ink:#0a0c10;--machine:#7e8ea3;--mind:#d9cdb8;--fog:#3a4150;--line:rgba(126,142,163,.18);--paper-dim:rgba(217,205,184,.56)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--ink);color:var(--mind);font-family:'IBM Plex Sans KR',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
@@ -19,207 +16,135 @@
   #field{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
   .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")}
   main{position:relative;z-index:2}
-
   nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--machine);mix-blend-mode:screen}
   nav a.home{transition:color .3s}nav a.home:hover{color:var(--mind)}
+  nav .crumb{color:var(--fog)}nav .crumb b{color:var(--machine);font-weight:500}
   nav .prog{display:flex;align-items:center;gap:.7rem}
   nav .prog .bar{width:70px;height:2px;background:var(--line);position:relative;overflow:hidden}
   nav .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--machine);transition:width .25s}
-
-  .rail{position:fixed;top:50%;right:1.7rem;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:1.15rem;align-items:flex-end}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .55s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .rail{position:fixed;top:50%;right:1.7rem;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:1.1rem;align-items:flex-end}
   .rail button{all:unset;cursor:pointer;display:flex;align-items:center;gap:.7rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--fog);transition:color .35s}
   .rail button .lbl{opacity:0;transform:translateX(6px);transition:opacity .35s,transform .35s}
   .rail button:hover .lbl,.rail button.on .lbl{opacity:1;transform:none}
   .rail button .tick{width:22px;height:1px;background:var(--fog);transition:width .35s,background .35s}
   .rail button.on{color:var(--machine)}.rail button.on .tick{width:34px;background:var(--machine)}
-  @media (max-width:820px){.rail{display:none}}
-
+  @media (max-width:900px){.rail{display:none}}
   section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:15vh 8vw;position:relative}
   .chap-mark{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.26em;color:var(--machine);margin-bottom:1.6rem;display:flex;align-items:center;gap:1rem}
   .chap-mark::before{content:'';display:block;width:2.4rem;height:1px;background:currentColor}
-  h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.22;letter-spacing:-.015em;color:var(--mind)}
-  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:22ch}
-  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.8vw,1.25rem);line-height:1.7;color:var(--mind)}
-  .lede{margin-top:2.4rem;max-width:38rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.05;color:var(--paper-dim)}
-  .lede strong{font-weight:500;color:var(--mind)}
-  .lede em{font-style:normal;color:var(--machine)}
+  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:24ch}
+  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--mind)}
   .qword{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5.6vw,4rem);line-height:1.25;color:var(--mind)}
   .qword .en{display:block;margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.8rem;letter-spacing:.14em;color:var(--machine)}
+  .lede{margin-top:2.4rem;max-width:40rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.1;color:var(--paper-dim)}
+  .lede strong{font-weight:500;color:var(--mind)}.lede em{font-style:normal;color:var(--machine)}
   .scroll-hint{position:absolute;bottom:4vh;left:8vw;font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--fog);animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-
   .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--machine);margin-bottom:1.4rem}
-  .body-t{margin-top:1.4rem;max-width:40rem;font-size:1rem;line-height:2.05;color:var(--paper-dim)}
-  .body-t b{color:var(--mind);font-weight:500}
-  .body-t .term{color:var(--machine);font-style:normal}
-
-  .twocol{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:62rem}
-  @media(max-width:780px){.twocol{grid-template-columns:1fr;gap:2rem}}
-  .col{border-top:1px solid var(--line);padding-top:1.5rem}
-  .col .tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--machine);margin-bottom:1rem}
-  .col p{margin-top:.8rem;font-size:.93rem;line-height:1.95;color:var(--paper-dim)}
-  .col p .term{color:var(--machine)}
-
-  .hinge{margin-top:3.2rem;max-width:44rem;border-left:2px solid var(--machine);padding:1.1rem 0 1.1rem 1.8rem}
+  .body-t{margin-top:1.4rem;max-width:42rem;font-size:1rem;line-height:2.1;color:var(--paper-dim)}
+  .body-t b{color:var(--mind);font-weight:500}.body-t .term{color:var(--machine)}
+  .pull{margin-top:2.4rem;max-width:42rem;border-left:2px solid var(--machine);padding:.4rem 0 .4rem 1.7rem}
+  .pull .pq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.7;color:var(--mind)}
+  .pull .ps{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
+  .tri{margin-top:2.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:74rem}
+  @media(max-width:900px){.tri{grid-template-columns:1fr}}
+  .pos{border:1px solid var(--line);padding:1.8rem 1.6rem;position:relative;transition:border-color .35s,transform .35s;cursor:pointer;background:rgba(126,142,163,.02)}
+  .pos:hover{border-color:var(--machine);transform:translateY(-3px)}
+  .pos .pn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--machine);margin-bottom:.9rem}
+  .pos .ph{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.08rem;line-height:1.5;color:var(--mind);margin-bottom:.9rem}
+  .pos .who{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--fog);margin-bottom:1rem}
+  .pos .pd{font-size:.9rem;line-height:1.9;color:var(--paper-dim)}.pos .pd .term{color:var(--machine)}
+  .pos .enter{margin-top:1.3rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--machine);display:flex;align-items:center;gap:.4rem}
+  .pos .enter .ar{transition:transform .35s}.pos:hover .enter .ar{transform:translateX(4px)}
+  .pos.n1{border-top:2px solid var(--machine)}.pos.n2{border-top:2px solid var(--paper-dim)}.pos.n3{border-top:2px solid var(--mind)}
+  .hinge{margin-top:3.2rem;max-width:46rem;border-left:2px solid var(--machine);padding:1.1rem 0 1.1rem 1.8rem}
   .hinge .hl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--fog);margin-bottom:.8rem}
   .hinge p{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.2rem);line-height:1.9;color:var(--mind)}
-
-  .quote{margin-top:2.4rem;max-width:40rem;cursor:pointer;border:1px solid var(--line);padding:1.5rem 1.6rem;transition:border-color .35s,transform .35s;position:relative;background:rgba(126,142,163,.02)}
-  .quote:hover{border-color:var(--machine);transform:translateY(-2px)}
-  .quote .qmark{font-family:'Noto Serif KR',serif;font-size:1.02rem;line-height:1.8;color:var(--mind)}
-  .quote .qsrc{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
-  .quote .more{position:absolute;top:1.1rem;right:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--machine);opacity:.7}
-
+  .hinge p b{color:var(--machine)}
   .names{margin-top:2.6rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--fog);line-height:2.3}
-
-  /* 챕터 이동 */
   .chnav{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:52rem;margin-top:2rem}
-  .chnav a{border:1px solid var(--line);padding:1.6rem 1.7rem;transition:border-color .35s,padding .35s;display:block}
+  .chnav a{border:1px solid var(--line);padding:1.6rem 1.7rem;transition:border-color .35s;display:block}
   .chnav a:hover{border-color:var(--machine)}
   .chnav a.next{text-align:right}
+  .chnav a.disabled{opacity:.35;pointer-events:none}
   .chnav .dir{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--fog)}
   .chnav .ct{margin-top:.7rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.05rem;color:var(--mind);line-height:1.4}
-  .chnav a.disabled{opacity:.35;pointer-events:none}
   .backhub{margin-top:2.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.16em;color:var(--machine)}
-  .backhub a{border-bottom:1px solid var(--machine);padding-bottom:2px}
+  .backhub a{border-bottom:1px solid var(--machine);padding-bottom:2px;cursor:pointer}
   @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}}
-
+  .room{max-width:52rem;margin:0 auto;padding:16vh 8vw 14vh}
+  .room .rtop{display:flex;align-items:center;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--fog);margin-bottom:2.4rem;flex-wrap:wrap}
+  .room .rtop a{color:var(--machine);cursor:pointer;transition:color .3s}.room .rtop a:hover{color:var(--mind)}
+  .room .rtop .sep{opacity:.5}
+  .room .rkicker{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--machine);margin-bottom:1.3rem}
+  .room h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5vw,3.4rem);line-height:1.22;letter-spacing:-.015em;color:var(--mind);margin-bottom:.5rem}
+  .room .rsub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--fog);margin-bottom:2.6rem}
+  .room .rq{margin:2.6rem 0;border-left:2px solid var(--machine);padding:.5rem 0 .5rem 1.7rem}
+  .room .rq .q{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.65;color:var(--mind)}
+  .room .rq .s{margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.05em;color:var(--fog)}
+  .room p.rp{font-size:1.02rem;line-height:2.15;color:var(--paper-dim);margin-bottom:1.5rem}
+  .room p.rp b{color:var(--mind);font-weight:500}.room p.rp .term{color:var(--machine);font-style:normal}
+  .room .rsub-h{margin-top:2.8rem;margin-bottom:.4rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.2rem;color:var(--mind)}
+  .room .rlabel{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--machine);margin:2.8rem 0 1rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+  .related{margin-top:3.4rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+  .related .rh{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;color:var(--machine);margin-bottom:1.4rem}
+  .xcards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.xcards{grid-template-columns:1fr}}
+  .xcard{border:1px solid var(--line);padding:1.3rem 1.4rem;cursor:pointer;transition:border-color .35s,transform .35s;display:block}
+  .xcard:hover{border-color:var(--mind);transform:translateY(-2px)}
+  .xcard .xloc{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--fog);margin-bottom:.6rem}
+  .xcard .xt{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.02rem;color:var(--mind);line-height:1.4;margin-bottom:.5rem}
+  .xcard .xd{font-size:.84rem;line-height:1.75;color:var(--paper-dim)}
+  .xcard .xarrow{margin-top:.8rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--machine)}
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
   .reveal.in{opacity:1;transform:none}
-
-  .overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:6vh 6vw;background:rgba(6,8,11,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s}
-  .overlay.open{opacity:1;pointer-events:auto}
-  .overlay .panel{max-width:44rem;width:100%;max-height:82vh;overflow-y:auto;background:#0d1016;border:1px solid var(--line);padding:3rem 2.8rem;transform:translateY(20px) scale(.98);transition:transform .4s;position:relative}
-  .overlay.open .panel{transform:none}
-  .overlay .oeye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--machine);margin-bottom:1.4rem}
-  .overlay .oq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.28rem;line-height:1.75;color:var(--mind);margin-bottom:1rem}
-  .overlay .osrc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--fog);padding-bottom:1.6rem;margin-bottom:1.6rem;border-bottom:1px solid var(--line)}
-  .overlay .obody{font-size:.98rem;line-height:2;color:var(--paper-dim)}
-  .overlay .obody b{color:var(--mind);font-weight:500}
-  .overlay .obody .term{color:var(--machine)}
-  .overlay .close{position:absolute;top:2rem;right:2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--machine);cursor:pointer;background:none;border:none;transition:color .3s}
-  .overlay .close:hover{color:var(--mind)}
-
-  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.overlay .panel{padding:2.2rem 1.6rem}}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.room{padding:14vh 7vw 12vh}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}.view.active{animation:none}}
 </style>
 </head>
 <body>
 <canvas id="field"></canvas>
 <div class="grain"></div>
-
 <nav>
   <a class="home" href="index.html">← ARCHIVE</a>
+  <div class="crumb" id="crumb"><b>CH 01</b> · 규칙에서 패턴으로</div>
   <div class="prog"><span id="secLabel">CH 01</span><span class="bar"><i id="progBar"></i></span></div>
 </nav>
-
 <div class="rail" id="rail">
   <button data-go="open"><span class="lbl">여는 질문</span><span class="tick"></span></button>
-  <button data-go="dream"><span class="lbl">규칙의 꿈</span><span class="tick"></span></button>
-  <button data-go="crack"><span class="lbl">균열 · 암묵지</span><span class="tick"></span></button>
-  <button data-go="turn"><span class="lbl">전환 · 패턴</span><span class="tick"></span></button>
+  <button data-go="triangle"><span class="lbl">세 갈래</span><span class="tick"></span></button>
   <button data-go="hinge"><span class="lbl">경첩</span><span class="tick"></span></button>
   <button data-go="end"><span class="lbl">다음</span><span class="tick"></span></button>
 </div>
-
 <main>
 
-  <!-- 여는 질문 -->
+<div class="view active" id="view-chapter">
   <section id="open" data-mode="lattice" data-label="CH 01 · 여는 질문">
     <p class="chap-mark reveal">CHAPTER 01 · DOUBT 01 — 의미는 고정되어 있는가</p>
-    <p class="qword reveal">지능은 규칙으로<br>적을 수 있는가.
-      <span class="en">CAN INTELLIGENCE BE WRITTEN AS RULES?</span>
-    </p>
-    <p class="lede reveal">
-      만약 그렇다면, 우리가 아는 모든 것을 남김없이 규칙으로 옮겨 적는 순간 기계는 전문가가 된다.
-      초기 인공지능은 정확히 이 믿음 위에 세워졌다. <strong>그리고 바로 그 지점에서 처음 흔들렸다.</strong>
-    </p>
+    <p class="qword reveal">지능은 규칙으로<br>적을 수 있는가.<span class="en">CAN INTELLIGENCE BE WRITTEN AS RULES?</span></p>
+    <p class="lede reveal">만약 그렇다면, 우리가 아는 모든 것을 남김없이 규칙으로 옮겨 적는 순간 기계는 전문가가 된다. 초기 인공지능은 정확히 이 믿음 위에 세워졌다. <strong>그리고 바로 그 지점에서 처음 흔들렸다.</strong> 세 개의 방에서 그 균열과 전환을 따라간다.</p>
     <span class="scroll-hint">SCROLL ↓</span>
   </section>
-
-  <!-- 규칙의 꿈 -->
-  <section id="dream" data-mode="lattice" data-label="규칙의 꿈">
-    <p class="eyebrow reveal">01 — 규칙의 꿈</p>
-    <h2 class="reveal">지식을 전부 규칙으로 적는다면.</h2>
-    <p class="body-t reveal">
-      기호주의 AI<span class="term">(symbolic AI)</span>와 전문가 시스템<span class="term">(expert system)</span>의 꿈은 단순하고 강력했다.
-      전문가의 판단을 <b>IF 증상 A이고 증상 B라면, THEN 질병 C</b> 같은 명시적 규칙으로 옮겨 담으면,
-      기계가 의사처럼·변호사처럼 추론할 수 있으리라는 것. 인간 문명이 언어와 교육으로 지식을 전수해온 방식 그대로,
-      지능을 <b>규칙의 체계</b>로 조립하려 했다.
-    </p>
-    <p class="body-t reveal">
-      이 꿈에는 이론적 뼈대가 있었다. 뉴얼과 사이먼<span class="term">(Newell &amp; Simon)</span>의
-      물리적 기호 체계 가설<span class="term">(physical symbol system hypothesis)</span> — 기호를 조작하는 체계면
-      지능의 필요충분조건을 갖춘다는 주장이다. 형식논리<span class="term">(formal logic)</span>는 이미 보여주었다.
-      의미를 몰라도, 규칙에 따라 기호만 옮기면 결론이 나온다는 것을.
-    </p>
-    <p class="names reveal">SYMBOLIC AI · EXPERT SYSTEM · NEWELL &amp; SIMON, PHYSICAL SYMBOL SYSTEM · 지식공학 KNOWLEDGE ENGINEERING</p>
-  </section>
-
-  <!-- 균열 -->
-  <section id="crack" data-mode="lattice-crack" data-label="균열 · 암묵지">
-    <p class="eyebrow reveal">02 — 균열</p>
-    <h2 class="reveal">그런데, 규칙서에 다 적히지 않는 앎이 있다.</h2>
-    <p class="body-t reveal">
-      자전거를 타는 몸, 얼굴을 알아보는 눈, 숙련된 장인의 손 — 이런 앎은 규칙으로 <b>남김없이 적히지 않는다</b>.
-      폴라니<span class="term">(Michael Polanyi)</span>는 이것을 암묵지<span class="term">(tacit knowledge)</span>라 불렀다.
-      우리는 말로 할 수 있는 것보다 더 많이 안다.
-    </p>
-    <p class="body-t reveal">
-      이 균열이 전문가 시스템을 무너뜨렸다. 전문가의 판단을 규칙으로 옮기려 할 때마다,
-      정작 핵심에 있는 직관은 규칙서 바깥으로 새어 나갔다 — 이것이 지식 획득 병목<span class="term">(knowledge acquisition bottleneck)</span>이다.
-      규칙으로 환원되지 않는 앎이 있다면, 지능을 규칙의 체계로만 볼 수는 없다.
-    </p>
-    <div class="quote reveal" data-ov="polanyi">
-      <p class="qmark">"우리는 말할 수 있는 것보다 더 많이 안다."</p>
-      <p class="qsrc">Michael Polanyi, The Tacit Dimension (1966)</p>
-      <span class="more">+ 자세히</span>
+  <section id="triangle" data-mode="lattice" data-label="세 갈래">
+    <p class="eyebrow reveal">전개 — 꿈, 균열, 전환</p>
+    <h2 class="reveal">세 개의 방.</h2>
+    <p class="body-t reveal">규칙의 꿈에서 출발해, 그것을 무너뜨린 균열(암묵지)을 지나, 데이터에서 규칙이 자라나는 전환(머신러닝)에 이른다. 각 카드를 누르면 방으로 들어간다.</p>
+    <div class="tri">
+      <div class="pos n1 reveal" data-room="symbolic"><p class="pn">① 규칙의 꿈</p><p class="ph">지식을 전부 규칙으로 적는다면.</p><p class="who">SYMBOLIC AI · EXPERT SYSTEM</p><p class="pd">전문가의 판단을 IF·THEN 규칙으로 옮겨, 기계가 추론하게 하려던 꿈.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n2 reveal" data-room="tacit"><p class="pn">② 균열</p><p class="ph">규칙서에 다 적히지 않는 앎이 있다.</p><p class="who">POLANYI · TACIT KNOWLEDGE</p><p class="pd">"우리는 말할 수 있는 것보다 더 많이 안다." 암묵지가 전문가 시스템을 막았다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos n3 reveal" data-room="ml"><p class="pn">③ 전환</p><p class="ph">데이터에서 규칙이 자라나게 하라.</p><p class="who">MACHINE LEARNING · CONNECTIONISM</p><p class="pd">규칙을 위에서 넣는 대신, 사례에서 패턴을 학습시킨다. 연결주의·딥러닝의 길.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
     </div>
+    <p class="names reveal">SYMBOLIC AI · EXPERT SYSTEM · TACIT KNOWLEDGE · MACHINE LEARNING · CONNECTIONISM · ANN</p>
   </section>
-
-  <!-- 전환 -->
-  <section id="turn" data-mode="network" data-label="전환 · 패턴">
-    <p class="eyebrow reveal">03 — 전환</p>
-    <h2 class="reveal">규칙을 적는 대신, 데이터에서 규칙이 자라나게 하라.</h2>
-    <p class="body-t reveal">
-      머신러닝<span class="term">(machine learning)</span>은 병목을 우회한다. 인간이 규칙을 입력하는 대신,
-      데이터와 결과를 주고 그 사이를 잇는 알고리즘을 <b>학습시킨다</b>. 규칙은 위에서 주어지는 것이 아니라
-      아래에서 자라난다.
-    </p>
-    <div class="twocol reveal">
-      <div class="col">
-        <p class="tag">연결주의 · CONNECTIONISM</p>
-        <h3>지식은 규칙이 아니라, 그물의 연결 강도다.</h3>
-        <p>뉴런을 흉내 낸 인공신경망<span class="term">(ANN, artificial neural network)</span>은 개념을 명시적으로 정의하지 않는다.
-        수많은 사례를 통과시키며 그물망 속 <b>연결의 세기</b>를 조정해, 패턴을 스스로 인식하게 된다.</p>
-      </div>
-      <div class="col">
-        <p class="tag">마스터 알고리즘 · DOMINGOS</p>
-        <h3>모든 것을 학습하는 하나의 알고리즘?</h3>
-        <p>도밍고스<span class="term">(Pedro Domingos)</span>는 다섯 학파의 머신러닝을 통합하는 마스터 알고리즘<span class="term">(the Master Algorithm)</span>을 꿈꿨다.
-        세미나는 이 통합의 꿈을, 모든 것의 배후에 하나의 완전한 형상을 두는 <b>플라톤의 이데아론</b>에 비유하며 되물었다.</p>
-      </div>
-    </div>
-    <p class="names reveal">MACHINE LEARNING · CONNECTIONISM · ANN · DEEP LEARNING · DOMINGOS, THE MASTER ALGORITHM · KAPLAN</p>
-  </section>
-
-  <!-- 경첩 -->
   <section id="hinge" data-mode="drift" data-label="경첩">
-    <p class="eyebrow reveal">04 — 경첩</p>
+    <p class="eyebrow reveal">경첩 — 두 시대를 잇는 물음</p>
     <h2 class="reveal">의미는 사전에 고정되는가, 맥락에서 미끄러지는가.</h2>
-    <div class="hinge reveal">
-      <p class="hl">경첩 — 두 시대를 잇는 물음</p>
-      <p>사전은 의미를 한자리에 붙들려 하지만, 의미는 맥락 속에서 끊임없이 미끄러지며 생성된다.
-      데리다<span class="term" style="font-style:normal;color:var(--machine)">(différance, 差延)</span>가 말한 이 미끄러짐은,
-      고정된 정의(기호주의)에서 맥락적 생성(오늘의 언어 모델)으로 넘어간 <b>의미를 보는 눈의 이동</b>과 묘하게 겹친다.</p>
-    </div>
-    <p class="body-t reveal">
-      그러나 규칙에서 패턴으로 넘어갔다고 문제가 끝난 것은 아니다. 다음 챕터의 물음은 더 깊은 곳을 겨눈다 —
-      기호든 패턴이든, <b>애초에 생각하려면 세계의 그림(표상)이 필요한가?</b>
-    </p>
+    <div class="hinge reveal"><p class="hl">경첩</p><p>사전은 의미를 한자리에 붙들려 하지만, 의미는 맥락 속에서 끊임없이 미끄러지며 생성된다. 데리다<span class="term" style="color:var(--machine)">(différance, 差延)</span>가 말한 이 미끄러짐은, 고정된 정의(기호주의)에서 맥락적 생성(오늘의 언어 모델)으로 넘어간 <b>의미를 보는 눈의 이동</b>과 겹친다.</p></div>
+    <p class="body-t reveal">그러나 규칙에서 패턴으로 넘어갔다고 문제가 끝난 것은 아니다. 다음 챕터의 물음은 더 깊은 곳을 겨눈다 — 기호든 패턴이든, <b>애초에 생각하려면 세계의 그림(표상)이 필요한가?</b></p>
   </section>
-
-  <!-- 다음 -->
   <section id="end" data-mode="converge" data-label="다음으로">
     <p class="eyebrow reveal">END OF CHAPTER 01</p>
     <h2 class="reveal">규칙은 흔들렸다. 이제 표상 자체를 묻는다.</h2>
@@ -229,69 +154,133 @@
     </div>
     <p class="backhub reveal"><a href="index.html">← 아카이브로 돌아가기</a></p>
   </section>
+</div>
 
-</main>
-
-<div class="overlay" id="overlay">
-  <div class="panel">
-    <button class="close" id="ovClose">CLOSE ✕</button>
-    <p class="oeye" id="ovEye"></p>
-    <p class="oq" id="ovQ"></p>
-    <p class="osrc" id="ovSrc"></p>
-    <p class="obody" id="ovBody"></p>
+<!-- 방: 기호주의 -->
+<div class="view" id="view-symbolic">
+  <div class="room" data-mode="lattice">
+    <div class="rtop"><a data-back>← 규칙에서 패턴으로</a><span class="sep">/</span><span>① 규칙의 꿈</span></div>
+    <p class="rkicker">SYMBOLIC AI · EXPERT SYSTEM</p>
+    <h1>지식을 전부 규칙으로 적는다면</h1>
+    <p class="rsub">Symbolic AI · Expert System</p>
+    <div class="rq"><p class="q">전문가의 판단을 규칙으로 옮기면, 기계도 전문가가 된다 — 그 꿈에서 AI가 출발했다.</p><p class="s">기호주의 AI &amp; 전문가 시스템 — Kaplan, AI: What Everyone Needs to Know 재구성</p></div>
+    <p class="rp">기호주의 AI<span class="term">(symbolic AI)</span>의 꿈은 단순하고 강력했다. 전문가의 판단을 <b>IF 증상 A이고 증상 B라면, THEN 질병 C</b> 같은 명시적 규칙으로 옮겨 담으면, 기계가 의사처럼·변호사처럼 추론할 수 있으리라는 것. 인간 문명이 언어와 교육으로 지식을 전수해온 방식 그대로, 지능을 <b>규칙의 체계</b>로 조립하려 했다. 이렇게 특정 분야 전문가의 지식을 규칙으로 채운 시스템이 전문가 시스템<span class="term">(expert system)</span>이다.</p>
+    <p class="rsub-h">왜 그럴듯했나</p>
+    <p class="rp">이 꿈에는 오랜 이론적 뿌리가 있었다. 형식논리<span class="term">(formal logic)</span>는 이미 보여주었다 — 의미를 몰라도, 규칙에 따라 기호만 정확히 옮기면 타당한 결론이 나온다는 것을. "모든 사람은 죽는다, 소크라테스는 사람이다, 따라서 소크라테스는 죽는다"라는 삼단논법처럼. 그렇다면 세계의 지식을 충분히 많은 규칙으로 적어두기만 하면, 기계도 그 위에서 추론할 수 있지 않겠는가.</p>
+    <p class="rlabel">그런데 — 다음 방으로</p>
+    <p class="rp">문제는, 정작 전문가의 판단을 규칙으로 옮기려 할 때마다 <b>핵심이 손가락 사이로 빠져나갔다</b>는 것이다. 의사의 직감, 장인의 손끝 — 규칙서에 적히지 않는 앎이 있었다. 그 균열이 다음 방의 주제, <b>암묵지</b>다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" data-room="tacit"><p class="xloc">CH 01 · 같은 챕터</p><p class="xt">균열 — 암묵지</p><p class="xd">규칙의 꿈이 부딪힌 벽. 말로 다 못 하는 앎의 존재.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#newell"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">물리적 기호 체계 — 뉴얼·사이먼</p><p class="xd">규칙의 꿈에 이론적 심장을 준 가설. "기호 체계=지능."</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" data-room="ml"><p class="xloc">CH 01 · 같은 챕터</p><p class="xt">전환 — 머신러닝</p><p class="xd">규칙을 위에서 넣는 대신, 데이터에서 자라나게 하는 우회로.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#brooks"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 제거주의 — 브룩스</p><p class="xd">기호와 규칙 없이 세계와 직접 결합하는, 정반대 극의 응답.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
   </div>
 </div>
 
-<script>
-const OV={
-  polanyi:{
-    eye:"암묵지 · TACIT KNOWLEDGE",
-    q:"\"우리는 말할 수 있는 것보다 더 많이 안다.\"",
-    src:"Michael Polanyi, The Tacit Dimension (1966)",
-    body:"폴라니의 이 한 문장은 기호주의 AI의 뿌리를 흔든다. 우리는 자전거 타는 법을 <b>알지만</b>, 그 균형의 규칙을 말로 다 적지는 못한다. 의사의 직감, 장인의 손끝, 얼굴을 한눈에 알아보는 능력 — 앎의 핵심은 종종 명시적 규칙<span class='term'>(explicit rule)</span> 바깥에 있다. 전문가 시스템은 전문가의 지식을 규칙으로 옮겨 담으려다 이 벽에 부딪혔다. 이것이 지식 획득 병목<span class='term'>(knowledge acquisition bottleneck)</span>이다. 규칙으로 환원되지 않는 앎이 실재한다면, 남은 길은 하나다 — 규칙을 위에서 적어 넣는 대신, 데이터에서 <b>패턴이 스스로 자라나게</b> 하는 것. 머신러닝으로의 전환은 이 좌절에서 태어났다."
-  }
-};
-const overlay=document.getElementById('overlay');
-function openOv(k){const d=OV[k];if(!d)return;ovEye.textContent=d.eye;ovQ.textContent=d.q;ovSrc.textContent=d.src;ovBody.innerHTML=d.body;overlay.classList.add('open')}
-function closeOv(){overlay.classList.remove('open')}
-document.querySelectorAll('.quote').forEach(q=>q.addEventListener('click',()=>openOv(q.dataset.ov)));
-document.getElementById('ovClose').addEventListener('click',closeOv);
-overlay.addEventListener('click',e=>{if(e.target===overlay)closeOv()});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
+<!-- 방: 암묵지 -->
+<div class="view" id="view-tacit">
+  <div class="room" data-mode="latticecrack">
+    <div class="rtop"><a data-back>← 규칙에서 패턴으로</a><span class="sep">/</span><span>② 균열</span></div>
+    <p class="rkicker">TACIT KNOWLEDGE</p>
+    <h1>규칙서에 다 적히지 않는 앎이 있다</h1>
+    <p class="rsub">Michael Polanyi</p>
+    <div class="rq"><p class="q">"우리는 말할 수 있는 것보다 더 많이 안다."</p><p class="s">Michael Polanyi, The Tacit Dimension (1966)</p></div>
+    <p class="rp">폴라니<span class="term">(Michael Polanyi)</span>의 이 한 문장은 기호주의 AI의 뿌리를 흔든다. 자전거를 타는 몸, 얼굴을 알아보는 눈, 숙련된 장인의 손 — 이런 앎은 규칙으로 <b>남김없이 적히지 않는다</b>. 우리는 자전거의 균형을 <b>알지만</b>, 그 균형의 규칙을 말로 다 풀어내지는 못한다. 이것이 암묵지<span class="term">(tacit knowledge)</span>다.</p>
+    <p class="rsub-h">지식 획득 병목</p>
+    <p class="rp">이 균열이 전문가 시스템을 실제로 무너뜨렸다. 전문가의 판단을 규칙으로 옮기려 할 때마다, 정작 핵심에 있는 직관은 규칙서 바깥으로 새어 나갔다. 전문가조차 "왜 그렇게 판단했는지"를 규칙으로 온전히 말하지 못했다 — 이것이 지식 획득 병목<span class="term">(knowledge acquisition bottleneck)</span>이다. 지식을 넣으면 넣을수록, 예외와 미묘함이 끝없이 튀어나왔다.</p>
+    <p class="rlabel">이 균열이 남긴 것</p>
+    <p class="rp">규칙으로 환원되지 않는 앎이 실재한다면, 지능을 규칙의 체계로만 볼 수는 없다. 남은 길은 하나였다 — 규칙을 위에서 적어 넣는 대신, 데이터에서 <b>패턴이 스스로 자라나게</b> 하는 것. 머신러닝으로의 전환은 이 좌절에서 태어났다. 균열이 곧 다음 문을 연 셈이다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" data-room="ml"><p class="xloc">CH 01 · 같은 챕터</p><p class="xt">전환 — 머신러닝</p><p class="xd">암묵지의 좌절이 밀어낸 길. 데이터에서 패턴을 학습한다.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" data-room="symbolic"><p class="xloc">CH 01 · 같은 챕터</p><p class="xt">규칙의 꿈 — 기호주의</p><p class="xd">이 균열이 무너뜨린 바로 그 꿈. 규칙으로 지능을 조립하려던 시도.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="02-representation.html#brooks"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 제거주의 — 브룩스</p><p class="xd">몸으로 아는 앎을 명시적 표상 없이 구현하려는, 같은 문제의식의 다른 응답.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" href="03-decentering.html#cybernetics"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">사이버네틱스 — 위너</p><p class="xd">앎을 머릿속 규칙이 아니라 환경과의 결합으로 보는 흐름과 이어진다.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
 
+<!-- 방: 머신러닝 -->
+<div class="view" id="view-ml">
+  <div class="room" data-mode="network">
+    <div class="rtop"><a data-back>← 규칙에서 패턴으로</a><span class="sep">/</span><span>③ 전환</span></div>
+    <p class="rkicker">MACHINE LEARNING · CONNECTIONISM</p>
+    <h1>데이터에서 규칙이 자라나게 하라</h1>
+    <p class="rsub">Machine Learning · Connectionism · Domingos</p>
+    <div class="rq"><p class="q">규칙을 입력하는 대신, 데이터와 결과를 주고 그 사이의 알고리즘을 학습시킨다.</p><p class="s">Pedro Domingos, The Master Algorithm 재구성</p></div>
+    <p class="rp">머신러닝<span class="term">(machine learning)</span>은 병목을 우회한다. 인간이 규칙을 일일이 입력하는 대신, <b>데이터와 결과</b>를 주고 그 사이를 잇는 규칙을 기계가 스스로 <b>학습</b>하게 한다. 규칙은 위에서 주어지는 것이 아니라 아래에서 자라난다. 도밍고스<span class="term">(Pedro Domingos)</span>는 이것을 뒤집힌 프로그래밍이라 불렀다 — 전통적 프로그래밍이 '데이터＋알고리즘→결과'라면, 머신러닝은 '데이터＋원하는 결과→알고리즘'이다.</p>
+    <p class="rsub-h">연결주의 — 그물의 연결 강도</p>
+    <p class="rp">그 대표적 길이 연결주의<span class="term">(connectionism)</span>다. 뉴런을 흉내 낸 인공신경망<span class="term">(ANN, artificial neural network)</span>은 개념을 명시적으로 정의하지 않는다. 아이폰을 '검정색, 네모, 버튼 위치…'로 정의하는 대신, 수많은 아이폰 사진을 통과시키며 그물망 속 <b>연결의 세기</b>를 조정해 패턴을 스스로 인식하게 된다. 층<span class="term">(layer)</span>을 깊게 쌓으면 딥러닝<span class="term">(deep learning)</span>이다 — 'deep'은 심오하다는 뜻이 아니라 그저 층이 많다는 뜻이다.</p>
+    <p class="rlabel">마스터 알고리즘이라는 꿈</p>
+    <p class="rp">도밍고스는 다섯 학파의 머신러닝을 통합하는 마스터 알고리즘<span class="term">(the Master Algorithm)</span>을 꿈꿨다. 세미나는 이 통합의 꿈을, 모든 것의 배후에 하나의 완전한 형상을 두는 <b>플라톤의 이데아론</b>에 비유하며 되물었다 — 모든 지식을 낳는 단 하나의 알고리즘이라는 발상 자체가, 기호주의가 꿈꾼 '단 하나의 규칙 체계'와 닮은 것은 아닌가.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="02-representation.html#minsky"><p class="xloc">CH 02 · 다른 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">연결주의·통계의 한계를 짚으며 '여러 표상'을 주장한 민스키와 이어진다.</p><p class="xarrow">챕터 02의 방으로 →</p></a>
+      <a class="xcard" href="03-decentering.html#luhmann"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">체계/환경 — 루만</p><p class="xd">"언어 모델은 계산한다" — 통계적 학습의 출력을 소통과 구분하는 관점.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+      <a class="xcard" href="04-self-and-remainder.html#thagard"><p class="xloc">CH 04 · 다른 챕터</p><p class="xt">규범성 — 타가드</p><p class="xd">통계·베이즈가 사고의 '규범'일 수 있는가라는 물음으로 이어진다.</p><p class="xarrow">챕터 04의 방으로 →</p></a>
+      <a class="xcard" data-room="tacit"><p class="xloc">CH 01 · 같은 챕터</p><p class="xt">균열 — 암묵지</p><p class="xd">이 전환을 밀어낸 좌절. 규칙으로 못 옮긴 앎의 존재.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
+
+</main>
+<script>
+const rooms=['symbolic','tacit','ml'];
+const crumbBase='<b>CH 01</b> · 규칙에서 패턴으로';
+const roomTitles={symbolic:'규칙의 꿈',tacit:'암묵지',ml:'머신러닝'};
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  const crumb=document.getElementById('crumb'),rail=document.getElementById('rail');
+  if(id==='view-chapter'){crumb.innerHTML=crumbBase;rail.style.display='';}
+  else{const rk=id.replace('view-','');crumb.innerHTML=crumbBase+' <span style="opacity:.5">/</span> '+(roomTitles[rk]||'');rail.style.display='none';}
+  el&&el.querySelectorAll('.reveal').forEach(r=>{r.classList.remove('in');requestAnimationFrame(()=>io.observe(r));});
+  window.scrollTo(0,0);
+}
+function goRoom(rk){location.hash=rk;}
+function goChapter(){history.pushState('','',location.pathname);route();window.scrollTo(0,0);}
+function route(){
+  const h=location.hash.replace('#','');
+  if(rooms.includes(h)){showView('view-'+h);const el=document.getElementById('view-'+h);const m=el.querySelector('[data-mode]');if(m&&window.assign)window.assign(m.dataset.mode,false);}
+  else{showView('view-chapter');if(window.assign)window.assign('lattice',false);}
+}
+addEventListener('hashchange',route);
+document.querySelectorAll('[data-room]').forEach(c=>c.addEventListener('click',e=>{if(e.target.closest('a[href]'))return;goRoom(c.dataset.room);}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',goChapter));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+window.currentMode='lattice';
 (function(){
   const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,DPR;const mouse={x:-1,y:-1,active:false};
-  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';assign(currentMode,true)}
+  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';doAssign(window.currentMode,true)}
   const N=230,pts=[];
   for(let i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),tx:Math.random(),ty:Math.random(),ph:Math.random()*6.28,sp:.4+Math.random()*.6});
-  let currentMode='lattice';
-  function assign(mode,hard){
-    currentMode=mode;
-    pts.forEach((p,i)=>{
-      let tx,ty;
+  function doAssign(mode,hard){
+    window.currentMode=mode;
+    pts.forEach((p,i)=>{let tx,ty;
       if(mode==='lattice'){const cols=16,rows=Math.ceil(N/cols),c=i%cols,r=Math.floor(i/cols);tx=.12+(c/(cols-1))*.76;ty=.14+(r/(rows-1))*.72;}
-      else if(mode==='lattice-crack'){const cols=16,rows=Math.ceil(N/cols),c=i%cols,r=Math.floor(i/cols);const gx=.12+(c/(cols-1))*.76,gy=.14+(r/(rows-1))*.72;const ch=(i%5===0)?.14:0;tx=gx+(Math.random()-.5)*ch;ty=gy+(Math.random()-.5)*ch;}
+      else if(mode==='latticecrack'){const cols=16,rows=Math.ceil(N/cols),c=i%cols,r=Math.floor(i/cols);const gx=.12+(c/(cols-1))*.76,gy=.14+(r/(rows-1))*.72;const ch=(i%5===0)?.14:0;tx=gx+(Math.random()-.5)*ch;ty=gy+(Math.random()-.5)*ch;}
       else if(mode==='network'){const k=i%5,cx=[.26,.5,.74,.4,.62][k],cy=[.32,.6,.36,.76,.7][k],a=Math.random()*6.28,rr=Math.pow(Math.random(),.6)*.14;tx=cx+Math.cos(a)*rr;ty=cy+Math.sin(a)*rr;}
       else if(mode==='drift'){tx=Math.random();ty=Math.random();}
       else{const k=i%3,cx=[.34,.5,.66][k],cy=[.5,.46,.5][k],a=Math.random()*6.28,rr=Math.pow(Math.random(),.6)*.1;tx=cx+Math.cos(a)*rr;ty=cy+Math.sin(a)*rr;}
-      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}
-    });
+      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}});
   }
+  window.assign=doAssign;
   let t=0;
   function frame(){
-    t+=.008;ctx.clearRect(0,0,W,H);
-    const isL=currentMode==='lattice'||currentMode==='lattice-crack',isN=currentMode==='network',isC=currentMode==='converge';
-    pts.forEach(p=>{
-      let jx=0,jy=0;
-      if(currentMode==='drift'){jx=Math.cos(t*p.sp+p.ph)*.04;jy=Math.sin(t*p.sp*1.3+p.ph)*.04;}
+    t+=.008;ctx.clearRect(0,0,W,H);const cm=window.currentMode;
+    const isL=cm==='lattice'||cm==='latticecrack',isN=cm==='network',isC=cm==='converge',isD=cm==='drift';
+    pts.forEach(p=>{let jx=0,jy=0;
+      if(isD){jx=Math.cos(t*p.sp+p.ph)*.04;jy=Math.sin(t*p.sp*1.3+p.ph)*.04;}
       else if(isN){jx=Math.cos(t*p.sp+p.ph)*.012;jy=Math.sin(t*p.sp*1.3+p.ph)*.012;}
       else if(isL){jx=Math.cos(t*2+p.ph)*.0025;jy=Math.sin(t*2+p.ph)*.0025;}
       else{jx=Math.cos(t*p.sp+p.ph)*.008;jy=Math.sin(t*p.sp+p.ph)*.008;}
       const ease=reduced?1:.035;p.x+=(p.tx+jx-p.x)*ease;p.y+=(p.ty+jy-p.y)*ease;
-      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}
-    });
+      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=120*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(30*DPR)/W;p.y+=(dy/d)*f*(30*DPR)/H;}}});
     ctx.lineWidth=1*DPR;
     if(isL){ctx.strokeStyle='rgba(126,142,163,.15)';const cols=16;for(let i=0;i<N;i++){if((i+1)%cols!==0&&i+1<N)seg(pts[i],pts[i+1]);if(i+cols<N)seg(pts[i],pts[i+cols]);}}
     else if(isN){for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.004){ctx.strokeStyle='rgba(126,142,163,'+(.22*(1-d2/.004)).toFixed(3)+')';seg(pts[i],pts[j]);}}}
@@ -302,15 +291,15 @@ addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
   function seg(a,b){ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke();}
   addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;mouse.active=true});
   addEventListener('mouseleave',()=>mouse.active=false);
+  addEventListener('resize',resize);resize();doAssign('lattice',true);frame();
   const secLabel=document.getElementById('secLabel'),progBar=document.getElementById('progBar');
-  const railBtns=[...document.querySelectorAll('.rail button')],sections=[...document.querySelectorAll('section')];
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const m=e.target.dataset.mode;if(m&&m!==currentMode)assign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=sections.indexOf(e.target);progBar.style.width=(idx/(sections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
-  sections.forEach(s=>io.observe(s));
-  const ior=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.18});
-  document.querySelectorAll('.reveal').forEach(el=>ior.observe(el));
-  railBtns.forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})}));
-  addEventListener('resize',resize);resize();assign('lattice',true);frame();
+  const railBtns=[...document.querySelectorAll('.rail button')];
+  const chSections=[...document.querySelectorAll('#view-chapter section')];
+  const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&document.getElementById('view-chapter').classList.contains('active')){const m=e.target.dataset.mode;if(m&&m!==window.currentMode)doAssign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=chSections.indexOf(e.target);progBar.style.width=(idx/(chSections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
+  chSections.forEach(s=>sio.observe(s));
+  railBtns.forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'})}));
 })();
+route();
 </script>
 </body>
 </html>

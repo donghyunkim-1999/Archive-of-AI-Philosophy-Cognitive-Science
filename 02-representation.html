@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;900&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#0a0c10;--machine:#7e8ea3;--mind:#d9cdb8;--fog:#3a4150;--line:rgba(126,142,163,.18);--paper-dim:rgba(217,205,184,.55)}
+  :root{--ink:#0a0c10;--machine:#7e8ea3;--mind:#d9cdb8;--fog:#3a4150;--line:rgba(126,142,163,.18);--paper-dim:rgba(217,205,184,.56)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--ink);color:var(--mind);font-family:'IBM Plex Sans KR',sans-serif;font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
@@ -18,52 +18,53 @@
   main{position:relative;z-index:2}
   nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--machine);mix-blend-mode:screen}
   nav a.home{transition:color .3s}nav a.home:hover{color:var(--mind)}
+  nav .crumb{color:var(--fog)}nav .crumb b{color:var(--machine);font-weight:500}
   nav .prog{display:flex;align-items:center;gap:.7rem}
   nav .prog .bar{width:70px;height:2px;background:var(--line);position:relative;overflow:hidden}
   nav .prog .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--machine);transition:width .25s}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .55s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
   .rail{position:fixed;top:50%;right:1.7rem;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:1.1rem;align-items:flex-end}
   .rail button{all:unset;cursor:pointer;display:flex;align-items:center;gap:.7rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--fog);transition:color .35s}
   .rail button .lbl{opacity:0;transform:translateX(6px);transition:opacity .35s,transform .35s}
   .rail button:hover .lbl,.rail button.on .lbl{opacity:1;transform:none}
   .rail button .tick{width:22px;height:1px;background:var(--fog);transition:width .35s,background .35s}
   .rail button.on{color:var(--machine)}.rail button.on .tick{width:34px;background:var(--machine)}
-  @media (max-width:820px){.rail{display:none}}
+  @media (max-width:900px){.rail{display:none}}
   section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:15vh 8vw;position:relative}
   .chap-mark{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.26em;color:var(--machine);margin-bottom:1.6rem;display:flex;align-items:center;gap:1rem}
   .chap-mark::before{content:'';display:block;width:2.4rem;height:1px;background:currentColor}
-  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:22ch}
-  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.8vw,1.25rem);line-height:1.7;color:var(--mind)}
+  h2{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(1.7rem,4.4vw,3.1rem);line-height:1.3;letter-spacing:-.015em;color:var(--mind);max-width:24ch}
+  h3{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--mind)}
   .qword{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5.6vw,4rem);line-height:1.25;color:var(--mind)}
   .qword .en{display:block;margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.8rem;letter-spacing:.14em;color:var(--machine)}
-  .lede{margin-top:2.4rem;max-width:39rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.05;color:var(--paper-dim)}
+  .lede{margin-top:2.4rem;max-width:40rem;font-size:clamp(.98rem,1.5vw,1.12rem);line-height:2.1;color:var(--paper-dim)}
   .lede strong{font-weight:500;color:var(--mind)}.lede em{font-style:normal;color:var(--machine)}
   .scroll-hint{position:absolute;bottom:4vh;left:8vw;font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--fog);animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
   .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--machine);margin-bottom:1.4rem}
-  .body-t{margin-top:1.4rem;max-width:41rem;font-size:1rem;line-height:2.05;color:var(--paper-dim)}
+  .body-t{margin-top:1.4rem;max-width:42rem;font-size:1rem;line-height:2.1;color:var(--paper-dim)}
   .body-t b{color:var(--mind);font-weight:500}.body-t .term{color:var(--machine)}
-
-  /* 삼각 카드 */
-  .tri{margin-top:2.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:70rem}
+  .pull{margin-top:2.4rem;max-width:42rem;border-left:2px solid var(--machine);padding:.4rem 0 .4rem 1.7rem}
+  .pull .pq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.7;color:var(--mind)}
+  .pull .ps{margin-top:.9rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--fog)}
+  .tri{margin-top:2.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:74rem}
   @media(max-width:900px){.tri{grid-template-columns:1fr}}
   .pos{border:1px solid var(--line);padding:1.8rem 1.6rem;position:relative;transition:border-color .35s,transform .35s;cursor:pointer;background:rgba(126,142,163,.02)}
   .pos:hover{border-color:var(--machine);transform:translateY(-3px)}
   .pos .pn{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--machine);margin-bottom:.9rem}
   .pos .ph{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.08rem;line-height:1.5;color:var(--mind);margin-bottom:.9rem}
   .pos .who{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--fog);margin-bottom:1rem}
-  .pos .pd{font-size:.9rem;line-height:1.9;color:var(--paper-dim)}
-  .pos .pd .term{color:var(--machine)}
-  .pos .more{margin-top:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--machine);opacity:.75}
-  .pos.max{border-top:2px solid var(--machine)}
-  .pos.plural{border-top:2px solid var(--mind)}
-  .pos.zero{border-top:2px solid var(--paper-dim)}
-
-  .hinge{margin-top:3.2rem;max-width:45rem;border-left:2px solid var(--machine);padding:1.1rem 0 1.1rem 1.8rem}
+  .pos .pd{font-size:.9rem;line-height:1.9;color:var(--paper-dim)}.pos .pd .term{color:var(--machine)}
+  .pos .enter{margin-top:1.3rem;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--machine);display:flex;align-items:center;gap:.4rem}
+  .pos .enter .ar{transition:transform .35s}.pos:hover .enter .ar{transform:translateX(4px)}
+  .pos.max{border-top:2px solid var(--machine)}.pos.plural{border-top:2px solid var(--mind)}.pos.zero{border-top:2px solid var(--paper-dim)}
+  .hinge{margin-top:3.2rem;max-width:46rem;border-left:2px solid var(--machine);padding:1.1rem 0 1.1rem 1.8rem}
   .hinge .hl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--fog);margin-bottom:.8rem}
   .hinge p{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.2rem);line-height:1.9;color:var(--mind)}
   .hinge p b{color:var(--machine)}
   .names{margin-top:2.6rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.14em;color:var(--fog);line-height:2.3}
-
   .chnav{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:52rem;margin-top:2rem}
   .chnav a{border:1px solid var(--line);padding:1.6rem 1.7rem;transition:border-color .35s;display:block}
   .chnav a:hover{border-color:var(--machine)}
@@ -71,35 +72,46 @@
   .chnav .dir{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--fog)}
   .chnav .ct{margin-top:.7rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.05rem;color:var(--mind);line-height:1.4}
   .backhub{margin-top:2.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.16em;color:var(--machine)}
-  .backhub a{border-bottom:1px solid var(--machine);padding-bottom:2px}
+  .backhub a{border-bottom:1px solid var(--machine);padding-bottom:2px;cursor:pointer}
   @media(max-width:640px){.chnav{grid-template-columns:1fr}.chnav a.next{text-align:left}}
-
+  .room{max-width:52rem;margin:0 auto;padding:16vh 8vw 14vh}
+  .room .rtop{display:flex;align-items:center;gap:1rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--fog);margin-bottom:2.4rem;flex-wrap:wrap}
+  .room .rtop a{color:var(--machine);cursor:pointer;transition:color .3s}.room .rtop a:hover{color:var(--mind)}
+  .room .rtop .sep{opacity:.5}
+  .room .rkicker{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.22em;color:var(--machine);margin-bottom:1.3rem}
+  .room h1{font-family:'Noto Serif KR',serif;font-weight:900;font-size:clamp(2rem,5vw,3.4rem);line-height:1.22;letter-spacing:-.015em;color:var(--mind);margin-bottom:.5rem}
+  .room .rsub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--fog);margin-bottom:2.6rem}
+  .room .rq{margin:2.6rem 0;border-left:2px solid var(--machine);padding:.5rem 0 .5rem 1.7rem}
+  .room .rq .q{font-family:'Noto Serif KR',serif;font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.65;color:var(--mind)}
+  .room .rq .s{margin-top:1rem;font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.05em;color:var(--fog)}
+  .room p.rp{font-size:1.02rem;line-height:2.15;color:var(--paper-dim);margin-bottom:1.5rem}
+  .room p.rp b{color:var(--mind);font-weight:500}.room p.rp .term{color:var(--machine);font-style:normal}
+  .room .rsub-h{margin-top:2.8rem;margin-bottom:.4rem;font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.2rem;color:var(--mind)}
+  .room .rlabel{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--machine);margin:2.8rem 0 1rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+  .related{margin-top:3.4rem;padding-top:1.8rem;border-top:1px solid var(--line)}
+  .related .rh{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;color:var(--machine);margin-bottom:1.4rem}
+  .xcards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:640px){.xcards{grid-template-columns:1fr}}
+  .xcard{border:1px solid var(--line);padding:1.3rem 1.4rem;cursor:pointer;transition:border-color .35s,transform .35s;display:block}
+  .xcard:hover{border-color:var(--mind);transform:translateY(-2px)}
+  .xcard .xloc{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--fog);margin-bottom:.6rem}
+  .xcard .xt{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.02rem;color:var(--mind);line-height:1.4;margin-bottom:.5rem}
+  .xcard .xd{font-size:.84rem;line-height:1.75;color:var(--paper-dim)}
+  .xcard .xarrow{margin-top:.8rem;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--machine)}
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
   .reveal.in{opacity:1;transform:none}
-  .overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:6vh 6vw;background:rgba(6,8,11,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s}
-  .overlay.open{opacity:1;pointer-events:auto}
-  .overlay .panel{max-width:44rem;width:100%;max-height:82vh;overflow-y:auto;background:#0d1016;border:1px solid var(--line);padding:3rem 2.8rem;transform:translateY(20px) scale(.98);transition:transform .4s;position:relative}
-  .overlay.open .panel{transform:none}
-  .overlay .oeye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.24em;color:var(--machine);margin-bottom:1.4rem}
-  .overlay .oq{font-family:'Noto Serif KR',serif;font-weight:600;font-size:1.28rem;line-height:1.75;color:var(--mind);margin-bottom:1rem}
-  .overlay .osrc{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--fog);padding-bottom:1.6rem;margin-bottom:1.6rem;border-bottom:1px solid var(--line)}
-  .overlay .obody{font-size:.98rem;line-height:2;color:var(--paper-dim)}
-  .overlay .obody b{color:var(--mind);font-weight:500}.overlay .obody .term{color:var(--machine)}
-  .overlay .close{position:absolute;top:2rem;right:2.2rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.14em;color:var(--machine);cursor:pointer;background:none;border:none;transition:color .3s}
-  .overlay .close:hover{color:var(--mind)}
-  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.overlay .panel{padding:2.2rem 1.6rem}}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}}
+  @media (max-width:780px){section{padding:13vh 7vw}nav{padding:1.1rem 1.3rem}.room{padding:14vh 7vw 12vh}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scroll-hint{animation:none}.view.active{animation:none}}
 </style>
 </head>
 <body>
 <canvas id="field"></canvas>
 <div class="grain"></div>
-
 <nav>
   <a class="home" href="index.html">← ARCHIVE</a>
+  <div class="crumb" id="crumb"><b>CH 02</b> · 표상을 둘러싼 싸움</div>
   <div class="prog"><span id="secLabel">CH 02</span><span class="bar"><i id="progBar"></i></span></div>
 </nav>
-
 <div class="rail" id="rail">
   <button data-go="open"><span class="lbl">여는 질문</span><span class="tick"></span></button>
   <button data-go="ground"><span class="lbl">표상·계산 가설</span><span class="tick"></span></button>
@@ -107,95 +119,41 @@
   <button data-go="trap"><span class="lbl">내러티브의 덫</span><span class="tick"></span></button>
   <button data-go="end"><span class="lbl">다음</span><span class="tick"></span></button>
 </div>
-
 <main>
 
-  <!-- 여는 질문 -->
+<div class="view active" id="view-chapter">
   <section id="open" data-mode="tri" data-label="CH 02 · 여는 질문">
     <p class="chap-mark reveal">CHAPTER 02 · DOUBT 01 — 의미는 고정되어 있는가</p>
-    <p class="qword reveal">생각하려면 세계의<br>그림이 필요한가.
-      <span class="en">DOES THINKING NEED A PICTURE OF THE WORLD?</span>
-    </p>
-    <p class="lede reveal">
-      규칙이든 패턴이든, 그 아래에는 더 깊은 전제가 깔려 있다 — 마음은 세계를 <strong>표상(representation)</strong>으로
-      머금고, 그 표상을 <strong>계산(computation)</strong>으로 굴린다는 것. 인지과학의 창립 가설이다.
-      그런데 표상은 정말 필요한가? 이 물음을 두고 세 진영이 갈라선다.
-    </p>
+    <p class="qword reveal">생각하려면 세계의<br>그림이 필요한가.<span class="en">DOES THINKING NEED A PICTURE OF THE WORLD?</span></p>
+    <p class="lede reveal">규칙이든 패턴이든, 그 아래에는 더 깊은 전제가 깔려 있다 — 마음은 세계를 <strong>표상(representation)</strong>으로 머금고, 그 표상을 <strong>계산(computation)</strong>으로 굴린다는 것. 인지과학과 초기 AI가 공유한 창립 가설이다. 그런데 표상은 정말 필요한가? 이 물음을 두고 세 진영이 갈라선다 — 그리고 그 셋을 차례로 <em>방에 들어가</em> 만나본다.</p>
     <span class="scroll-hint">SCROLL ↓</span>
   </section>
-
-  <!-- 표상·계산 가설 -->
   <section id="ground" data-mode="lattice" data-label="표상·계산 가설">
     <p class="eyebrow reveal">배경 — 인지혁명이 세운 가설</p>
     <h2 class="reveal">마음은 표상 위에서 작동하는 계산이다.</h2>
-    <p class="body-t reveal">
-      데카르트<span class="term">(Descartes)</span>는 마음을 '생각하는 실체<span class="term">(res cogitans)</span>'로 세웠고,
-      행동주의<span class="term">(behaviorism)</span>는 그 안을 지운 채 자극과 반응만 보려 했다. 그러나 행동주의는
-      언어·추론·창의성·목표 설정을 설명하지 못했다.
-    </p>
-    <p class="body-t reveal">
-      1950년대 중반의 인지혁명<span class="term">(cognitive revolution)</span>은 제3의 답을 내놨다. 자극과 반응 <b>사이</b>에
-      내부 과정이 있다 — 마음은 표상 구조<span class="term">(representation)</span>와 그것을 조작하는 계산 절차<span class="term">(computation)</span>다.
-      이 <b>표상+계산 가설</b>이 인지과학과 초기 AI가 공유한 뿌리다. 문제는, 이 뿌리를 얼마나 믿느냐를 두고 셋으로 갈렸다는 것.
-    </p>
+    <p class="body-t reveal">데카르트<span class="term">(Descartes)</span>는 마음을 '생각하는 실체<span class="term">(res cogitans)</span>'로 세웠고, 행동주의<span class="term">(behaviorism)</span>는 그 안을 지운 채 자극과 반응만 보려 했다. 그러나 행동주의는 언어·추론·창의성·목표 설정을 설명하지 못했다.</p>
+    <p class="body-t reveal">1950년대 중반의 인지혁명<span class="term">(cognitive revolution)</span>은 제3의 답을 내놨다. 자극과 반응 <b>사이</b>에 내부 과정이 있다 — 마음은 표상 구조<span class="term">(representation)</span>와 그것을 조작하는 계산 절차<span class="term">(computation)</span>다. 이 <b>표상+계산 가설</b>이 인지과학과 초기 AI의 공통 뿌리다. 문제는, 이 뿌리를 얼마나 믿느냐를 두고 셋으로 갈렸다는 것.</p>
+    <div class="pull reveal"><p class="pq">마음을 자극과 반응 사이의 '표상 처리'로 보는 순간, 인지과학이 시작됐다.</p><p class="ps">SEP, "Cognitive Science" — 표상과 계산(representation &amp; computation) 항목 재구성</p></div>
     <p class="names reveal">DESCARTES, RES COGITANS · BEHAVIORISM → COGNITIVE REVOLUTION · REPRESENTATION &amp; COMPUTATION</p>
   </section>
-
-  <!-- 삼각 -->
   <section id="triangle" data-mode="tri" data-label="세 갈래">
     <p class="eyebrow reveal">쟁점 — 표상을 얼마나 믿는가</p>
-    <h2 class="reveal">하나의 물음, 세 개의 대답.</h2>
+    <h2 class="reveal">하나의 물음, 세 개의 방.</h2>
+    <p class="body-t reveal">아래 세 카드를 누르면 각 입장만 다루는 <b>독립된 방</b>으로 들어간다. 각 방은 원문 인용과 함께, 다른 챕터의 겹치는 논의로도 이어진다.</p>
     <div class="tri">
-      <div class="pos max reveal" data-ov="newell">
-        <p class="pn">① 표상 최대주의</p>
-        <p class="ph">기호를 다루는 체계면, 그것으로 지능은 충분하다.</p>
-        <p class="who">NEWELL &amp; SIMON (1976)</p>
-        <p class="pd">물리적 기호 체계 가설<span class="term">(physical symbol system hypothesis)</span>.
-        기호를 저장하고 규칙에 따라 조작하는 체계는 <b>지능의 필요충분조건</b>을 갖춘다. 표상은 지능의 핵심 재료다.</p>
-        <p class="more">+ 자세히</p>
-      </div>
-      <div class="pos plural reveal" data-ov="minsky">
-        <p class="pn">② 표상 다원주의</p>
-        <p class="ph">표상은 하나가 아니다. 여러 겹이 서로를 가리킨다.</p>
-        <p class="who">MINSKY, THE EMOTION MACHINE</p>
-        <p class="pd">단일 최선의 표상은 없다. 마음은 판알로지<span class="term">(panalogy)</span>·K-라인<span class="term">(K-line)</span> 같은
-        여러 표상을 상황에 맞게 갈아 끼운다. 그 위계의 <b>맨 위엔 이야기(narrative)</b>가 놓인다.</p>
-        <p class="more">+ 자세히</p>
-      </div>
-      <div class="pos zero reveal" data-ov="brooks">
-        <p class="pn">③ 표상 제거주의</p>
-        <p class="ph">표상은 필요 없다. 세계를 그 자체의 모델로 쓰라.</p>
-        <p class="who">BROOKS (1991)</p>
-        <p class="pd">브룩스는 세계의 내부 그림 없이 지각과 행동만으로 움직이는 로봇을 만들었다.
-        표상<span class="term">(representation)</span>은 지능 안에 있는 게 아니라 <b>관찰자의 눈에만</b> 있다.</p>
-        <p class="more">+ 자세히</p>
-      </div>
+      <div class="pos max reveal" data-room="newell"><p class="pn">① 표상 최대주의</p><p class="ph">기호를 다루는 체계면, 그것으로 지능은 충분하다.</p><p class="who">NEWELL &amp; SIMON (1976)</p><p class="pd">물리적 기호 체계 가설<span class="term">(physical symbol system hypothesis)</span>. 기호 조작 체계는 <b>지능의 필요충분조건</b>을 갖춘다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos plural reveal" data-room="minsky"><p class="pn">② 표상 다원주의</p><p class="ph">표상은 하나가 아니다. 여러 겹이 서로를 가리킨다.</p><p class="who">MINSKY, THE EMOTION MACHINE</p><p class="pd">단일 최선의 표상은 없다. 판알로지<span class="term">(panalogy)</span>·K-라인<span class="term">(K-line)</span>… 그 위계의 맨 위엔 <b>이야기</b>가 놓인다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
+      <div class="pos zero reveal" data-room="brooks"><p class="pn">③ 표상 제거주의</p><p class="ph">표상은 필요 없다. 세계를 그 자체의 모델로 쓰라.</p><p class="who">BROOKS (1991)</p><p class="pd">세계의 내부 그림 없이 지각과 행동만으로. 표상은 지능 안이 아니라 <b>관찰자의 눈에만</b> 있다.</p><p class="enter">방 들어가기 <span class="ar">→</span></p></div>
     </div>
     <p class="names reveal">PHYSICAL SYMBOL SYSTEM · PANALOGY · K-LINE · SUBSUMPTION ARCHITECTURE · "THE WORLD AS ITS OWN MODEL"</p>
   </section>
-
-  <!-- 내러티브의 덫 -->
   <section id="trap" data-mode="hier" data-label="내러티브의 덫">
     <p class="eyebrow reveal">비판 — 민스키가 빠진 덫</p>
     <h2 class="reveal">표상의 맨 위에 '이야기'를 둔 순간.</h2>
-    <p class="body-t reveal">
-      민스키<span class="term">(Marvin Minsky)</span>는 데카르트의 단일한 의식 주체를 부수고, 마음을 수많은 자원<span class="term">(resource)</span>의
-      임기응변<span class="term">(resourcefulness)</span>으로 흩어놓았다. 여기까지는 탈중심의 반본질주의다. 그런데 표상의 위계
-      <b>맨 위에 '이야기(narrative)'를 올려둔</b> 순간, 목적과 인과가 짜인 인간적 서사가 다시 중심으로 돌아온다.
-    </p>
-    <div class="hinge reveal">
-      <p class="hl">경첩 — 되돌아온 중심</p>
-      <p>데카르트의 '주체'를 부순 민스키가, <b>'내러티브'라는 이름의 중심</b>을 다시 세운 것은 아닌가.
-      실제로 성공한 것은 이야기를 짜지 않는 통계적 학습<span class="term" style="color:var(--machine)">(statistical learning)</span>이었다 — 이 어긋남이 다음 의심을 연다.</p>
-    </div>
-    <p class="body-t reveal">
-      표상을 최대로 믿든(뉴얼·사이먼), 여러 겹으로 두든(민스키), 아예 지우든(브룩스) —
-      세 갈래 모두 여전히 <b>"마음이란 무엇인가"를 인간의 자리에서</b> 묻고 있었다.
-      다음 챕터는 그 자리 자체를 흔든다.
-    </p>
+    <p class="body-t reveal">민스키<span class="term">(Marvin Minsky)</span>는 데카르트의 단일한 의식 주체를 부수고, 마음을 수많은 자원<span class="term">(resource)</span>의 임기응변<span class="term">(resourcefulness)</span>으로 흩어놓았다. 여기까지는 탈중심의 반본질주의다. 그런데 표상의 위계 <b>맨 위에 '이야기(narrative)'를 올려둔</b> 순간, 목적과 인과가 짜인 인간적 서사가 다시 중심으로 돌아온다.</p>
+    <div class="hinge reveal"><p class="hl">경첩 — 되돌아온 중심</p><p>데카르트의 '주체'를 부순 민스키가, <b>'내러티브'라는 이름의 중심</b>을 다시 세운 것은 아닌가. 실제로 성공한 것은 이야기를 짜지 않는 통계적 학습<span class="term" style="color:var(--machine)">(statistical learning)</span>이었다 — 이 어긋남이 다음 의심을 연다.</p></div>
+    <p class="body-t reveal">표상을 최대로 믿든(뉴얼·사이먼), 여러 겹으로 두든(민스키), 아예 지우든(브룩스) — 세 갈래 모두 여전히 <b>"마음이란 무엇인가"를 인간의 자리에서</b> 묻고 있었다. 다음 챕터는 그 자리 자체를 흔든다.</p>
   </section>
-
-  <!-- 다음 -->
   <section id="end" data-mode="converge" data-label="다음으로">
     <p class="eyebrow reveal">END OF CHAPTER 02</p>
     <h2 class="reveal">표상을 다 따져도, 여전히 인간이 중심이었다.</h2>
@@ -205,116 +163,148 @@
     </div>
     <p class="backhub reveal"><a href="index.html">← 아카이브로 돌아가기</a></p>
   </section>
+</div>
 
-</main>
-
-<div class="overlay" id="overlay">
-  <div class="panel">
-    <button class="close" id="ovClose">CLOSE ✕</button>
-    <p class="oeye" id="ovEye"></p>
-    <p class="oq" id="ovQ"></p>
-    <p class="osrc" id="ovSrc"></p>
-    <p class="obody" id="ovBody"></p>
+<div class="view" id="view-newell">
+  <div class="room" data-mode="lattice">
+    <div class="rtop"><a data-back>← 표상을 둘러싼 싸움</a><span class="sep">/</span><span>① 표상 최대주의</span></div>
+    <p class="rkicker">PHYSICAL SYMBOL SYSTEM HYPOTHESIS</p>
+    <h1>기호를 다루는 체계면, 그것으로 지능은 충분하다</h1>
+    <p class="rsub">Allen Newell &amp; Herbert Simon</p>
+    <div class="rq"><p class="q">"물리적 기호 체계는 지능적 행위의 필요충분조건을 갖춘다."</p><p class="s">Allen Newell &amp; Herbert Simon, "Computer Science as Empirical Inquiry: Symbols and Search" (1976)</p></div>
+    <p class="rp">뉴얼과 사이먼은 지능의 정체를 <b>기호 조작</b>으로 못박았다. 여기서 기호<span class="term">(symbol)</span>란 무언가를 <b>가리키는(지시하는) 물리적 패턴</b>이다. 이 기호들을 규칙에 따라 결합·복사·변형하고, 방대한 가능성의 공간을 <b>탐색<span class="term">(search)</span></b>하는 체계 — 그것이 물리적 기호 체계<span class="term">(physical symbol system)</span>다.</p>
+    <p class="rp">이들의 주장은 두 방향으로 <b>강하다</b>. 필요조건: 지능적으로 행동하는 것은 무엇이든(인간이든 기계든) 그 안에 기호 체계를 갖고 있다. 충분조건: 충분한 규모의 기호 체계는 <b>적절히 조직되기만 하면</b> 지능적으로 행동할 수 있다. 즉 인간의 마음과 지능적 기계는 서로 다른 재료(뉴런과 실리콘) 위에 얹혔을 뿐, <b>같은 종류의 기호 처리기</b>라는 것이다.</p>
+    <p class="rlabel">왜 이것이 급진적이었나</p>
+    <p class="rp">이 가설은 지능을 <b>물질에서 분리</b>했다. 지능은 젖은 뇌 조직의 특별한 성질이 아니라, 기호를 올바른 방식으로 처리하는 <b>추상적 조직의 성질</b>이라는 것. 그래서 원리상 컴퓨터도 인간과 같은 의미에서 지능적일 수 있다. 뉴얼과 사이먼이 이를 "경험적 탐구<span class="term">(empirical inquiry)</span>"라 부른 것도 중요하다 — 그들에게 이것은 철학적 사변이 아니라, 프로그램을 만들어 <b>실제로 검증할 수 있는 가설</b>이었다. 기호주의 AI와 전문가 시스템의 이론적 심장이 바로 여기에 있다.</p>
+    <p class="rlabel">그런데 — 남는 물음</p>
+    <p class="rp">모든 지능이 정말 기호 조작으로 <b>환원되는가</b>? 얼굴을 알아보고, 균형을 잡고, 맥락을 읽는 능력은 명시적 기호와 규칙으로 잘 포착되지 않는다(<b>챕터 01의 암묵지</b> 참조). 바로 이 틈을 파고든 것이, 표상을 여러 겹으로 흩는 민스키와, 표상 자체를 지우는 브룩스다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" data-room="minsky"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">'하나의 올바른 표상'을 거부하며, 뉴얼·사이먼의 단일 기호 체계에 반대한다.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="03-decentering.html#luhmann"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">체계/환경 — 루만</p><p class="xd">"마음은 생각하고, 언어 모델은 계산한다" — 기호 계산과 의미 생성을 갈라놓는다.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+      <a class="xcard" href="01-rules-to-patterns.html"><p class="xloc">CH 01 · 다른 챕터</p><p class="xt">규칙에서 패턴으로</p><p class="xd">기호 체계의 꿈이 암묵지의 벽에 부딪히는 장면. 이 방의 전사(前史)다.</p><p class="xarrow">챕터 01로 →</p></a>
+      <a class="xcard" data-room="brooks"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 제거주의 — 브룩스</p><p class="xd">기호 체계 가설의 정반대 극. "표상은 관찰자의 눈에만 있다."</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
   </div>
 </div>
 
-<script>
-const OV={
-  newell:{
-    eye:"표상 최대주의 · PHYSICAL SYMBOL SYSTEM",
-    q:"물리적 기호 체계는 지능적 행위의 필요충분조건을 갖춘다.",
-    src:"Allen Newell & Herbert Simon, \"Computer Science as Empirical Inquiry\" (1976)",
-    body:"뉴얼과 사이먼은 지능의 정체를 <b>기호 조작</b>으로 못박았다. 기호<span class='term'>(symbol)</span>를 저장하고, 규칙에 따라 그것을 결합·변형·탐색<span class='term'>(search)</span>하는 체계 — 그것이 물리적 기호 체계<span class='term'>(physical symbol system)</span>다. 이들의 강한 주장은, 그런 체계가 지능적 행위의 <b>필요충분조건</b>이라는 것이다. 인간의 마음도, 지능적 기계도 결국 같은 종류의 기호 처리기다. 표상은 지능에 부수적인 것이 아니라 <b>지능 그 자체의 재료</b>다. 이 입장이 기호주의 AI와 전문가 시스템의 이론적 심장이었다."
-  },
-  minsky:{
-    eye:"표상 다원주의 · MINSKY",
-    q:"지식을 표상하는 단 하나의 최선의 방식을 찾는 일은 무의미하다.",
-    src:"Marvin Minsky, The Emotion Machine (2006)",
-    body:"민스키는 '하나의 올바른 표상'이라는 생각을 거부한다. 마음은 상황에 따라 서로 다른 표상을 갈아 끼운다 — 하나의 대상을 여러 관점에서 동시에 붙드는 판알로지<span class='term'>(panalogy)</span>, 특정 사고 상태를 통째로 되살리는 K-라인<span class='term'>(K-line)</span>처럼. 논리·의미망·통계·연결주의는 저마다 강점과 한계를 지닌 <b>여러 도구</b>일 뿐, 어느 하나가 왕좌를 차지하지 않는다. 이렇게 민스키는 데카르트적 단일 주체를 수많은 자원<span class='term'>(resource)</span>으로 흩어놓았다. <b>다만</b> 그 표상들의 위계 맨 위에 '이야기(narrative)'를 올려두면서, 목적과 인과로 짜인 인간적 서사가 중심으로 되돌아온다 — 세미나가 짚은 '내러티브의 덫'이다."
-  },
-  brooks:{
-    eye:"표상 제거주의 · BROOKS",
-    q:"세계는 그 자신의 가장 좋은 모델이다.",
-    src:"Rodney Brooks, \"Intelligence without Representation\" (1991)",
-    body:"브룩스는 정반대로 간다. 로봇에게 세계의 <b>내부 그림</b>을 주지 않는다. 대신 지각과 행동을 곧바로 잇는 단순한 행동층<span class='term'>(layer)</span>을 쌓아 올린다 — 이것이 포섭 구조<span class='term'>(subsumption architecture)</span>다. 벽을 '표상'해서 피하는 게 아니라, 센서가 벽을 감지하면 곧바로 방향을 튼다. 세계를 머릿속에 복제할 필요가 없다. <b>세계 자체가 언제나 가장 정확한 모델</b>이기 때문이다. 브룩스에게 표상<span class='term'>(representation)</span>이란 지능 안에 실재하는 것이 아니라, 밖에서 지켜보는 <b>관찰자의 눈에만</b> 생겨나는 착시다. 표상을 지능의 필수 단위로 보는 것 자체가 잘못된 추상의 층위라는 것."
-  }
-};
-const overlay=document.getElementById('overlay');
-function openOv(k){const d=OV[k];if(!d)return;ovEye.textContent=d.eye;ovQ.textContent=d.q;ovSrc.textContent=d.src;ovBody.innerHTML=d.body;overlay.classList.add('open')}
-function closeOv(){overlay.classList.remove('open')}
-document.querySelectorAll('[data-ov]').forEach(q=>q.addEventListener('click',()=>openOv(q.dataset.ov)));
-document.getElementById('ovClose').addEventListener('click',closeOv);
-overlay.addEventListener('click',e=>{if(e.target===overlay)closeOv()});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
+<div class="view" id="view-minsky">
+  <div class="room" data-mode="hier">
+    <div class="rtop"><a data-back>← 표상을 둘러싼 싸움</a><span class="sep">/</span><span>② 표상 다원주의</span></div>
+    <p class="rkicker">MULTIPLE REPRESENTATIONS · PANALOGY · K-LINE</p>
+    <h1>표상은 하나가 아니다. 여러 겹이 서로를 가리킨다</h1>
+    <p class="rsub">Marvin Minsky, The Emotion Machine</p>
+    <div class="rq"><p class="q">"지식을 표상하는 단 하나의 최선의 방식을 찾는 일은 무의미하다."</p><p class="s">Marvin Minsky, The Emotion Machine (2006) — Ch. 8 "Resourcefulness" 재구성</p></div>
+    <p class="rp">민스키는 '하나의 올바른 표상'이라는 생각 자체를 거부한다. 논리·의미망<span class="term">(semantic network)</span>·통계·연결주의는 저마다 강점과 치명적 한계를 함께 지닌 <b>여러 도구</b>일 뿐, 어느 하나가 왕좌를 차지하지 않는다. 마음의 힘은 오히려 상황에 따라 이 표상들을 <b>재빨리 갈아 끼우는</b> 능력에서 나온다.</p>
+    <p class="rsub-h">판알로지 (panalogy)</p>
+    <p class="rp">하나의 대상을 <b>여러 관점에서 동시에</b> 붙드는 장치다. 같은 컵을 '마실 것'으로도, '깨질 물건'으로도, '선물'로도 볼 수 있다. 판알로지<span class="term">(panalogy, parallel analogy)</span>는 이 여러 의미를 하나의 구조에 나란히 매달아 두어서, 한 관점이 막히면 즉시 다른 관점으로 건너뛰게 한다. 민스키에게 이 <b>모호함은 결함이 아니라 미덕</b>이다 — 인간의 임기응변 상당 부분이 여기서 나온다.</p>
+    <p class="rsub-h">K-라인 (K-line)</p>
+    <p class="rp">어떤 문제를 잘 풀었을 때, 그때 <b>활성화됐던 정신적 자원들의 묶음을 통째로 되살리는</b> 스냅샷이다. 해답 자체가 아니라 '그 해답을 찾을 때의 사고 상태'를 저장한다. 나중에 비슷한 상황에서 이 K-라인<span class="term">(K-line)</span>을 당기면, 관련 자원들이 한꺼번에 되살아난다.</p>
+    <p class="rlabel">그리고 — 내러티브의 덫</p>
+    <p class="rp">여기까지 민스키는 데카르트의 단일 주체를 수많은 자원<span class="term">(resource)</span>으로 흩어놓은 <b>탈중심의 사상가</b>다. <b>그런데</b> 그는 표상들의 위계 맨 위에 '이야기<span class="term">(narrative)</span>'를 올려둔다. 목적과 인과로 짜인 인간적 서사가 그 순간 다시 중심으로 되돌아온다. 세미나가 짚은 '내러티브의 덫' — 주체를 부순 자리에 서사라는 이름의 중심이 다시 선 것은 아닌가. 그리고 정작 성공한 AI는 이야기를 짜지 않는 <b>통계적 학습</b>이었다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="04-self-and-remainder.html#dennett"><p class="xloc">CH 04 · 다른 챕터</p><p class="xt">서사적 자아 — 데넷</p><p class="xd">민스키가 위계 꼭대기에 올린 '이야기'와, 데넷의 '이야기로서의 자아'가 정면으로 만난다.</p><p class="xarrow">챕터 04의 방으로 →</p></a>
+      <a class="xcard" data-room="brooks"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 제거주의 — 브룩스</p><p class="xd">민스키는 표상을 늘렸고, 브룩스는 아예 지웠다. 다원주의와 제거주의의 대조.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" data-room="newell"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 최대주의 — 뉴얼·사이먼</p><p class="xd">'단일 최선의 표상은 없다'는 민스키의 선언이 정면으로 겨누는 상대.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="03-decentering.html#latour"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">비인간 행위자 — 라투르</p><p class="xd">통계적 학습으로 성공한 AI를, '의식 없이 작동하는 행위자'로 다시 보는 관점.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
 
+<div class="view" id="view-brooks">
+  <div class="room" data-mode="scatter">
+    <div class="rtop"><a data-back>← 표상을 둘러싼 싸움</a><span class="sep">/</span><span>③ 표상 제거주의</span></div>
+    <p class="rkicker">INTELLIGENCE WITHOUT REPRESENTATION</p>
+    <h1>표상은 필요 없다. 세계를 그 자체의 모델로 쓰라</h1>
+    <p class="rsub">Rodney Brooks</p>
+    <div class="rq"><p class="q">"세계는 그 자신의 가장 좋은 모델이다."</p><p class="s">Rodney Brooks, "Intelligence without Representation" (1991)</p></div>
+    <p class="rp">브룩스는 정반대로 간다. 로봇에게 세계의 <b>내부 그림</b>을 주지 않는다. 대신 지각과 행동을 곧바로 잇는 단순한 행동층<span class="term">(layer)</span>을 아래에서부터 쌓아 올린다 — 이것이 포섭 구조<span class="term">(subsumption architecture)</span>다. 각 층은 독립적으로 세계와 감각-운동으로 결합하고, 위층이 아래층을 필요할 때만 억제하거나 덧쓴다.</p>
+    <p class="rp">벽을 '표상'해서 피하는 게 아니라, 센서가 벽을 감지하면 <b>곧바로 방향을 튼다</b>. 세계를 머릿속에 복제할 필요가 없다 — 세계 자체가 언제나 가장 정확하고 최신인 모델이기 때문이다. 낡은 내부 지도를 유지·갱신하는 비용이 통째로 사라진다.</p>
+    <p class="rlabel">표상은 어디에 있는가</p>
+    <p class="rp">브룩스의 진짜 급진성은 여기다. 그에게 표상<span class="term">(representation)</span>이란 지능 안에 실재하는 부품이 아니라, 밖에서 지켜보는 <b>관찰자가 덧씌우는 해석</b>이다. 로봇은 아무것도 '표상'하지 않는데, 우리가 그 행동을 보며 "저건 벽을 표상하고 있다"고 <b>읽어내는</b> 것뿐이다. 표상을 지능의 필수 단위로 놓는 것 자체가 잘못된 추상의 층위라는 것.</p>
+    <p class="rlabel">이 방이 여는 문</p>
+    <p class="rp">표상이 지능 안이 아니라 세계·관찰자와의 관계에 있다는 발상은, 마음을 머릿속에 가두지 않고 <b>환경과의 결합</b>으로 보는 흐름과 곧장 이어진다. 챕터 03의 사이버네틱스·체계이론이 바로 그 길이다.</p>
+    <div class="related"><p class="rh">이 방과 겹치는 논의 →</p><div class="xcards">
+      <a class="xcard" href="03-decentering.html#cybernetics"><p class="xloc">CH 03 · 다른 챕터</p><p class="xt">사이버네틱스 — 위너</p><p class="xd">개체와 환경을 하나의 피드백 회로로. 브룩스의 '세계와의 직접 결합'과 같은 계보.</p><p class="xarrow">챕터 03의 방으로 →</p></a>
+      <a class="xcard" data-room="newell"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 최대주의 — 뉴얼·사이먼</p><p class="xd">"기호 체계가 지능의 필요충분조건"이라는 정반대 극. 이 방이 겨누는 상대.</p><p class="xarrow">방으로 →</p></a>
+      <a class="xcard" href="04-self-and-remainder.html#dennett"><p class="xloc">CH 04 · 다른 챕터</p><p class="xt">지향적 태도 — 데넷</p><p class="xd">"표상은 관찰자의 눈에만 있다"와, "의도는 해석하는 자의 태도"가 공명한다.</p><p class="xarrow">챕터 04의 방으로 →</p></a>
+      <a class="xcard" data-room="minsky"><p class="xloc">CH 02 · 같은 챕터</p><p class="xt">표상 다원주의 — 민스키</p><p class="xd">표상을 여러 겹으로 늘린 민스키와, 아예 지운 브룩스의 대조.</p><p class="xarrow">방으로 →</p></a>
+    </div></div>
+    <p class="backhub" style="margin-top:3rem"><a data-back>← 챕터로 돌아가기</a></p>
+  </div>
+</div>
+
+</main>
+<script>
+const rooms=['newell','minsky','brooks'];
+const crumbBase='<b>CH 02</b> · 표상을 둘러싼 싸움';
+const roomTitles={newell:'뉴얼 &amp; 사이먼',minsky:'민스키',brooks:'브룩스'};
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById(id);if(el)el.classList.add('active');
+  const crumb=document.getElementById('crumb'),rail=document.getElementById('rail');
+  if(id==='view-chapter'){crumb.innerHTML=crumbBase;rail.style.display='';}
+  else{const rk=id.replace('view-','');crumb.innerHTML=crumbBase+' <span style="opacity:.5">/</span> '+(roomTitles[rk]||'');rail.style.display='none';}
+  el&&el.querySelectorAll('.reveal').forEach(r=>{r.classList.remove('in');requestAnimationFrame(()=>io.observe(r));});
+  window.scrollTo(0,0);
+}
+function goRoom(rk){location.hash=rk;}
+function goChapter(){history.pushState('','',location.pathname);route();window.scrollTo(0,0);}
+function route(){
+  const h=location.hash.replace('#','');
+  if(rooms.includes(h)){showView('view-'+h);const el=document.getElementById('view-'+h);const m=el.querySelector('[data-mode]');if(m&&window.assign)window.assign(m.dataset.mode,false);}
+  else{showView('view-chapter');if(window.assign)window.assign('tri',false);}
+}
+addEventListener('hashchange',route);
+document.querySelectorAll('[data-room]').forEach(c=>c.addEventListener('click',e=>{if(e.target.closest('a[href]'))return;goRoom(c.dataset.room);}));
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',goChapter));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+window.currentMode='tri';
 (function(){
   const canvas=document.getElementById('field'),ctx=canvas.getContext('2d');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,DPR;const mouse={x:-1,y:-1,active:false};
-  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';assign(currentMode,true)}
+  function resize(){DPR=Math.min(devicePixelRatio||1,2);W=canvas.width=innerWidth*DPR;H=canvas.height=innerHeight*DPR;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';doAssign(window.currentMode,true)}
   const N=234,pts=[];
   for(let i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),tx:Math.random(),ty:Math.random(),ph:Math.random()*6.28,sp:.4+Math.random()*.6,grp:i%3});
-  let currentMode='tri';
-  function assign(mode,hard){
-    currentMode=mode;
-    pts.forEach((p,i)=>{
-      let tx,ty;
-      if(mode==='tri'){
-        // 세 진영: 왼쪽 격자(최대) / 가운데 다층(다원) / 오른쪽 흩어짐(제거)
-        const g=p.grp;
-        if(g===0){const c=i%6,r=(Math.floor(i/6))%6;tx=.08+(c/5)*.2;ty=.2+(r/5)*.58;}
-        else if(g===1){const a=Math.random()*6.28,rr=Math.pow(Math.random(),.5)*.13;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr*1.1;}
-        else{tx=.72+Math.random()*.22;ty=.14+Math.random()*.72;}
-      }
+  function doAssign(mode,hard){
+    window.currentMode=mode;
+    pts.forEach((p,i)=>{let tx,ty;
+      if(mode==='tri'){const g=p.grp;if(g===0){const c=i%6,r=(Math.floor(i/6))%6;tx=.08+(c/5)*.2;ty=.2+(r/5)*.58;}else if(g===1){const a=Math.random()*6.28,rr=Math.pow(Math.random(),.5)*.13;tx=.5+Math.cos(a)*rr;ty=.5+Math.sin(a)*rr*1.1;}else{tx=.72+Math.random()*.22;ty=.14+Math.random()*.72;}}
       else if(mode==='lattice'){const cols=16,rows=Math.ceil(N/cols),c=i%cols,r=Math.floor(i/cols);tx=.12+(c/(cols-1))*.76;ty=.14+(r/(rows-1))*.72;}
-      else if(mode==='hier'){
-        // 위계: 아래 넓게 → 위로 좁아지는 층 (맨 위 하나의 점=내러티브)
-        const layer=i%5;const wy=[.8,.64,.48,.32,.18][layer];const spread=[.34,.26,.18,.1,.03][layer];
-        tx=.5+(Math.random()-.5)*spread*2;ty=wy;
-      }
+      else if(mode==='hier'){const layer=i%5;const wy=[.8,.64,.48,.32,.18][layer];const spread=[.34,.26,.18,.1,.03][layer];tx=.5+(Math.random()-.5)*spread*2;ty=wy;}
+      else if(mode==='scatter'){tx=Math.random();ty=Math.random();}
       else{const k=i%4,cx=[.32,.44,.58,.7][k],cy=[.44,.56,.44,.56][k],a=Math.random()*6.28,rr=Math.pow(Math.random(),.6)*.08;tx=cx+Math.cos(a)*rr;ty=cy+Math.sin(a)*rr;}
-      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}
-    });
+      p.tx=tx;p.ty=ty;if(hard){p.x=tx;p.y=ty;}});
   }
+  window.assign=doAssign;
   let t=0;
   function frame(){
-    t+=.008;ctx.clearRect(0,0,W,H);
-    const isTri=currentMode==='tri',isL=currentMode==='lattice',isH=currentMode==='hier',isC=currentMode==='converge';
-    pts.forEach(p=>{
-      let jx=Math.cos(t*p.sp+p.ph)*.012,jy=Math.sin(t*p.sp*1.2+p.ph)*.012;
-      if(isL){jx*=.2;jy*=.2;}
-      const ease=reduced?1:.035;p.x+=(p.tx+jx-p.x)*ease;p.y+=(p.ty+jy-p.y)*ease;
-      if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=110*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(28*DPR)/W;p.y+=(dy/d)*f*(28*DPR)/H;}}
-    });
+    t+=.008;ctx.clearRect(0,0,W,H);const cm=window.currentMode;
+    const isTri=cm==='tri',isL=cm==='lattice',isH=cm==='hier',isC=cm==='converge',isS=cm==='scatter';
+    pts.forEach(p=>{let jx=Math.cos(t*p.sp+p.ph)*.012,jy=Math.sin(t*p.sp*1.2+p.ph)*.012;if(isL){jx*=.2;jy*=.2;}else if(isS){jx*=3;jy*=3;}const ease=reduced?1:.035;p.x+=(p.tx+jx-p.x)*ease;p.y+=(p.ty+jy-p.y)*ease;if(mouse.active){const dx=p.x*W-mouse.x,dy=p.y*H-mouse.y,d2=dx*dx+dy*dy,R=110*DPR;if(d2<R*R){const d=Math.sqrt(d2)||1,f=(1-d/R)*.5;p.x+=(dx/d)*f*(28*DPR)/W;p.y+=(dy/d)*f*(28*DPR)/H;}}});
     ctx.lineWidth=1*DPR;
-    if(isTri){
-      // 각 그룹 내부만 잇기 — 세 진영의 상이한 조직
-      for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){if(pts[i].grp!==pts[j].grp)continue;const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.005){const g=pts[i].grp;const col=g===0?'126,142,163':g===1?'217,205,184':'90,100,116';ctx.strokeStyle='rgba('+col+','+(.2*(1-d2/.005)).toFixed(3)+')';seg(pts[i],pts[j]);}}
-    }else if(isL){ctx.strokeStyle='rgba(126,142,163,.14)';const cols=16;for(let i=0;i<N;i++){if((i+1)%cols!==0&&i+1<N)seg(pts[i],pts[i+1]);if(i+cols<N)seg(pts[i],pts[i+cols]);}}
+    if(isTri){for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){if(pts[i].grp!==pts[j].grp)continue;const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.005){const g=pts[i].grp;const col=g===0?'126,142,163':g===1?'217,205,184':'90,100,116';ctx.strokeStyle='rgba('+col+','+(.2*(1-d2/.005)).toFixed(3)+')';seg(pts[i],pts[j]);}}}
+    else if(isL){ctx.strokeStyle='rgba(126,142,163,.14)';const cols=16;for(let i=0;i<N;i++){if((i+1)%cols!==0&&i+1<N)seg(pts[i],pts[i+1]);if(i+cols<N)seg(pts[i],pts[i+cols]);}}
     else if(isH){ctx.strokeStyle='rgba(217,205,184,.12)';for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.006&&Math.abs(pts[i].ty-pts[j].ty)>.05)seg(pts[i],pts[j]);}}
     else if(isC){for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d2=dx*dx+dy*dy;if(d2<.0026){ctx.strokeStyle='rgba(217,205,184,'+(.18*(1-d2/.0026)).toFixed(3)+')';seg(pts[i],pts[j]);}}}
-    pts.forEach((p,i)=>{
-      let col;
-      if(isTri)col=p.grp===0?'rgba(126,142,163,.78)':p.grp===1?'rgba(217,205,184,.7)':'rgba(120,132,150,.5)';
-      else if(isH){col=(p.ty<.22)?'rgba(217,205,184,.95)':'rgba(126,142,163,.6)';}
-      else if(isC)col='rgba(217,205,184,.65)';
-      else col=i%3===0?'rgba(217,205,184,.5)':'rgba(126,142,163,.7)';
-      ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,(isH&&p.ty<.22?2.6:1.7)*DPR,0,6.28);ctx.fill();
-    });
+    pts.forEach((p,i)=>{let col;if(isTri)col=p.grp===0?'rgba(126,142,163,.78)':p.grp===1?'rgba(217,205,184,.7)':'rgba(120,132,150,.5)';else if(isH)col=(p.ty<.22)?'rgba(217,205,184,.95)':'rgba(126,142,163,.6)';else if(isC)col='rgba(217,205,184,.65)';else if(isS)col=i%3===0?'rgba(217,205,184,.5)':'rgba(126,142,163,.55)';else col=i%3===0?'rgba(217,205,184,.5)':'rgba(126,142,163,.7)';ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x*W,p.y*H,(isH&&p.ty<.22?2.6:1.7)*DPR,0,6.28);ctx.fill();});
     requestAnimationFrame(frame);
   }
   function seg(a,b){ctx.beginPath();ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);ctx.stroke();}
   addEventListener('mousemove',e=>{mouse.x=e.clientX*DPR;mouse.y=e.clientY*DPR;mouse.active=true});
   addEventListener('mouseleave',()=>mouse.active=false);
+  addEventListener('resize',resize);resize();doAssign('tri',true);frame();
   const secLabel=document.getElementById('secLabel'),progBar=document.getElementById('progBar');
-  const railBtns=[...document.querySelectorAll('.rail button')],sections=[...document.querySelectorAll('section')];
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const m=e.target.dataset.mode;if(m&&m!==currentMode)assign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=sections.indexOf(e.target);progBar.style.width=(idx/(sections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
-  sections.forEach(s=>io.observe(s));
-  const ior=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.18});
-  document.querySelectorAll('.reveal').forEach(el=>ior.observe(el));
-  railBtns.forEach(b=>b.addEventListener('click',()=>{document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'})}));
-  addEventListener('resize',resize);resize();assign('tri',true);frame();
+  const railBtns=[...document.querySelectorAll('.rail button')];
+  const chSections=[...document.querySelectorAll('#view-chapter section')];
+  const sio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&document.getElementById('view-chapter').classList.contains('active')){const m=e.target.dataset.mode;if(m&&m!==window.currentMode)doAssign(m,false);secLabel.textContent=e.target.dataset.label||'';const idx=chSections.indexOf(e.target);progBar.style.width=(idx/(chSections.length-1)*100)+'%';railBtns.forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id));}})},{threshold:.5});
+  chSections.forEach(s=>sio.observe(s));
+  railBtns.forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth'})}));
 })();
+route();
 </script>
 </body>
 </html>
