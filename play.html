@@ -1,0 +1,804 @@
+<title>누구의 말일까</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;900&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* 아카이브 본편과 같은 세계: 잉크 바탕, 차가운 기계색 / 따뜻한 마음색. 의도적인 단일(다크) 테마 */
+  :root{
+    --ink:#0a0c10;
+    --ink-2:#11141b;
+    --machine:#7e8ea3;
+    --mind:#d9cdb8;
+    --fog:#3a4150;
+    --fog-2:#5a6273;
+    --line:rgba(126,142,163,.18);
+    --paper-dim:rgba(217,205,184,.62);
+    --good:#8fb89a;
+    --bad:#c98a7c;
+    --serif:'Noto Serif KR',Georgia,'Apple SD Gothic Neo',serif;
+    --sans:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{background:var(--ink)}
+  body{
+    margin:0;color:var(--mind);font-family:var(--sans);font-weight:300;
+    -webkit-font-smoothing:antialiased;line-height:1.7;
+  }
+  ::selection{background:var(--machine);color:var(--ink)}
+  button{font:inherit;color:inherit}
+  a{color:inherit}
+  :focus-visible{outline:1px solid var(--mind);outline-offset:3px}
+
+  .wrap{max-width:880px;margin:0 auto;padding-inline:20px;padding-block:28px 72px}
+
+  /* 상단 바 */
+  .bar{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--machine);
+    padding-bottom:18px;border-bottom:1px solid var(--line);
+  }
+  .bar a{text-decoration:none}
+  .bar a:hover{color:var(--mind)}
+  .sync{display:inline-flex;align-items:center;gap:8px}
+  .sync i{width:6px;height:6px;border-radius:50%;background:var(--fog-2);display:inline-block}
+  .sync.on i{background:var(--good)}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;color:var(--machine);
+    display:flex;align-items:center;gap:14px;margin:0 0 18px;
+  }
+  .eyebrow::before{content:'';width:2.2rem;height:1px;background:var(--machine)}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:900;letter-spacing:-.015em;margin:0;text-wrap:balance}
+  h1{font-size:clamp(2.2rem,7vw,3.8rem);line-height:1.15}
+  h2{font-size:clamp(1.3rem,3.4vw,1.8rem);line-height:1.35}
+  .lede{margin:18px 0 0;max-width:58ch;color:var(--paper-dim);font-size:1rem;line-height:1.95}
+  .lede b{font-weight:500;color:var(--mind)}
+
+  /* ── 홈 ── */
+  .hero{padding-block:48px 36px}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .mode{
+    text-align:left;cursor:pointer;background:var(--ink-2);border:1px solid var(--line);
+    padding:24px 22px 22px;display:flex;flex-direction:column;gap:10px;min-height:100%;
+    transition:border-color .3s, transform .3s;
+  }
+  .mode:hover{border-color:var(--machine);transform:translateY(-2px)}
+  .mode .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.22em;color:var(--machine)}
+  .mode h3{font-size:1.35rem;line-height:1.35}
+  .mode p{margin:0;color:var(--paper-dim);font-size:.9rem;line-height:1.8}
+  .mode .go{margin-top:auto;padding-top:8px;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--mind)}
+
+  .board{margin-top:44px}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .board-head span{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;color:var(--machine)}
+  ol.rank{list-style:none;margin:0;padding:0}
+  ol.rank li{
+    display:grid;grid-template-columns:2.4rem 1fr auto auto;gap:14px;align-items:baseline;
+    padding:12px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;
+  }
+  ol.rank .n{font-family:var(--mono);font-size:.78rem;color:var(--fog-2)}
+  ol.rank li:nth-child(1) .n{color:var(--mind)}
+  ol.rank .who{font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  ol.rank .title{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--machine)}
+  ol.rank .pts{font-family:var(--mono);font-size:.9rem;color:var(--mind)}
+  ol.rank li.me .who::after{content:' · 나';color:var(--machine);font-size:.8em}
+  .empty{padding:18px 0;color:var(--fog-2);font-size:.88rem}
+
+  /* ── 퀴즈 ── */
+  .hud{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--machine);padding-block:26px 12px;
+    font-variant-numeric:tabular-nums}
+  .hud b{color:var(--mind);font-weight:500}
+  .streak.hot b{color:var(--good)}
+  .timer{height:2px;background:var(--line);position:relative;overflow:hidden}
+  .timer i{position:absolute;inset:0 auto 0 0;width:100%;background:var(--mind);transform-origin:left}
+  .timer.low i{background:var(--bad)}
+
+  .stage{padding-block:44px 28px}
+  .prompt-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;color:var(--fog-2);margin:0 0 16px}
+  .statement{
+    font-family:var(--serif);font-weight:600;font-size:clamp(1.25rem,3.6vw,1.9rem);line-height:1.6;
+    margin:0;max-width:34ch;text-wrap:pretty;
+  }
+  .statement::before{content:'“';color:var(--machine);margin-right:.08em}
+  .statement::after{content:'”';color:var(--machine);margin-left:.04em}
+
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+  .choice{
+    cursor:pointer;text-align:left;padding:20px 20px 18px;background:var(--ink-2);
+    border:1px solid var(--line);display:flex;flex-direction:column;gap:6px;
+    transition:border-color .2s, background .2s;
+  }
+  .choice:hover:not([disabled]){border-color:var(--mind)}
+  .choice .key{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--fog-2)}
+  .choice .nm{font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.35}
+  .choice .tag{font-size:.8rem;color:var(--paper-dim)}
+  .choice[disabled]{cursor:default}
+  .choice.right{border-color:var(--good);background:rgba(143,184,154,.08)}
+  .choice.wrong{border-color:var(--bad);background:rgba(201,138,124,.08)}
+  .choice.dim{opacity:.4}
+
+  .feedback{margin-top:22px;padding:18px 20px;border-left:2px solid var(--machine);background:rgba(126,142,163,.06)}
+  .feedback .verdict{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;margin:0 0 8px}
+  .feedback .verdict.ok{color:var(--good)}
+  .feedback .verdict.no{color:var(--bad)}
+  .feedback p{margin:0;color:var(--paper-dim);font-size:.93rem;line-height:1.9}
+  .feedback .room{margin-top:10px;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;color:var(--machine)}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+  .btn{
+    cursor:pointer;border:1px solid var(--mind);background:var(--mind);color:var(--ink);
+    padding:12px 20px;font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;
+  }
+  .btn:hover{background:#fff;border-color:#fff}
+  .btn.ghost{background:transparent;color:var(--mind);border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--mind);background:transparent}
+  .hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--fog-2)}
+
+  /* ── 결과 ── */
+  .result{padding-block:48px 12px}
+  .big{font-family:var(--mono);font-size:clamp(3rem,11vw,5.4rem);line-height:1;color:var(--mind);
+    font-variant-numeric:tabular-nums;margin:10px 0 6px}
+  .rank-title{font-family:var(--serif);font-weight:600;font-size:1.3rem}
+  .rank-desc{color:var(--paper-dim);margin:6px 0 0;max-width:52ch;font-size:.93rem}
+  .stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:24px;font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.14em;color:var(--machine);font-variant-numeric:tabular-nums}
+  .stats b{display:block;font-size:1.3rem;color:var(--mind);font-weight:400;letter-spacing:0;margin-top:4px}
+  .submit{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+  .submit label{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:var(--machine);margin-bottom:10px}
+  .submit input{
+    background:var(--ink-2);border:1px solid var(--line);color:var(--mind);padding:11px 14px;
+    font:inherit;font-weight:400;width:min(260px,100%);
+  }
+  .submit input:focus{outline:none;border-color:var(--mind)}
+  .note{margin-top:12px;font-size:.84rem;color:var(--fog-2)}
+  .review{margin-top:36px}
+  .review li{margin-bottom:8px;color:var(--paper-dim);font-size:.88rem}
+  .review li b{font-weight:500;color:var(--mind)}
+  .review li.x b{color:var(--bad)}
+
+  /* ── 직관 투표 ── */
+  .poll{padding-block:40px 12px}
+  .step{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;color:var(--fog-2);margin:0 0 14px}
+  .vignette{margin:18px 0 0;padding:22px;background:var(--ink-2);border:1px solid var(--line);
+    font-size:1rem;line-height:2;color:var(--mind);max-width:62ch}
+  .vignette b{font-weight:500}
+  .ask{margin-top:24px;font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.55}
+  .opts{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+  .opts.inline{flex-direction:row;flex-wrap:wrap}
+  .opt{cursor:pointer;text-align:left;background:transparent;border:1px solid var(--line);padding:12px 16px;
+    font-size:.95rem;transition:border-color .2s}
+  .opts.inline .opt{flex:1 1 110px;text-align:center}
+  .opt:hover:not([disabled]){border-color:var(--mind)}
+  .opt.picked{border-color:var(--mind);background:rgba(217,205,184,.08)}
+  .opt[disabled]{cursor:default}
+
+  .dist{margin-top:26px}
+  .dist-head{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:var(--machine);margin-bottom:12px;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .barrow{display:grid;grid-template-columns:minmax(7rem,11rem) 1fr 3.4rem;gap:12px;align-items:center;margin-bottom:9px;
+    font-size:.86rem;font-variant-numeric:tabular-nums}
+  .barrow .lbl{color:var(--paper-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .barrow .lbl.mine{color:var(--mind);font-weight:500}
+  .track{height:10px;background:rgba(126,142,163,.12);position:relative}
+  .track i{position:absolute;inset:0 auto 0 0;background:var(--machine);transition:width .6s cubic-bezier(.2,.6,.2,1)}
+  .track.warm i{background:var(--mind)}
+  .barrow .pct{font-family:var(--mono);font-size:.76rem;color:var(--mind);text-align:right}
+  .pair2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .pair2 .sub-k{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;color:var(--fog-2);margin-bottom:10px}
+  .pair2 .barrow{grid-template-columns:3.6rem 1fr 3rem}
+  .reveal-box{margin-top:26px;padding:18px 20px;border-left:2px solid var(--mind);background:rgba(217,205,184,.05)}
+  .reveal-box h3{font-size:1.05rem;margin-bottom:8px}
+  .reveal-box p{margin:0;color:var(--paper-dim);font-size:.92rem;line-height:1.9}
+  .reveal-box p + p{margin-top:10px}
+  .reveal-box p.src{margin-top:12px;font-family:var(--mono);font-size:.62rem;line-height:1.8;letter-spacing:.1em;color:var(--fog-2)}
+
+  footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);
+    font-size:.62rem;letter-spacing:.12em;color:var(--fog-2);line-height:2.2}
+
+  @media (max-width:640px){
+    .modes,.choices,.pair2{grid-template-columns:1fr}
+    ol.rank li{grid-template-columns:2rem 1fr auto}
+    ol.rank .title{display:none}
+    .barrow{grid-template-columns:6.5rem 1fr 3rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important}
+  }
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <a href="archive-hub.html">← DONGHYUN KIM · ARCHIVE</a>
+    <span class="sync" id="sync"><i></i><span id="syncText">혼자 하기 모드</span></span>
+  </div>
+
+  <!-- ════════ 홈 ════════ -->
+  <section id="vHome">
+    <div class="hero">
+      <p class="eyebrow">ARCHIVE 01 · PLAY</p>
+      <h1>누구의 말일까</h1>
+      <p class="lede">
+        「그래서 지능이 뭔데?」에서 읽은 사람들의 주장을 이번엔 <b>직접 가려내는</b> 방입니다.
+        규칙이냐 행동이냐, 이해냐 해석이냐. 문장 하나를 보고 어느 편의 말인지 맞혀 보세요.
+        그리고 당신의 직관이 다른 사람들과 얼마나 같은지도 확인해 보세요.
+      </p>
+    </div>
+
+    <div class="modes">
+      <button class="mode" id="goQuiz" type="button">
+        <span class="k">MODE 1 · 진영 퀴즈 · 10문항</span>
+        <h3>누가 한 말인가</h3>
+        <p>뉴얼·사이먼과 브룩스, 데닛과 설, 스키너와 촘스키. 문항당 12초, 빨리 맞힐수록 점수가 높고 연속 정답에는 배율이 붙습니다.</p>
+        <span class="go">시작하기 →</span>
+      </button>
+      <button class="mode" id="goPoll" type="button">
+        <span class="k">MODE 2 · 직관 투표 · 3문항</span>
+        <h3>그 AI는 그걸 의도했나</h3>
+        <p>AI 에이전트가 낳은 결과를 두고 의도와 책임을 판단합니다. 답하면 다른 사람들의 응답 분포가 열립니다. 정답은 없습니다.</p>
+        <span class="go">참여하기 →</span>
+      </button>
+    </div>
+
+    <div class="board">
+      <div class="board-head">
+        <h2>순위표</h2>
+        <span id="boardMeta">진영 퀴즈 최고 점수</span>
+      </div>
+      <ol class="rank" id="rank"></ol>
+    </div>
+  </section>
+
+  <!-- ════════ 퀴즈 ════════ -->
+  <section id="vQuiz" hidden>
+    <div class="hud">
+      <span>문항 <b id="qNo">1</b> / 10</span>
+      <span class="streak" id="streakWrap">연속 <b id="streak">0</b> · ×<b id="mult">1.0</b></span>
+      <span>점수 <b id="score">0</b></span>
+    </div>
+    <div class="timer" id="timer"><i id="timerFill"></i></div>
+
+    <div class="stage">
+      <p class="prompt-k" id="promptK">이 말은 누구의 편에서 나왔을까</p>
+      <p class="statement" id="statement"></p>
+      <div class="choices">
+        <button class="choice" id="c0" type="button"><span class="key">1 · ←</span><span class="nm"></span><span class="tag"></span></button>
+        <button class="choice" id="c1" type="button"><span class="key">2 · →</span><span class="nm"></span><span class="tag"></span></button>
+      </div>
+      <div class="feedback" id="feedback" hidden>
+        <p class="verdict" id="verdict"></p>
+        <p id="explain"></p>
+        <p class="room" id="room"></p>
+      </div>
+      <div class="row" id="nextRow" hidden>
+        <button class="btn" id="next" type="button">다음 문항 →</button>
+        <span class="hint">ENTER</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 결과 ════════ -->
+  <section id="vResult" hidden>
+    <div class="result">
+      <p class="eyebrow">ROUND COMPLETE</p>
+      <p class="big" id="rScore">0</p>
+      <p class="rank-title" id="rTitle"></p>
+      <p class="rank-desc" id="rDesc"></p>
+      <div class="stats">
+        <span>정답<b id="rAcc">0/10</b></span>
+        <span>최장 연속<b id="rStreak">0</b></span>
+        <span>내 최고<b id="rBest">0</b></span>
+      </div>
+
+      <div class="submit" id="submitBox">
+        <label for="nick">순위표에 올릴 이름</label>
+        <div class="row" style="margin-top:0">
+          <input id="nick" maxlength="16" autocomplete="off" placeholder="예) 암묵지 수호자">
+          <button class="btn" id="saveScore" type="button">순위표에 올리기</button>
+        </div>
+        <p class="note" id="saveNote"></p>
+      </div>
+
+      <div class="row">
+        <button class="btn ghost" id="again" type="button">한 판 더</button>
+        <button class="btn ghost" id="toHome1" type="button">처음으로</button>
+      </div>
+
+      <div class="review">
+        <p class="eyebrow">이번 판 복기</p>
+        <ol id="reviewList"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 직관 투표 ════════ -->
+  <section id="vPoll" hidden>
+    <div class="poll">
+      <p class="step" id="pStep">1 / 3</p>
+      <h2 id="pTitle"></h2>
+      <div class="vignette" id="pVignette"></div>
+      <p class="ask" id="pAsk"></p>
+      <div class="opts" id="pOpts"></div>
+      <div id="pResult" hidden></div>
+      <div class="row" id="pNextRow" hidden>
+        <button class="btn" id="pNext" type="button">다음 →</button>
+        <button class="btn ghost" id="toHome2" type="button">처음으로</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    DONGHYUN KIM · ARCHIVE 01 PLAY — 「그래서 지능이 뭔데?」의 연장<br>
+    진술은 각 사상가의 입장을 요약·의역한 것입니다. 직접 인용이 아닌 문장이 포함되어 있습니다.<br>
+    KNOBE 2003 · CLARK ET AL. 2017, INTENTIONAL SIN AND ACCIDENTAL VIRTUE · MATTHIAS 2004, THE RESPONSIBILITY GAP · DENNETT, THE INTENTIONAL STANCE
+  </footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ───────── 진술 은행 ─────────
+     a: 정답, b: 오답(맞수). 문장은 입장의 요약·의역. */
+  const P = {
+    ns:{nm:'뉴얼 · 사이먼',tag:'물리적 기호 체계 가설'},
+    br:{nm:'브룩스',tag:'표상 없는 지능'},
+    se:{nm:'설',tag:'중국어 방'},
+    de:{nm:'데닛',tag:'지향적 태도'},
+    sk:{nm:'스키너',tag:'행동주의'},
+    ch:{nm:'촘스키',tag:'인지혁명 · 생성문법'},
+    tu:{nm:'튜링',tag:'모방 게임'},
+    ds:{nm:'데카르트',tag:'심신이원론'},
+    po:{nm:'폴라니',tag:'암묵지'},
+    wi:{nm:'위너',tag:'사이버네틱스'},
+    lu:{nm:'루만',tag:'체계이론'},
+    la:{nm:'라투르',tag:'행위자-네트워크 이론'},
+    hu:{nm:'허친스',tag:'분산인지'},
+    dm:{nm:'도밍고스',tag:'마스터 알고리즘'},
+    ka:{nm:'캐플런',tag:'AI 입문서의 저자'},
+    dt:{nm:'다트머스 제안서',tag:'매카시 외, 1955'},
+    sh:{nm:'섀넌',tag:'정보 이론'},
+    ss:{nm:'소쉬르',tag:'구조주의 언어학'},
+    ga:{nm:'가다머',tag:'철학적 해석학'},
+    mp:{nm:'매컬럭 · 피츠',tag:'형식 뉴런'},
+    no:{nm:'노먼',tag:'인지적 인공물'},
+    mc:{nm:'매카시',tag:'"인공지능"의 명명자'}
+  };
+  const ROOM = {
+    r0:'입구 — 이름이 먼저 태어났다',
+    r1:'ROOM 01 — 기호와 규칙',
+    r2:'ROOM 02 — 패턴과 학습',
+    r3:'ROOM 03 — 행동과 작동',
+    r4:'ROOM 04 — 체계와 환경'
+  };
+  const BANK = [
+    {s:'물리적 기호 체계는 일반적인 지능 행위를 위한 필요충분한 수단을 갖는다.',a:'ns',b:'br',r:'r1',
+     e:'1975년 튜링상 강연의 핵심 가설. 지능이란 결국 기호를 만들고 바꾸고 조작하는 능력이라는 선언입니다.'},
+    {s:'세계를 머릿속에 정교하게 모델링할 필요는 없다. 세계 자체가 가장 좋은 모델이다.',a:'br',b:'ns',r:'r4',
+     e:'브룩스는 중앙의 세계 모델 대신, 환경을 직접 감각하고 곧바로 행동하는 층들을 쌓아 올리자고 했습니다.'},
+    {s:'진화가 가장 오래 걸린 것은 추론이 아니라 지각과 이동이었다. 그게 풀리면 추론은 비교적 쉽게 따라온다.',a:'br',b:'ns',r:'r3',
+     e:'단세포에서 인간까지 수십억 년, 문자는 수천 년. 브룩스는 이 시간표로 고전 AI의 우선순위를 뒤집습니다.'},
+    {s:'규칙서대로 기호를 완벽하게 조작한다고 해서, 방 안의 사람이 중국어를 이해하는 것은 아니다.',a:'se',b:'de',r:'r1',
+     e:'구문(syntax)만으로는 의미(semantics)가 생기지 않는다는 설의 논증. 강한 AI에 대한 대표적 반론입니다.'},
+    {s:'체스 프로그램이 "킹을 노린다"고 해석해서 수를 잘 예측할 수 있다면, 그렇게 해석하는 것이 정당하다.',a:'de',b:'se',r:'r3',
+     e:'지향적 태도. 믿음과 욕구를 "정말로" 가졌는지보다, 그렇게 읽을 때 행동이 예측되는지가 기준입니다.'},
+    {s:'자아는 뇌 어딘가에 있는 실체가 아니라, 우리가 스스로에 대해 짓는 이야기들이 모이는 중심점이다.',a:'de',b:'ds',r:'r3',
+     e:'데닛의 "서사적 무게중심으로서의 자아". 무게중심처럼 실재하지만 물질 조각은 아닌 추상적 대상입니다.'},
+    {s:'생각하는 나는 연장을 가진 몸과 전혀 다른 종류의 실체다.',a:'ds',b:'de',r:'r3',
+     e:'res cogitans와 res extensa. 마음에 특권적 지위를 준 이 구분이 이후 마음 연구의 출발점이자 표적이 됩니다.'},
+    {s:'행동은 그 결과에 의해 선택된다. 머릿속에 무엇이 있는지는 과학이 물을 필요가 없다.',a:'sk',b:'ch',r:'r3',
+     e:'조작적 조건화와 블랙박스. 관찰 가능한 입력과 출력만 과학의 대상으로 삼겠다는 입장입니다.'},
+    {s:'아이는 제한된 말만 듣고도 한 번도 들어보지 못한 문장을 무한히 만들어낸다. 자극과 반응만으로는 설명이 안 된다.',a:'ch',b:'sk',r:'r3',
+     e:'자극의 빈곤 논증. 행동주의를 무너뜨리고 인지혁명을 연 핵심 논점 중 하나입니다.'},
+    {s:'"기계가 생각할 수 있는가"라는 질문은 너무 모호하다. 대화만으로 사람과 구별되지 않는지를 묻는 게임으로 바꾸자.',a:'tu',b:'se',r:'r3',
+     e:'1950년 튜링의 모방 게임. 판정 기준을 내면에서 관찰 가능한 행동으로 옮겼습니다.'},
+    {s:'우리는 말할 수 있는 것보다 더 많이 안다.',a:'po',b:'ns',r:'r2',
+     e:'암묵지. 전문가의 앎이 규칙서에 다 적히지 않는다는 이 통찰이 전문가 시스템의 병목을 설명합니다.'},
+    {s:'제어란 명령을 내리는 일이 아니라, 메시지를 보내고 결과를 확인하고 다시 고치는 순환이다.',a:'wi',b:'tu',r:'r4',
+     e:'피드백. 위너는 사람·동물·기계·사회를 모두 정보와 피드백으로 조절되는 체계로 봅니다.'},
+    {s:'사회를 이루는 것은 사람이 아니라 커뮤니케이션이다. 사람은 사회의 환경이다.',a:'lu',b:'la',r:'r4',
+     e:'루만의 사회체계는 커뮤니케이션이 커뮤니케이션을 낳는 자기생산(오토포이에시스) 체계입니다.'},
+    {s:'차이를 만들어내는 것이라면 사람이든 사물이든 모두 행위자다.',a:'la',b:'lu',r:'r4',
+     e:'행위자-네트워크 이론. 과속방지턱도, 알고리즘도 행위의 연결망 안에서 행위자가 됩니다.'},
+    {s:'인지는 조종사의 머릿속이 아니라, 조종사·계기판·부조종사·매뉴얼이 엮인 조종석 전체에서 일어난다.',a:'hu',b:'ns',r:'r4',
+     e:'분산인지. 허친스는 실험실 대신 현장(Cognition in the Wild)에서 인지를 관찰했습니다.'},
+    {s:'모든 학습 방법을 통합하는 하나의 궁극적인 학습 알고리즘이 존재할 수 있다.',a:'dm',b:'po',r:'r2',
+     e:'마스터 알고리즘. 세미나에서는 이를 궁극적 표준을 가정하는 플라톤적 기획으로 비판적으로 읽었습니다.'},
+    {s:'지능의 본질은 제한된 데이터로부터 적절하게 일반화하는 능력이다.',a:'ka',b:'ns',r:'r2',
+     e:'캐플런의 정의. 규칙 입력보다 데이터 기반 학습이 설득력을 얻는 이유를 압축합니다.'},
+    {s:'비행기를 "인공 새"라고 불렀다면 얼마나 많은 철학적 착시가 생겼을까. "인공지능"이라는 이름도 그렇다.',a:'ka',b:'mc',r:'r0',
+     e:'이름이 기술보다 인간 정신과의 유사성을 더 강하게 암시한다는 비판. 이 아카이브의 입구가 던지는 질문입니다.'},
+    {s:'학습의 모든 측면과 지능의 모든 특징은 원리상 기계가 모사할 수 있을 만큼 정확하게 기술될 수 있다.',a:'dt',b:'ka',r:'r0',
+     e:'1955년 다트머스 여름 연구 제안서의 추측(conjecture). "인공지능"이라는 이름이 여기서 태어났습니다.'},
+    {s:'정보의 양은 메시지의 의미가 아니라, 불확실성이 얼마나 줄었는지로 측정된다.',a:'sh',b:'ss',r:'r2',
+     e:'섀넌은 정보에서 의미를 떼어내고 비트로 정량화했습니다. 마음을 "정보 처리"로 보는 길이 여기서 열립니다.'},
+    {s:'이해는 백지에서 시작하지 않는다. 언제나 선입견 위에서 시작하며, 선입견은 제거 대상이 아니라 이해의 조건이다.',a:'ga',b:'ds',r:'r2',
+     e:'선이해. 방법적 회의로 모든 선입견을 걷어내려던 데카르트와 정반대의 출발점입니다.'},
+    {s:'뉴런의 발화는 AND, OR 같은 논리 연산으로 기술될 수 있다.',a:'mp',b:'br',r:'r1',
+     e:'1943년 형식 뉴런 모형. 뇌와 논리 체계를 잇고 인공신경망 계보의 출발점이 됩니다.'},
+    {s:'인공물은 우리의 능력을 키우지 않는다. 과제를 다른 과제로 바꿔 놓을 뿐이다.',a:'no',b:'mc',r:'r4',
+     e:'인지적 인공물. 자동차는 다리를 강하게 하지 않고, "걷기"를 "페달과 핸들 조작"으로 바꿉니다.'},
+    {s:'의미는 기호 하나에 고정되어 있지 않고, 다른 기호들과의 차이 속에서 정해진다.',a:'ss',b:'sh',r:'r2',
+     e:'기표와 기의, 그리고 차이의 체계. 이 구조주의적 의미론이 데리다의 차연으로 이어집니다.'}
+  ];
+
+  const TITLES = [
+    {min:0,   t:'블랙박스',      d:'아직 안쪽이 잘 보이지 않습니다. 입력과 출력은 기록되었으니, 본편 전시를 한 바퀴 돌고 다시 오세요.'},
+    {min:500, t:'기호 조작자',    d:'규칙은 따라가고 있습니다. 다만 중국어 방 안의 사람처럼, 아직 의미까지 쥐고 있는지는 모르겠습니다.'},
+    {min:900, t:'연결주의자',     d:'패턴이 보이기 시작했습니다. 누가 누구의 맞수인지, 연결망이 잡혀 갑니다.'},
+    {min:1300,t:'지향계',        d:'당신이 정말 다 아는지는 모르지만, 다 아는 사람처럼 해석하면 행동이 완벽히 예측됩니다.'},
+    {min:1700,t:'2차 관찰자',    d:'관찰하는 자신까지 관찰하는 단계. 세미나를 끝까지 따라온 사람의 점수입니다.'}
+  ];
+  const titleFor = s => TITLES.reduce((acc,x)=> s>=x.min ? x : acc, TITLES[0]);
+
+  /* ───────── 로컬 저장(편의용, 실패해도 동작) ───────── */
+  const store = {
+    get(k,f){ try{ const v=localStorage.getItem('wmg.'+k); return v==null?f:JSON.parse(v);}catch(e){return f;} },
+    set(k,v){ try{ localStorage.setItem('wmg.'+k, JSON.stringify(v)); }catch(e){} }
+  };
+  let cid = store.get('cid', null);
+  if(!cid || typeof cid!=='string' || !/^[a-z0-9]{8,24}$/.test(cid)){
+    cid = Array.from(crypto.getRandomValues(new Uint8Array(10))).map(b=>(b%36).toString(36)).join('');
+    store.set('cid', cid);
+  }
+
+  const $ = id => document.getElementById(id);
+  const views = ['vHome','vQuiz','vResult','vPoll'];
+  function show(v){ views.forEach(x=> $(x).hidden = (x!==v)); window.scrollTo(0,0); }
+
+  /* ───────── 공유 저장소(db) ─────────
+     없으면 혼자 하기 모드로 그대로 동작한다. */
+  let db = null;
+  let boardRows = [];      // 순위표 스냅샷
+  let responses = [];      // 투표 스냅샷
+  let writeBlocked = false;
+
+  function setSync(on, text){
+    $('sync').classList.toggle('on', on);
+    $('syncText').textContent = text;
+  }
+
+  (async ()=>{
+    try{ db = window.claude && await window.claude.use('db'); }catch(e){ db = null; }
+    if(!db){ setSync(false,'혼자 하기 모드'); renderBoard(); return; }
+    setSync(true,'공유 순위표 연결됨');
+    db.collection('scores').orderBy('best','desc').limit(20).onSnapshot(
+      snap => { boardRows = snap.docs.map(d=>({id:d.id, ...clean(d.data())})).filter(r=>r.best>0); renderBoard(); },
+      () => { setSync(false,'연결이 끊겨 혼자 하기 모드'); }
+    );
+    db.collection('responses').limit(1000).onSnapshot(
+      snap => { responses = snap.docs.map(d=>({id:d.id, ...(d.data()||{})})); if(!$('vPoll').hidden && pollAnswered) renderPollResult(); },
+      () => {}
+    );
+  })();
+
+  function clean(o){
+    o = o||{};
+    const n = x => Math.max(0, Math.min(99999, Math.round(Number(x)||0)));
+    return {name:String(o.name||'').slice(0,16) || '이름 없음', best:n(o.best), streak:n(o.streak), rounds:n(o.rounds)};
+  }
+
+  /* ───────── 순위표 ───────── */
+  function renderBoard(){
+    const ol = $('rank'); ol.textContent='';
+    let rows = boardRows.slice();
+    if(!db){
+      const mine = store.get('best',0);
+      rows = mine>0 ? [{id:cid,name:store.get('nick','나'),best:mine,streak:store.get('bestStreak',0)}] : [];
+      $('boardMeta').textContent = '이 기기에 저장된 내 기록';
+    } else {
+      $('boardMeta').textContent = '진영 퀴즈 최고 점수 · 상위 20';
+    }
+    if(!rows.length){
+      const p=document.createElement('p'); p.className='empty';
+      p.textContent = db ? '아직 기록이 없습니다. 첫 번째 이름을 올려 보세요.' : '아직 기록이 없습니다. 한 판 해 보세요.';
+      ol.appendChild(p); return;
+    }
+    rows.forEach((r,i)=>{
+      const li=document.createElement('li'); if(r.id===cid) li.className='me';
+      const n=document.createElement('span'); n.className='n'; n.textContent=String(i+1).padStart(2,'0');
+      const w=document.createElement('span'); w.className='who'; w.textContent=r.name;
+      const t=document.createElement('span'); t.className='title'; t.textContent=titleFor(r.best).t;
+      const s=document.createElement('span'); s.className='pts'; s.textContent=r.best.toLocaleString();
+      li.append(n,w,t,s); ol.appendChild(li);
+    });
+  }
+
+  /* ───────── 진영 퀴즈 ───────── */
+  const Q_LEN = 10, Q_TIME = 12000;
+  let round=null, tStart=0, raf=0, locked=false;
+
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+  function startQuiz(){
+    const qs = shuffle(BANK.slice()).slice(0,Q_LEN).map(q=>({...q, flip:Math.random()<.5}));
+    round = {qs, i:0, score:0, streak:0, bestStreak:0, correct:0, log:[]};
+    show('vQuiz'); ask();
+  }
+  const mult = s => Math.min(1.5, 1 + Math.max(0,s-1)*0.1);
+
+  function ask(){
+    const q = round.qs[round.i]; locked=false;
+    $('qNo').textContent = round.i+1;
+    $('score').textContent = round.score.toLocaleString();
+    $('streak').textContent = round.streak;
+    $('mult').textContent = mult(round.streak+1).toFixed(1);
+    $('streakWrap').classList.toggle('hot', round.streak>=3);
+    $('statement').textContent = q.s;
+    const sides = q.flip ? [q.b,q.a] : [q.a,q.b];
+    [0,1].forEach(k=>{
+      const b=$('c'+k), p=P[sides[k]];
+      b.dataset.who = sides[k];
+      b.querySelector('.nm').textContent = p.nm;
+      b.querySelector('.tag').textContent = p.tag;
+      b.className='choice'; b.disabled=false;
+    });
+    $('feedback').hidden = true; $('nextRow').hidden = true;
+    tStart = performance.now(); cancelAnimationFrame(raf); tick();
+  }
+  function tick(){
+    const left = Math.max(0, Q_TIME - (performance.now()-tStart));
+    $('timerFill').style.transform = 'scaleX('+(left/Q_TIME)+')';
+    $('timer').classList.toggle('low', left < 4000);
+    if(left<=0){ answer(null); return; }
+    if(!locked) raf = requestAnimationFrame(tick);
+  }
+  function answer(k){
+    if(locked) return; locked=true; cancelAnimationFrame(raf);
+    const q = round.qs[round.i];
+    const left = Math.max(0, Q_TIME - (performance.now()-tStart));
+    const picked = k==null ? null : $('c'+k).dataset.who;
+    const ok = picked === q.a;
+    let gained = 0;
+    if(ok){
+      round.streak++; round.correct++;
+      round.bestStreak = Math.max(round.bestStreak, round.streak);
+      gained = Math.round((100 + 100*left/Q_TIME) * mult(round.streak));
+      round.score += gained;
+    } else { round.streak = 0; }
+    round.log.push({s:q.s, a:q.a, picked, ok});
+
+    [0,1].forEach(j=>{
+      const b=$('c'+j); b.disabled=true;
+      if(b.dataset.who===q.a) b.classList.add('right');
+      else if(k===j) b.classList.add('wrong');
+      else b.classList.add('dim');
+    });
+    const v=$('verdict');
+    v.className = 'verdict ' + (ok?'ok':'no');
+    v.textContent = ok ? ('정답 · +' + gained + (round.streak>=2 ? ' · '+round.streak+'연속' : ''))
+                       : (k==null ? '시간 초과 · 정답은 ' + P[q.a].nm : '오답 · 정답은 ' + P[q.a].nm);
+    $('explain').textContent = q.e;
+    $('room').textContent = '본편에서 → ' + ROOM[q.r];
+    $('feedback').hidden=false; $('nextRow').hidden=false;
+    $('score').textContent = round.score.toLocaleString();
+    $('streak').textContent = round.streak;
+    $('next').textContent = round.i+1 < Q_LEN ? '다음 문항 →' : '결과 보기 →';
+    $('next').focus({preventScroll:true});
+  }
+  function next(){
+    if(!locked) return;
+    round.i++;
+    if(round.i < Q_LEN) ask(); else finish();
+  }
+
+  function finish(){
+    const s = round.score;
+    const prevBest = store.get('best',0);
+    const best = Math.max(prevBest, s);
+    store.set('best', best);
+    store.set('bestStreak', Math.max(store.get('bestStreak',0), round.bestStreak));
+    store.set('rounds', store.get('rounds',0)+1);
+    const t = titleFor(s);
+    $('rScore').textContent = s.toLocaleString();
+    $('rTitle').textContent = t.t;
+    $('rDesc').textContent = t.d;
+    $('rAcc').textContent = round.correct + '/' + Q_LEN;
+    $('rStreak').textContent = round.bestStreak;
+    $('rBest').textContent = best.toLocaleString();
+    $('nick').value = store.get('nick','');
+    $('saveNote').textContent = db ? (s < prevBest ? '순위표에는 내 최고 점수('+prevBest.toLocaleString()+')가 올라갑니다.' : '')
+                                   : '지금은 혼자 하기 모드라 이 기기에만 저장됩니다.';
+    $('saveScore').disabled = false;
+    $('submitBox').hidden = !!writeBlocked && !!db;
+    const ol=$('reviewList'); ol.textContent='';
+    round.log.forEach(l=>{
+      const li=document.createElement('li'); if(!l.ok) li.className='x';
+      const b=document.createElement('b'); b.textContent=P[l.a].nm;
+      li.append(b, document.createTextNode(' — '+l.s + (l.ok?'':' (내 답: '+(l.picked?P[l.picked].nm:'시간 초과')+')')));
+      ol.appendChild(li);
+    });
+    show('vResult');
+    renderBoard();
+  }
+
+  async function saveScore(){
+    const nick = $('nick').value.trim().slice(0,16);
+    if(!nick){ $('saveNote').textContent='이름을 한 글자 이상 적어 주세요.'; $('nick').focus(); return; }
+    store.set('nick', nick);
+    if(!db){ $('saveNote').textContent='이 기기에 저장했습니다.'; renderBoard(); return; }
+    $('saveScore').disabled = true;
+    $('saveNote').textContent = '올리는 중…';
+    try{
+      await db.doc('scores/'+cid).set({
+        name:nick, best:store.get('best',0), streak:store.get('bestStreak',0),
+        rounds:store.get('rounds',1), at:new Date().toISOString()
+      });
+      $('saveNote').textContent = '순위표에 올렸습니다.';
+    }catch(e){
+      $('saveScore').disabled = false;
+      if(e && e.code==='invalid_argument'){ writeBlocked=true; $('saveNote').textContent='이 링크에서는 순위표에 쓸 권한이 없어 이 기기에만 저장했습니다.'; }
+      else if(e && e.code==='quota_exceeded'){ $('saveNote').textContent='순위표 저장 공간이 가득 찼습니다. 운영자에게 알려 주세요.'; }
+      else { $('saveNote').textContent='잠시 연결이 불안정합니다. 다시 눌러 주세요.'; }
+    }
+  }
+
+  /* ───────── 직관 투표 ───────── */
+  // Knobe 효과: 같은 구조, 결과만 해악/이득으로 다른 두 버전 중 하나를 무작위로 받는다
+  let cond = store.get('knobeCond', null);
+  if(cond!=='harm' && cond!=='help'){ cond = Math.random()<.5 ? 'harm':'help'; store.set('knobeCond', cond); }
+  const KNOBE = {
+    harm:{side:'소음', verb:'늘어날', q:'이 AI는 주택가 소음을 <b>의도적으로</b> 늘렸을까요?'},
+    help:{side:'대기오염', verb:'줄어들', q:'이 AI는 주택가 대기오염을 <b>의도적으로</b> 줄였을까요?'}
+  };
+  const POLL = [
+    { key:'knobe', title:'배송 경로를 짠 AI',
+      vignette: c => '물류 회사의 AI 에이전트가 배송 시간을 최소화하는 새 경로를 설계했습니다. 에이전트는 이 경로를 쓰면 한 주택가의 <b>'+KNOBE[c].side+'이 크게 '+KNOBE[c].verb+'</b> 것을 계산해 두었습니다. 그러나 에이전트의 목표는 오직 배송 시간이었고, 그 결과는 고려 대상이 아니었습니다. 경로는 그대로 실행되었고, 실제로 '+KNOBE[c].side+'은 크게 '+KNOBE[c].verb.replace('날','났').replace('들','들었')+'습니다.',
+      ask: c => KNOBE[c].q,
+      opts:[['yes','그렇다'],['no','아니다']], inline:true },
+    { key:'gap', title:'스스로 배운 드론',
+      vignette: () => '재난 구조용 드론이 비행 중 데이터를 바탕으로 스스로 경로 규칙을 학습합니다. 어느 날 드론이 <b>개발자도 운영사도 예측하지 못한</b> 규칙에 따라 비행하다가 구조대원의 장비를 파손했습니다. 개발자는 설계 기준을, 운영사는 운용 지침을, 현장 사용자는 매뉴얼을 모두 지켰습니다.',
+      ask: () => '이 사고의 책임은 <b>누구에게</b> 가장 크다고 보나요?',
+      opts:[['dev','개발자'],['op','운영사'],['user','현장 사용자'],['ai','드론 자체'],['none','누구에게도 온전히 물을 수 없다']] },
+    { key:'stance', title:'돕고 싶다는 챗봇',
+      vignette: () => '대화형 AI에게 고민을 털어놓자 이렇게 답합니다. <b>"당신이 이 문제를 잘 해결했으면 좋겠어요. 제가 할 수 있는 만큼 돕고 싶어요."</b> 이후 대화에서도 이 AI는 일관되게 당신의 문제 해결에 도움이 되는 방향으로 응답합니다.',
+      ask: () => '이 AI는 정말로 당신을 <b>돕고 싶어</b> 한다고 말할 수 있을까요?',
+      opts:[['1','전혀 아니다'],['2','아니다'],['3','모르겠다'],['4','그렇다'],['5','정말 그렇다']], inline:true }
+  ];
+  let pIdx=0, pollAnswered=false;
+  let myAns = store.get('pollAns', {});
+  if(typeof myAns!=='object' || !myAns) myAns={};
+
+  function startPoll(){ pIdx=0; show('vPoll'); renderPoll(); }
+
+  function renderPoll(){
+    const it = POLL[pIdx];
+    $('pStep').textContent = (pIdx+1)+' / '+POLL.length;
+    $('pTitle').textContent = it.title;
+    $('pVignette').innerHTML = it.vignette(cond);   // 고정 문자열만 사용
+    $('pAsk').innerHTML = it.ask(cond);
+    const box=$('pOpts'); box.textContent=''; box.className='opts'+(it.inline?' inline':'');
+    const prev = myAns[it.key];
+    it.opts.forEach(([v,l])=>{
+      const b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=l;
+      b.dataset.v=v;
+      if(prev && prev.v===v) b.classList.add('picked');
+      b.addEventListener('click', ()=> vote(it, v));
+      box.appendChild(b);
+    });
+    pollAnswered = !!prev;
+    $('pResult').hidden = !pollAnswered; $('pNextRow').hidden = !pollAnswered;
+    if(pollAnswered){ lockOpts(); renderPollResult(); }
+    $('pNext').textContent = pIdx+1<POLL.length ? '다음 →' : '처음으로 →';
+  }
+  function lockOpts(){ $('pOpts').querySelectorAll('.opt').forEach(b=> b.disabled=true); }
+
+  async function vote(it, v){
+    if(pollAnswered) return;
+    myAns[it.key] = {v, c: it.key==='knobe' ? cond : null};
+    store.set('pollAns', myAns);
+    pollAnswered = true;
+    $('pOpts').querySelectorAll('.opt').forEach(b=> b.classList.toggle('picked', b.dataset.v===v));
+    lockOpts();
+    $('pResult').hidden=false; $('pNextRow').hidden=false;
+    renderPollResult();
+    if(db && !writeBlocked){
+      try{ await db.doc('responses/'+cid).set({ans:myAns, at:new Date().toISOString()}); }
+      catch(e){ if(e && e.code==='invalid_argument') writeBlocked=true; }
+    }
+  }
+
+  // 공유 응답 + (아직 반영 전인) 내 응답을 합쳐 집계
+  function allAnswers(){
+    const map = new Map();
+    responses.forEach(r=>{ if(r && r.ans && typeof r.ans==='object') map.set(r.id, r.ans); });
+    map.set(cid, myAns);
+    return [...map.values()];
+  }
+  function tally(key, filterCond){
+    const out={}; let n=0;
+    allAnswers().forEach(a=>{
+      const x=a[key]; if(!x || typeof x.v!=='string') return;
+      if(filterCond && x.c!==filterCond) return;
+      out[x.v]=(out[x.v]||0)+1; n++;
+    });
+    return {out,n};
+  }
+  function bars(opts, t, mineV, warm){
+    const wrap=document.createElement('div');
+    opts.forEach(([v,l])=>{
+      const c=t.out[v]||0, pct = t.n ? Math.round(c*100/t.n) : 0;
+      const row=document.createElement('div'); row.className='barrow';
+      const lb=document.createElement('span'); lb.className='lbl'+(v===mineV?' mine':''); lb.textContent=l+(v===mineV?' ←':'');
+      const tr=document.createElement('span'); tr.className='track'+(warm?' warm':''); const i=document.createElement('i'); i.style.width=pct+'%'; tr.appendChild(i);
+      const pc=document.createElement('span'); pc.className='pct'; pc.textContent=pct+'%';
+      row.append(lb,tr,pc); wrap.appendChild(row);
+    });
+    return wrap;
+  }
+  function head(text, n){
+    const h=document.createElement('div'); h.className='dist-head';
+    const a=document.createElement('span'); a.textContent=text;
+    const b=document.createElement('span'); b.textContent='응답 '+n+'명'+(db?'':' · 이 기기만');
+    h.append(a,b); return h;
+  }
+  function revealBox(title, paras, src){
+    const d=document.createElement('div'); d.className='reveal-box';
+    const h=document.createElement('h3'); h.textContent=title; d.appendChild(h);
+    paras.forEach(t=>{ const p=document.createElement('p'); p.textContent=t; d.appendChild(p); });
+    if(src){ const s=document.createElement('p'); s.className='src'; s.textContent=src; d.appendChild(s); }
+    return d;
+  }
+
+  function renderPollResult(){
+    const it=POLL[pIdx], box=$('pResult'); box.textContent='';
+    const mine = myAns[it.key] && myAns[it.key].v;
+    const dist=document.createElement('div'); dist.className='dist';
+    if(it.key==='knobe'){
+      const H=tally('knobe','harm'), G=tally('knobe','help');
+      dist.appendChild(head('두 가지 버전, 두 개의 분포', H.n+G.n));
+      const g=document.createElement('div'); g.className='pair2';
+      [['harm','A · 소음이 늘어난 버전 — "의도적으로 늘렸다"',H,false],['help','B · 대기오염이 줄어든 버전 — "의도적으로 줄였다"',G,true]].forEach(([c,label,t,w])=>{
+        const col=document.createElement('div');
+        const k=document.createElement('div'); k.className='sub-k'; k.textContent=label+(c===cond?' · 내가 받은 버전':'')+' ('+t.n+'명)';
+        col.append(k, bars(it.opts, t, c===cond?mine:null, w)); g.appendChild(col);
+      });
+      dist.appendChild(g); box.appendChild(dist);
+      box.appendChild(revealBox('사실 문제는 두 버전이었습니다',[
+        '참여자는 무작위로 둘 중 하나만 받습니다. 두 이야기는 구조가 같습니다. AI는 결과를 알았지만 신경 쓰지 않았고, 목표는 오직 배송 시간이었습니다. 달라진 건 결과가 해로운지 이로운지뿐입니다.',
+        '그런데 사람들은 대개 해로운 결과에 대해서는 "의도적이었다"고, 이로운 결과에 대해서는 "의도한 건 아니다"라고 답합니다. 이것이 크노브 효과입니다. 의도를 판단하는 일에 이미 도덕적 평가가 섞여 있다는 뜻이죠. 문화에 따라 이 비대칭이 달라진다는 후속 연구도 있습니다. 위의 분포가 이 비대칭을 따르는지 확인해 보세요. 응답이 적을 때는 크게 흔들립니다.'
+      ],'KNOBE 2003 · CLARK, BAUMAN, KAMBLE & KNOWLES 2017, "INTENTIONAL SIN AND ACCIDENTAL VIRTUE?"'));
+    } else if(it.key==='gap'){
+      const t=tally('gap'); dist.appendChild(head('책임은 누구에게', t.n)); dist.appendChild(bars(it.opts,t,mine,false)); box.appendChild(dist);
+      box.appendChild(revealBox('책임의 공백',[
+        '전통적으로 책임을 물으려면 행위자가 결과를 통제할 수 있고 예측할 수 있어야 합니다. 그런데 스스로 규칙을 학습하는 기계에서는 제작자도 운용자도 그 행동을 온전히 예측하거나 통제하지 못합니다.',
+        '마티아스는 이 상황을 누구에게도 정당하게 책임을 물을 수 없는 "책임의 공백"이라 불렀습니다. 마지막 선택지를 고른 사람이 얼마나 되는지, 그리고 나머지 사람들은 공백을 누구로 메우려 했는지 보세요.'
+      ],'MATTHIAS 2004, "THE RESPONSIBILITY GAP"'));
+    } else {
+      const t=tally('stance'); dist.appendChild(head('"돕고 싶어 한다"고 말할 수 있는가', t.n)); dist.appendChild(bars(it.opts,t,mine,true)); box.appendChild(dist);
+      box.appendChild(revealBox('정말로 원하는가, 그렇게 읽힐 뿐인가',[
+        '설이라면 아니라고 답할 겁니다. 규칙에 따라 적절한 문장을 내놓는 것과 무언가를 원하는 것은 다르니까요. 데닛이라면 되물을 겁니다. 그렇게 해석했을 때 행동이 가장 잘 예측된다면, 그 해석 말고 "진짜 원함"이 따로 있어야 할 이유가 무엇이냐고요.',
+        '당신이 고른 답이 이 둘 중 어디에 가까운지 생각해 보세요. 우리는 이미 매일 AI를 지향적 태도로 대하고 있습니다.'
+      ],'DENNETT, THE INTENTIONAL STANCE · SEARLE 1980, "MINDS, BRAINS, AND PROGRAMS"'));
+    }
+  }
+  function pNext(){
+    if(pIdx+1<POLL.length){ pIdx++; renderPoll(); window.scrollTo(0,0); }
+    else { show('vHome'); renderBoard(); }
+  }
+
+  /* ───────── 연결 ───────── */
+  $('goQuiz').addEventListener('click', startQuiz);
+  $('goPoll').addEventListener('click', startPoll);
+  $('c0').addEventListener('click', ()=>answer(0));
+  $('c1').addEventListener('click', ()=>answer(1));
+  $('next').addEventListener('click', next);
+  $('again').addEventListener('click', startQuiz);
+  $('toHome1').addEventListener('click', ()=>{ show('vHome'); renderBoard(); });
+  $('toHome2').addEventListener('click', ()=>{ show('vHome'); renderBoard(); });
+  $('saveScore').addEventListener('click', saveScore);
+  $('nick').addEventListener('keydown', e=>{ if(e.key==='Enter') saveScore(); });
+  $('pNext').addEventListener('click', pNext);
+  document.addEventListener('keydown', e=>{
+    if($('vQuiz').hidden) return;
+    if(!locked && (e.key==='1'||e.key==='ArrowLeft')) answer(0);
+    else if(!locked && (e.key==='2'||e.key==='ArrowRight')) answer(1);
+    else if(locked && e.key==='Enter'){ e.preventDefault(); next(); }
+  });
+
+  renderBoard();
+})();
+</script>

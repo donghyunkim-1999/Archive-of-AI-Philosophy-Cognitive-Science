@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donghyun Kim — Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0c10;
+    --machine:#7e8ea3;
+    --mind:#d9cdb8;
+    --fog:#3a4150;
+    --line:rgba(126,142,163,.16);
+    --paper-dim:rgba(217,205,184,.5);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--mind);
+    font-family:'IBM Plex Sans KR',sans-serif;font-weight:300;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  ::selection{background:var(--machine);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+
+  .grain{
+    position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.4;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1.4rem 2.4rem;
+    font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;
+    color:var(--machine);
+    background:linear-gradient(var(--ink),rgba(10,12,16,0));
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 2.4rem;position:relative;z-index:2}
+
+  /* ── 헤더: 이름 + 한 줄 소개 ── */
+  header{padding:38vh 0 14vh}
+  header .name{
+    font-family:'Noto Serif KR',serif;font-weight:900;
+    font-size:clamp(2.6rem,8vw,6rem);line-height:1;letter-spacing:-.02em;
+    color:var(--mind);
+  }
+  header .meta{
+    margin-top:1.8rem;
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.08em;
+    color:var(--machine);line-height:1.9;
+  }
+  header .meta .dot{color:var(--fog);margin:0 .6em}
+  .scrolltip{
+    margin-top:5rem;font-family:'IBM Plex Mono',monospace;
+    font-size:.62rem;letter-spacing:.3em;color:var(--fog);
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:.9}}
+
+  /* ── 아카이브 인덱스 ── */
+  .index-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding-bottom:1.2rem;border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--machine);
+  }
+  .index-head .ko{color:var(--paper-dim)}
+
+  .entry{
+    display:grid;grid-template-columns:3.2rem 1fr 5.4rem;
+    gap:2rem;align-items:center;
+    padding:2.6rem 0;border-bottom:1px solid var(--line);
+    position:relative;transition:padding-left .5s cubic-bezier(.2,.6,.2,1);
+  }
+  .entry .idx{
+    font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--fog);
+    align-self:start;padding-top:.4rem;
+  }
+  .entry .body{min-width:0}
+  .entry .title{
+    font-family:'Noto Serif KR',serif;font-weight:700;
+    font-size:clamp(1.5rem,3.6vw,2.5rem);line-height:1.2;letter-spacing:-.01em;
+    color:var(--mind);transition:color .4s;
+  }
+  .entry .en{
+    margin-top:.5rem;font-family:'IBM Plex Mono',monospace;
+    font-size:.7rem;letter-spacing:.1em;color:var(--machine);
+  }
+  .entry .theme{
+    margin-top:1.1rem;font-size:.92rem;line-height:1.8;color:var(--paper-dim);max-width:40ch;
+  }
+  .entry .tags{
+    margin-top:1.3rem;font-family:'IBM Plex Mono',monospace;
+    font-size:.62rem;letter-spacing:.12em;color:var(--fog);
+  }
+  .entry .status{
+    justify-self:end;align-self:start;padding-top:.4rem;
+    font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;
+    display:flex;align-items:center;gap:.5rem;white-space:nowrap;
+  }
+  .entry .status .dotled{width:6px;height:6px;border-radius:50%;background:var(--machine)}
+
+  /* glyph plate */
+  .entry .glyph{
+    grid-column:2;justify-self:start;width:64px;height:64px;margin-bottom:1.4rem;
+    display:block;
+  }
+
+  /* live entry */
+  .entry.live{cursor:pointer}
+  .entry.live:hover{padding-left:1.4rem}
+  .entry.live:hover .title{color:#fff}
+  .entry.live .status .dotled{
+    background:var(--mind);box-shadow:0 0 0 0 rgba(217,205,184,.6);
+    animation:beat 2.2s infinite;
+  }
+  @keyframes beat{
+    0%{box-shadow:0 0 0 0 rgba(217,205,184,.5)}
+    70%{box-shadow:0 0 0 7px rgba(217,205,184,0)}
+    100%{box-shadow:0 0 0 0 rgba(217,205,184,0)}
+  }
+  .entry.live .status{color:var(--mind)}
+  .entry.live .arrow{
+    display:inline-block;margin-left:.3rem;transition:transform .4s;
+  }
+  .entry.live:hover .arrow{transform:translateX(5px)}
+  /* PLAY 항목: 본편 01에 딸린 참여형 방 */
+  .entry.play .idx{color:var(--machine)}
+  .entry.play .status{color:var(--machine)}
+  .entry.play .status .dotled{background:var(--machine);animation:none;box-shadow:none}
+
+  /* dormant (준비 중) entries */
+  .entry.dormant{opacity:.45}
+  .entry.dormant .title{color:var(--fog);font-weight:500}
+  .entry.dormant .status{color:var(--fog)}
+  .entry.dormant .status .dotled{background:var(--fog)}
+
+  /* footer */
+  footer{
+    padding:10vh 0 8vh;
+    font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.12em;
+    color:var(--fog);line-height:2.4;
+  }
+  footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+    padding-top:1.4rem;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:680px){
+    .entry{grid-template-columns:2rem 1fr;gap:1rem}
+    .entry .status{grid-column:2;justify-self:start;margin-top:1.2rem;padding-top:0}
+    .entry .glyph{width:52px;height:52px}
+    header{padding:30vh 0 12vh}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .scrolltip,.entry.live .status .dotled{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav>
+  <span>DONGHYUN KIM</span>
+  <span>ARCHIVE — 思考の視覚化</span>
+</nav>
+
+<div class="wrap">
+
+  <header>
+    <h1 class="name reveal">Donghyun&nbsp;Kim</h1>
+    <p class="meta reveal">
+      b. 1999
+      <span class="dot">·</span>
+      B.A. in Philosophy, Chung-Ang University
+    </p>
+    <p class="scrolltip reveal">공부하고 생각한 것을 시각화해 연재합니다 ↓</p>
+  </header>
+
+  <section class="archive">
+    <div class="index-head reveal">
+      <span>ARCHIVE</span>
+      <span class="ko">作業物 / 연재</span>
+    </div>
+
+    <!-- ── 01 · LIVE ── -->
+    <a class="entry live reveal" href="intelligence-prototype.html">
+      <span class="idx">01</span>
+      <div class="body">
+        <canvas class="glyph" id="g01" width="128" height="128"></canvas>
+        <h2 class="title">그래서 지능이 뭔데?</h2>
+        <p class="en">WHAT, THEN, IS INTELLIGENCE?</p>
+        <p class="theme">인공지능철학 &amp; 인지과학. 마음을 만드는 시도와 마음을 설명하려는 학문은, 하나의 질문이 가진 두 개의 얼굴이었다.</p>
+        <p class="tags">기호 · 패턴 · 행동/작동 · 체계와 환경 — 5 ROOMS</p>
+      </div>
+      <span class="status"><span class="dotled"></span>LIVE<span class="arrow">→</span></span>
+    </a>
+
+    <!-- ── 01+ · PLAY ── -->
+    <a class="entry live play reveal" href="play.html">
+      <span class="idx">01+</span>
+      <div class="body">
+        <svg class="glyph" viewBox="0 0 64 64" fill="none" stroke-width="1">
+          <line x1="32" y1="10" x2="32" y2="54" stroke="rgba(217,205,184,.35)"/>
+          <circle cx="19" cy="32" r="9" stroke="rgba(217,205,184,.85)"/>
+          <rect x="37" y="23" width="18" height="18" stroke="rgba(126,142,163,.9)"/>
+        </svg>
+        <h2 class="title">누구의 말일까</h2>
+        <p class="en">WHOSE WORDS? — PLAY</p>
+        <p class="theme">01에서 읽은 주장들을 직접 가려내는 방. 진영 퀴즈로 순위를 겨루고, AI의 의도와 책임에 대한 내 직관을 다른 사람들의 직관과 비교한다.</p>
+        <p class="tags">진영 퀴즈 · 직관 투표 · 순위표 — KNOBE · MATTHIAS · DENNETT</p>
+      </div>
+      <span class="status"><span class="dotled"></span>PLAY<span class="arrow">→</span></span>
+    </a>
+
+    <!-- ── 02 · 준비 중 (placeholder) ── -->
+    <div class="entry dormant reveal">
+      <span class="idx">02</span>
+      <div class="body">
+        <svg class="glyph" viewBox="0 0 64 64" fill="none" stroke="rgba(58,65,80,.9)" stroke-width="1">
+          <circle cx="32" cy="32" r="20"/><line x1="12" y1="32" x2="52" y2="32"/><line x1="32" y1="12" x2="32" y2="52"/>
+        </svg>
+        <h2 class="title">다음 연재</h2>
+        <p class="en">IN PREPARATION</p>
+        <p class="theme">다음 사유의 시각화를 준비하고 있습니다.</p>
+      </div>
+      <span class="status"><span class="dotled"></span>준비 중</span>
+    </div>
+
+  </section>
+
+  <footer class="reveal">
+    <div class="row">
+      <span>© 2026 DONGHYUN KIM</span>
+      <span>XPHI &amp; CE · NO PHOTOGRAPHS</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// 01번 카드의 살아있는 글리프: 안쪽 작업의 '거울/분열' 모티프를 미니로
+(function(){
+  const c=document.getElementById('g01'); if(!c) return;
+  const x=c.getContext('2d'); const DPR=2; const S=128;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pts=[]; const N=18;
+  for(let i=0;i<N;i++){pts.push({a:(i/N)*Math.PI*2,r:18+(i%3)*9,sp:.6+Math.random()*.5,ph:Math.random()*6,side:i<N/2?-1:1});}
+  let t=0;
+  function frame(){
+    t+=reduced?0:.01;
+    x.clearRect(0,0,S,S);
+    // 거울선
+    x.strokeStyle='rgba(217,205,184,.18)';x.beginPath();x.moveTo(S/2,14);x.lineTo(S/2,S-14);x.stroke();
+    pts.forEach(p=>{
+      const wob=Math.sin(t*p.sp+p.ph)*4;
+      const px=S/2 + p.side*(14+ (Math.cos(p.a)*0.5+0.5)*30) + wob*0;
+      const py=S/2 + Math.sin(p.a + t*0.3)* (16+ (p.r-18));
+      x.fillStyle = p.side<0 ? 'rgba(217,205,184,.85)' : 'rgba(126,142,163,.85)';
+      x.beginPath();x.arc(px,py,1.7,0,Math.PI*2);x.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// 스크롤 등장
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
